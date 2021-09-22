@@ -1,0 +1,123 @@
+.text-right {
+    text-align: right;
+}
+
+.bg-light-blue {
+    background-color: rgb(200, 231, 245);
+    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+}
+
+/* 
+body {
+    background-color: #e4e4e4 !important;
+
+} */
+
+.bg-grey {
+    background-color: #e4e4e4;
+}
+
+.bg-dark-blue {
+    background-color: #00274e !important;
+}
+
+.btn-dark-blue {
+    background-color: #00274e !important;
+    color: white !important;
+}
+
+.noticia {
+    background-color: white;
+}
+
+
+.noticia-titulo {
+    text-decoration: none;
+}
+
+.nav-link {
+    color: black !important;
+}
+
+.nav-link:hover {
+    background-color: #00274e;
+    color: white !important;
+}
+
+.active {
+    background-color: #00274e;
+    color: white !important;
+    font-weight: bold;
+}
+
+.info-box {
+    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+    background-color: #00274e;
+    color: white;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 1rem;
+    min-height: 80px;
+    padding: .5rem;
+    position: relative;
+    width: 100%;
+}
+
+.info-box .info-box-icon {
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 1.875rem;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+    width: 70px;
+}
+
+.info-box .info-box-content {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: center;
+    line-height: 120%;
+    -ms-flex: 1;
+    flex: 1;
+    padding: 0 10px;
+}
+
+.footer {
+    min-height: 10vh !important;
+}
+
+.iconos i:first-child {
+    padding-right: 2em;
+}
+
+.iconos i:last-child {
+    padding-left: 2em;
+}
+
+@media (max-width: 650px) {
+    .card-img-overlay {
+        top: 0;
+    }
+
+    .card-img-overlay h3 {
+        font-size: small;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-img-overlay {
+        top: 50% !important;
+    }
+}
+
+@media (min-width: 650px) and (max-width: 1200px) {
+    .card-img-overlay {
+        top: 25% !important;
+    }
+}

@@ -1,0 +1,8 @@
+.footer-actividad {
+    background: rgba(0, 0, 0, .1);
+    color: white;
+    text-align: center;
+    z-index: 10;
+    text-decoration: none;
+    padding: 3px 0;
+}
