@@ -126,40 +126,37 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Agregar Goles</b></h3>
-                        <!-- /.card-tools -->
                         </div>
-                    <!-- /.card-header -->
-                    <form method="POST" action="/admin/partido/{{$partido->id}}/agregar/gol">
-                        @csrf
-                    <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="tournament">Equipo:*</label>
-                                        <select name="team_id" id="tournament_goal" class="selectWithoutSearch form-control" style="width: 100%;" onchange="getPlayers()" required>
-                                            <option selected disabled>Elegir Equipo...</option>
-                                            <option value="{{$partido->local->id}}">{{$partido->local->name}}</option>
-                                            <option value="{{$partido->visita->id}}">{{$partido->visita->name}}</option>
-                                        </select>
+                        <form method="POST" action="/admin/partido/{{$partido->id}}/agregar/gol">
+                            @csrf
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="tournament">Equipo:*</label>
+                                            <select name="team_id" id="tournament_goal" class="selectWithoutSearch form-control" style="width: 100%;" onchange="getPlayers()" required>
+                                                <option selected disabled>Elegir Equipo...</option>
+                                                <option value="{{$partido->local->id}}">{{$partido->local->name}}</option>
+                                                <option value="{{$partido->visita->id}}">{{$partido->visita->name}}</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="jugadores">Jugador:</label>
-                                        <select name="player_id" id="jugadores" class="selectWithoutSearch form-control" style="width: 100%;">
-                                            <option selected disabled>Elegir Jugador...</option>
-                                        </select>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="jugadores">Jugador:</label>
+                                            <select name="player_id" id="jugadores" class="selectWithoutSearch form-control" style="width: 100%;">
+                                                <option selected disabled>Elegir Jugador...</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Agregar</button>
+                            </div>
+                            <input type="hidden" value={{$partido->id}} name="match_id" required>
+                        </form>
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Agregar</button>
-                    </div>
-                    <!-- /.card-body -->
-                </form>
-                </div>
               </div>
           </div>
           @if ($partido->goles->count())
@@ -189,32 +186,26 @@
                                     </th>
                                 </tr>
                                 </thead>      
-                                @php
-                                $i = 1;
-                                @endphp
                                 <tbody id="bodyTable">
-                                    @foreach ($partido->goles as $gol)
+                                    @foreach ($partido->goles as $index => $gol)
                                     <tr>
-                                    <td>
-                                        # {{$i}}
-                                    </td>
-                                    <td class="className">
-                                        <b>{{$gol->team->name}}</b>
-                                    </td>
-                                    <td class="className">
-                                        <b>{{isset($gol->player->first_name) ? $gol->player->first_name.' '.$gol->player->last_name : 'Sin definir'}}</b>
-                                    </td>
-                                    <td class="project-actions">
-                                        <a class="btn btn-danger btn-sm" href="/admin/gol/eliminar/{{$gol->id}}" onclick="confimacion()">
-                                            <i class="fas fa-trash">
-                                            </i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @php
-                                $i++;
-                                @endphp    
+                                        <td>
+                                            # {{$index + 1}}
+                                        </td>
+                                        <td class="className">
+                                            <b>{{$gol->team->name}}</b>
+                                        </td>
+                                        <td class="className">
+                                            <b>{{isset($gol->player->first_name) ? $gol->player->first_name.' '.$gol->player->last_name : 'Sin definir'}}</b>
+                                        </td>
+                                        <td class="project-actions">
+                                            <button class="btn btn-danger btn-sm" onclick="confirmacionGol({{$gol->id}})">
+                                                <i class="fas fa-trash">
+                                                </i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @endforeach 
                                 </tbody>
                             </table>
                         </div>
@@ -222,6 +213,9 @@
                     </div>
                 </div>
             </div>
+            <form method="POST" id="deleteForm">
+                @csrf
+            </form>
           @endif
         </div>
     </div>
@@ -277,5 +271,17 @@
             window.event.preventDefault();
         }
     }
+
+    function confirmacionGol(id){
+
+            var respuesta = confirm('¿Esta seguro de eliminar el gol? No podrá recuperarlo');
+            if (!respuesta) {
+                window.event.preventDefault();
+            } else {
+              let form = document.getElementById('deleteForm');
+              form.action = `/admin/gol/eliminar/${id}`; 
+              form.submit();
+            }
+        }
     </script>
 @stop

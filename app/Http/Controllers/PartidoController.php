@@ -1,0 +1,142 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Match;
+use App\Models\Team;
+use App\Models\Tournament;
+use App\Models\Category;
+use App\Models\Fecha;
+use App\Models\Goal;
+
+class PartidoController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $partidos = Match::orderBy('fecha_id', 'desc')->paginate(20);
+        $equipos = Team::all();
+        $torneos = Tournament::all();
+        $categorias = Category::all();
+        $fechas = Fecha::all();
+        return view('admin.partidos', ['partidos' => $partidos, 'equipos' => $equipos, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validate = $request->validate([
+            'fecha_id' => 'required|numeric',
+            'category_id' => 'required|numeric',
+            'team_id_1' => 'numeric|required',
+            'team_id_2' => 'numeric|required',
+            'horario' => 'required',
+            'cancha' => 'numeric|required',
+        ]);
+        Match::create($request->all());
+        return redirect()->back()->with('status', 'Se agregó correctamente el partido');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $torneos = Tournament::all();
+        $partido = Match::find($id);
+        $categorias = Category::all();
+        $fechas = Fecha::all();
+        $equipos = Team::where('category_id', $partido->category->id)->get();
+        return view('admin.editarPartido', ['partido' => $partido, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas, 'equipos' => $equipos]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Match $partido)
+    {
+        $validate = $request->validate([
+            'fecha_id' => 'required|numeric',
+            'category_id' => 'required|numeric',
+            'team_id_1' => 'numeric|required',
+            'team_id_2' => 'numeric|required',
+            'horario' => 'required',
+            'cancha' => 'numeric|required',
+        ]);
+        $partido->update($request);
+        return redirect('/admin/partidos')->with('status', 'Se editó correctamente el partido');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    public function agregarGol($id, Request $request)
+    {
+        $validate = $request->validate([
+            'team_id' => 'required|numeric',
+            'match_id' => 'required|numeric'
+        ]);
+
+        Goal::create($request->all());
+
+        $match = Match::find($id);
+
+        if ($match->team_id_1 == $request->team_id) {
+            $match->team_1_goals = $match->team_1_goals + 1;
+        } else {
+            $match->team_2_goals = $match->team_2_goals + 1;
+        }
+        $match->save();
+
+        return redirect()->back()->with('status', 'Se agregó correctamente el gol al partido');
+    }
+
+    public function eliminarGol(Goal $gol)
+    {
+        $match = $gol->match;
+
+        if ($match->team_id_1 == $gol->team_id) {
+            $match->team_1_goals = $match->team_1_goals - 1;
+        } else {
+            $match->team_2_goals = $match->team_2_goals - 1;
+        }
+
+        $gol->delete();
+
+        return redirect()->back()->with('status', 'Se eliminó correctamente el gol');
+    }
+
+    public function terminado(Match $partido)
+    {
+        $partido->finished = !$partido->finished;
+        $partido->save();
+
+        return redirect()->back()->with('status', 'Se actualizó correctamente el partido');
+
+    }
+}

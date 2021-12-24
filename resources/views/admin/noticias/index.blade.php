@@ -35,8 +35,6 @@
                 <div class="card-header">
                   <h3 class="card-title">Agregar Noticia:</h3>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
                 <form method="POST" action="/admin/noticia/agregar" enctype="multipart/form-data">
                     @csrf
                   <div class="card-body">
@@ -50,7 +48,7 @@
                       <div class="col-12">
                         <div class="form-group">
                           <label for="text">Texto:</label>
-                          <textarea name="texto" id="text" class="form-control" cols="30" rows="10" required>{{ old('texto') }}</textarea>
+                          <textarea name="texto" id="text" class="form-control" cols="30" rows="10">{{ old('texto') }}</textarea>
                         </div>
                       </div>
                       <div class="col-12">
@@ -115,9 +113,6 @@
                                 Título
                               </th>
                               <th>
-                                Descripción
-                              </th>
-                              <th>
                                 Estado
                               </th>
                               <th>
@@ -131,20 +126,14 @@
                               </th>
                           </tr>
                       </thead>
-                      @php
-                      $i = 1;
-                      @endphp
                       <tbody id="bodyTable">
-                          @forelse ($noticias as $noticia)
+                          @forelse ($noticias as $index => $noticia)
                           <tr>
                             <td>
-                                # {{$i}}
+                                # {{$index +1 }}
                             </td>
                             <td class="className">
                                 {{$noticia->titulo}}
-                            <td>
-                                {!! Illuminate\Support\Str::limit($noticia->texto, 10) !!}
-                            </td>
                             <td>
                                 {{$noticia->estado}}
                             </td>
@@ -163,37 +152,40 @@
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                 </a>
-                                <a class="btn btn-danger btn-sm" href="/admin/noticia/eliminar/{{$noticia->id}}" onclick="confirmacion()">
-                                    <i class="fas fa-trash">
-                                    </i>
-                                </a>
+                                <button class="btn btn-danger btn-sm" onclick="confirmacion({{$noticia->id}})">
+                                  <i class="fas fa-trash">
+                                  </i>
+                                </button>
                             </td>
                         </tr>
-                        @php
-                        $i++;
-                        @endphp
                           @empty
                               <h2 class="text-center">No hay noticias creadas por el momento</h2>
                           @endforelse
                       </tbody>
                   </table>
                 </div>
-                <!-- /.card-body -->
               </div>
         </div>
         </div>
+        <form method="POST" id="deleteForm">
+          @csrf
+        </form>
     </div>
 @stop
 
 @section('js')
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('.select2').select2();
-    });
-        function confirmacion(){
+      $(document).ready(function() {
+          $('.select2').select2();
+      });
+        function confirmacion(id){
             var respuesta = confirm('¿Esta seguro de eliminar el jugador? No podrá recuperarlo');
             if (!respuesta) {
                 window.event.preventDefault();
+            } else {
+              let form = document.getElementById('deleteForm');
+              form.action = `/admin/noticia/eliminar/${id}`; 
+              form.submit();
             }
         }
         function filterTable(){

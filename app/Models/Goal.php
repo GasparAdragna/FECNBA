@@ -9,6 +9,7 @@ class Goal extends Model
 {
     use HasFactory;
     protected $table = 'goals';
+    protected $fillable = ['team_id', 'player_id', 'match_id'];
 
     public function match()
     {

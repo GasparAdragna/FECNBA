@@ -67,9 +67,8 @@ class AdminController extends Controller
         return redirect()->back()->with('status', 'Se agregó correctamente la categoría');
 
     }
-    public function vistaEditarCategoria($id)
+    public function vistaEditarCategoria(Category $categoria)
     {
-        $categoria = Category::find($id);
         return view('/admin/editarCategoria', ['categoria' => $categoria]);
     }
     public function editarCategoria(Request $request)
@@ -83,40 +82,17 @@ class AdminController extends Controller
         $categoria->save();
         return redirect('/admin/categorias')->with('status', 'Se editó correctamente la categoría');
     }
-    public function eliminarCategoria($id){
-        $categoria = Category::find($id);
+    public function eliminarCategoria(Category $categoria){
+
         $categoria->delete();
         return redirect('/admin/categorias')->with('status', 'Se eliminó correctamente la categoría');
     }
     // -------------------------EQUIPOS------------------
-    public function equipos()
-    {
-        $equipos = Team::all();
-        $categorias = Category::all();
-        return view('/admin/equipos', ['equipos' => $equipos, 'categorias' => $categorias]);
-    }
-    public function agregarEquipo(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|unique:teams|max:255',
-        ]);
-
-        $equipo = new Team;
-        $equipo->name = $request->name;
-        $equipo->category_id = $request->category_id;
-        $equipo->save();
-        return redirect()->back()->with('status', 'Se agregó correctamente el equipo');
-    }
     public function vistaEditarEquipo($id)
     {
         $equipo = Team::find($id);
         $categorias = Category::all();
         return view('/admin/editarEquipo', ['equipo' => $equipo, 'categorias' => $categorias]);
-    }
-    public function verEquipo($id)
-    {
-        $equipo = Team::find($id);
-        return view('/admin/equipo', ['equipo' => $equipo]);
     }
     public function editarEquipo(Request $request)
     {
@@ -174,16 +150,7 @@ class AdminController extends Controller
             'email' => 'string|nullable',
             'team_id' => 'numeric|required',
         ]);
-        $player = new Player;
-        $player->first_name = $request->first_name;
-        $player->last_name = $request->last_name;
-        $player->dni = $request->dni;
-        $player->os = $request->os;
-        $player->birthday = $request->birthday;
-        $player->year = $request->year;
-        $player->email = $request->email;
-        $player->team_id = $request->team_id;
-        $player->save();
+        Player::create($request->all());
         return redirect()->back()->with('status', 'Se agregó correctamente el jugador');
     }
     public function vistaEditarJugador($id)
@@ -205,15 +172,7 @@ class AdminController extends Controller
             'team_id' => 'numeric|required',
         ]);
         $player = Player::find($id);
-        $player->first_name = $request->first_name;
-        $player->last_name = $request->last_name;
-        $player->dni = $request->dni;
-        $player->os = $request->os;
-        $player->birthday = $request->birthday;
-        $player->year = $request->year;
-        $player->email = $request->email;
-        $player->team_id = $request->team_id;
-        $player->save();
+        $player->update($request->all());
         return redirect()->back()->with('status', 'Se editó correctamente el jugador');
     }
     public function eliminarJugador($id)
@@ -222,66 +181,7 @@ class AdminController extends Controller
         $player->delete();
         return redirect()->back()->with('status', 'Se eliminó correctamente el jugador');
     }
-    // -------------------------PARTIDOS------------------
-    public function partidos()
-    {
-        $partidos = Match::all();
-        $equipos = Team::all();
-        $torneos = Tournament::all();
-        $categorias = Category::all();
-        $fechas = Fecha::all();
-        return view('admin.partidos', ['partidos' => $partidos, 'equipos' => $equipos, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas]);
-    }
-    public function agregarPartido(Request $request)
-    {
-        $validate = $request->validate([
-            'fecha_id' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'team_id_1' => 'numeric|required',
-            'team_id_2' => 'numeric|required',
-            'horario' => 'required',
-            'cancha' => 'numeric|required',
-        ]);
-        Match::create($request->all());
-        return redirect()->back()->with('status', 'Se agregó correctamente el partido');
-    }
-    public function vistaEditarPartido($id)
-    {   
-        $torneos = Tournament::all();
-        $partido = Match::find($id);
-        $categorias = Category::all();
-        $fechas = Fecha::all();
-        $equipos = Team::where('category_id', $partido->category->id)->get();
-        return view('admin.editarPartido', ['partido' => $partido, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas, 'equipos' => $equipos]);
-    }
-    public function editarPartdio(Match $partido)
-    {
-        $validate = $request->validate([
-            'fecha_id' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'team_id_1' => 'numeric|required',
-            'team_id_2' => 'numeric|required',
-            'horario' => 'required',
-            'cancha' => 'numeric|required',
-        ]);
-        $partido->update($request);
-        return redirect('/admin/partidos')->with('status', 'Se editó correctamente el partido');
-    }
-    public function agregarGol($id, Request $request)
-    {
-        $validate = $request->validate([
-            'team_id' => 'required|numeric'
-        ]);
-        $gol = new Goal;
-        $gol->team_id = $request->team_id;
-        if($request->player_id){
-            $gol->player_id = $request->player_id;
-        }
-        $gol->match_id = $id;
-        $gol->save();
-        return redirect()->back()->with('status', 'Se agergó correctamente el gol al partido');
 
-    }
     // -------------------------FECHAS------------------
     public function fechas(Tournament $torneo)
     {
@@ -310,11 +210,6 @@ class AdminController extends Controller
         return redirect('/admin/fechas/torneo/'.$fecha->tournament_id)->with('status', 'Se editó correctamente la fecha');
     }
     // -------------------------NOTICIAS------------------
-    public function noticias()
-    {
-        $noticias = Noticia::all();
-        return view('admin.noticias', ['noticias' => $noticias]);
-    }
     public function agregarNoticia(Request $request)
     {
         $validated = $request->validate([
@@ -334,11 +229,6 @@ class AdminController extends Controller
         $noticia->user_id = Auth::id();
         $noticia->save();
         return redirect()->back()->with('status', 'Se agregó correctamente la noticia');
-    }
-    public function vistaEditarNoticia($id)
-    {
-        $noticia = Noticia::find($id);
-        return view('admin.editarNoticia',compact('noticia'));
     }
     public function editarNoticia(Request $request, $id)
     {

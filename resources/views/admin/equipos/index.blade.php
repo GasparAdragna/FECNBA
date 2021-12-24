@@ -3,8 +3,25 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Equipos</h1>
-    <p>Acá podes agregar o modificar los equipos existentes</p>
+    <div class="row">
+        <div class="col-2">
+            <form action="">
+                <select class="form-control" id="torneo" onchange="setCookie('tournament', this.value, 365); location.reload()" >
+                    @foreach ($torneos as $tournament)
+                        <option value="{{$tournament->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$tournament->name}}</option>
+                    @endforeach
+                    <option value="20">Test</option>
+                </select>
+            </form>
+        </div>
+    </div>
+<br>
+<div class="row">
+    <div class="col-12">
+            <h1>Equipos</h1>
+            <p>Acá podes agregar o modificar los equipos existentes</p>
+    </div>
+</div>
 @stop
 
 @section('content')
@@ -81,7 +98,7 @@
                                     <b>{{$equipo->name}}</b> 
                                 </td>
                                 <td>
-                                    {{$equipo->category->name}}
+                                    {{$equipo->category()->name}}
                                 </td>
                                 <td class="project-actions">
                                     <a class="btn btn-primary btn-sm" href="equipo/{{$equipo->id}}">
@@ -124,13 +141,21 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="nombreCategoria">Nombre del Equipo</label>
-                        <input type="text" class="form-control" id="nombreCategoria" name="name" placeholder="Ej: Menores D" required>
+                        <input type="text" class="form-control" id="nombreCategoria" name="name" placeholder="Ej: Boca Juniors" required>
                       </div>
-                      <div class="form-group mb-0">
+                      <div class="form-group">
                         <label>Categoría</label>
                         <select class="form-control select2" style="width: 100%;" name="category_id">
                             @foreach ($categorias as $categoria)
                             <option value="{{$categoria->id}}">{{$categoria->name}}</option>
+                            @endforeach
+                        </select>
+                      </div>
+                    <div class="form-group">
+                        <label>Torneo</label>
+                        <select class="form-control select2" style="width: 100%;" name="tournament_id">
+                            @foreach ($torneos as $torneo)
+                            <option value="{{$torneo->id}}">{{$torneo->name}}</option>
                             @endforeach
                         </select>
                       </div>
@@ -168,6 +193,17 @@
                 tr[i].style.display = "none";
                 }
             }
+        }
+
+        function setCookie(cookieName, cookieValue, nDays) {
+            var today = new Date();
+            var expire = new Date();
+
+            if (!nDays) 
+                nDays=1;
+
+            expire.setTime(today.getTime() + 3600000*24*nDays);
+            document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString();
         }
     </script>
 @stop

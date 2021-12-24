@@ -35,8 +35,6 @@
                 <div class="card-header">
                   <h3 class="card-title">Agregar Partido</h3>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
                 <form method="POST">
                     @csrf
                   <div class="card-body">
@@ -130,6 +128,7 @@
             id="myInput"
             />
             <br>
+            <p>Para que se refleje el partido en la tabla el mismo tiene que estar en estado: <b>Terminado</b></p>
             <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Partidos:</h3>
@@ -174,66 +173,73 @@
                                 Torneo
                               </th>
                               <th>
+                                Estado
+                              </th>
+                              <th>
                                 Acciones
                               </th>
                           </tr>
                       </thead>
-                      @php
-                      $i = 1;
-                      @endphp
                       <tbody id="bodyTable">
-                          @forelse ($partidos as $partido)
-                          <tr>
-                            <td>
-                                # {{$i}}
-                            </td>
-                            <td class="className">
-                              <b>{{$partido->local->name}}</b>
-                            </td>
-                            <td>
-                              {{$partido->goles->where('team_id', $partido->local->id)->count()}} - {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
-                            </td>
-                            <td class="className">
-                              <b>{{$partido->visita->name}}</b>
-                            </td>
-                            <td>
-                              {{$partido->fecha->name}}
-                            </td>
-                            <td>
-                              {{$partido->horario}}
-                            </td>
-                            <td>
-                              {{$partido->cancha}}
-                            </td>
-                            <td>
-                              {{$partido->category->name}}
-                            </td>
-                            <td>
-                              {{$partido->tournament->name}}
-                            </td>
-
-                            <td class="project-actions">
-                                <a class="btn btn-info btn-sm" href="/admin/partido/editar/{{$partido->id}}">
-                                    <i class="fas fa-pencil-alt">
-                                    </i>
-                                </a>
-                                <a class="btn btn-danger btn-sm" href="/admin/partido/eliminar/{{$partido->id}}" onclick="confimacion()">
-                                    <i class="fas fa-trash">
-                                    </i>
-                                </a>
-                            </td>
-                        </tr>
-                        @php
-                        $i++;
-                        @endphp
+                          @forelse ($partidos->sortBy('horario') as $index => $partido)
+                            <tr>
+                              <td>
+                                  # {{$partido->id}}
+                              </td>
+                              <td class="className">
+                                <b>{{$partido->local->name}}</b>
+                              </td>
+                              <td>
+                                {{$partido->goles->where('team_id', $partido->local->id)->count()}} - {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
+                              </td>
+                              <td class="className">
+                                <b>{{$partido->visita->name}}</b>
+                              </td>
+                              <td>
+                                {{$partido->fecha->name}}
+                              </td>
+                              <td>
+                                {{$partido->horario}}
+                              </td>
+                              <td>
+                                {{$partido->cancha}}
+                              </td>
+                              <td>
+                                {{$partido->category->name}}
+                              </td>
+                              <td>
+                                {{$partido->tournament->name}}
+                              </td>
+                              <td class="{{$partido->finished ? 'font-weight-bold' : ''}}">
+                                {{$partido->finished ? "Terminado" : "Sin terminar"}}
+                              </td>
+                              <td class="project-actions">
+                                  <a class="btn btn-info btn-sm" href="/admin/partido/editar/{{$partido->id}}">
+                                      <i class="fas fa-pencil-alt">
+                                      </i>
+                                  </a>
+                                  <a class="btn btn-danger btn-sm" href="/admin/partido/eliminar/{{$partido->id}}" onclick="confimacion()">
+                                      <i class="fas fa-trash">
+                                      </i>
+                                  </a>
+                                  <a class="btn {{$partido->finished ? 'btn-warning' : 'btn-primary' }} btn-sm" href="/admin/partido/{{$partido->id}}/terminado" data-toggle="tooltip" data-placement="top" title="{{$partido->finished ? 'Activar partido' : 'Terminar Partido'}}">
+                                    @if ($partido->finished)
+                                      <i class="fas fa-times">
+                                      </i>
+                                    @else
+                                      <i class="fas fa-check">
+                                      </i>
+                                    @endif
+                                  </a>
+                              </td>
+                            </tr>
                           @empty
                               <h2 class="text-center">No hay partidos creados por el momento</h2>
                           @endforelse
-
                       </tbody>
                   </table>
+                  {{$partidos->links()}}
                 </div>
-                <!-- /.card-body -->
               </div>
         </div>
         </div>
@@ -308,6 +314,7 @@
         $('.selectWithoutSearch').select2({
           minimumResultsForSearch: Infinity
         });
+        $('[data-toggle="tooltip"]').tooltip()  
         
     });
         function confirmacion(){

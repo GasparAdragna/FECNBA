@@ -19,11 +19,12 @@ class TorneoController extends Controller
         $fecha = Fecha::latest('dia')->first();
         return view('torneo.index', compact('categorias', 'estado', 'noticias', 'fecha'));
     }
-    public function noticia(Noticia $noticia)
+    public function noticias()
     {
+        $noticias = Noticia::paginate(10);
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::latest('dia')->first();
-        return view('torneo.noticia', compact('noticia', 'estado', 'categorias', 'fecha'));
+        return view('torneo.noticias.index', compact('noticias', 'categorias', 'estado', 'fecha'));
     }
 }

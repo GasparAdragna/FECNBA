@@ -44,7 +44,7 @@ body {
     color: white !important;
 }
 
-.active {
+a.active {
     background-color: #00274e;
     color: white !important;
     font-weight: bold;
@@ -98,6 +98,10 @@ body {
 
 .iconos i:last-child {
     padding-left: 2em;
+}
+
+.fw-bold{
+    font-weight: bold;
 }
 
 @media (max-width: 650px) {

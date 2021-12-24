@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+Use App\Models\Category;
+Use App\Models\State;
+Use App\Models\Noticia;
+Use App\Models\Fecha;
+Use App\Models\Tournament;
+use Illuminate\Support\Facades\DB;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        $categorias = Category::all();
+        $estado = State::where('active', true)->first();
+        $noticias = Noticia::orderBy('created_at', 'desc')->paginate(4);
+        $fecha = Fecha::latest('dia')->first();
+        return view('torneo.index', compact('categorias', 'estado', 'noticias', 'fecha'));
+    }
+    public function noticias()
+    {
+        $noticias = Noticia::paginate(10);
+        $categorias = Category::all();
+        $estado = State::where('active', true)->first();
+        $fecha = Fecha::latest('dia')->first();
+        return view('torneo.noticias.index', compact('noticias', 'categorias', 'estado', 'fecha'));
+    }
+
+    public function categoria(Category $categoria)
+    {
+        $sql = "SELECT
+                    t.id, 
+                    t.name as name,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.finished = 1 THEN 1 ELSE 0 END) AS PJ,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner = t.id THEN 1 ELSE 0 END) AS G,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner = 0 THEN 1 ELSE 0 END) AS E,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner != t.id and m.team_id_winner != 0 THEN 1 ELSE 0 END) AS P,
+                    COALESCE(SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_1_goals WHEN (m.team_id_2 = t.id) THEN m.team_2_goals END),0) AS GF, 
+                    COALESCE(SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_2_goals WHEN (m.team_id_2 = t.id) THEN m.team_1_goals END),0) AS GC,
+                    COALESCE((SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_1_goals WHEN (m.team_id_2 = t.id) THEN m.team_2_goals END) - SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_2_goals WHEN (m.team_id_2 = t.id) THEN m.team_1_goals END)),0) AS DIF,
+                    (SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND m.team_id_winner = t.id THEN 3 ELSE 0 END) + SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND (m.team_id_winner = 0) THEN 1 ELSE 0 END)) AS PTS
+                FROM teams t
+                    LEFT OUTER JOIN matches m on t.id in (m.team_id_1, m.team_id_2)
+                WHERE m.tournament_id = :tournament AND m.category_id = :category
+                GROUP BY t.id, t.name
+                ORDER BY PTS DESC, G DESC, DIF DESC, GF DESC, PJ ASC, t.name ASC;";
+        $table = DB::select(DB::raw($sql), array('tournament' => Tournament::where('active', true)->first()->id, 'category' => $categoria->id));      
+        $categorias = Category::all();
+        $estado = State::where('active', true)->first();
+        $fecha = Fecha::latest('dia')->first();
+        $tournament = Tournament::where('active', true)->first();
+        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament'));
+    }
+
+    public function programacion()
+    {
+        $categorias = Category::all();
+        $estado = State::where('active', true)->first();
+        $fecha = Fecha::latest('dia')->first();
+        $tournament = Tournament::where('active', true)->first();
+        return view('torneo.programacion.index', compact('categorias', 'estado', 'fecha', 'tournament'));
+        
+    }
+}

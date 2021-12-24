@@ -65,7 +65,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -237,7 +237,8 @@ return [
         ],
         [
             'text' => 'Equipos',
-            'url'  => 'admin/equipos',
+            'url'  => 'admin/equipos/',
+            'active' => ['admin/equipos*'],
             'icon' => 'fas fa-fw fa-users',
         ],
         [

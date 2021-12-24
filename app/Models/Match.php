@@ -10,6 +10,7 @@ class Match extends Model
     use HasFactory;
     protected $table = 'matches';
     protected $fillable = ['tournament_id', 'category_id','fecha_id', 'team_id_1', 'team_id_2', 'cancha', 'horario'];
+    
     public function category()
     {
         return $this->belongsTo('App\Models\Category', 'category_id');

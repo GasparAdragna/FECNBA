@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TorneoController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\NoticiaController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PartidoController;
+use App\Http\Controllers\EquipoController;
 
 
 /*
@@ -17,11 +21,14 @@ use App\Http\Controllers\ContactoController;
 |
 */
 
-Route::get('/', [TorneoController::class, "index"])->name('index');
-Route::get('/home', [TorneoController::class, "index"])->name('index');
-Route::get('/noticia/{noticia}', [TorneoController::class, "noticia"]);
+Route::get('/', [HomeController::class, "index"])->name('index');
+Route::get('/home', [HomeController::class, "index"])->name('index');
+Route::get('/noticia/{noticia}', [NoticiaController::class, "show"]);
+Route::get('/noticias', [HomeController::class, "noticias"]);
+Route::get('/categoria/{categoria:slug}', [HomeController::class, "categoria"]);
+Route::get('/programacion', [HomeController::class, "programacion"]);
 Route::resource('/contacto', ContactoController::class)->only([
-    'create', 'store'
+    'create', 'store', 'index'
 ]);
 
 
@@ -37,13 +44,13 @@ Route::middleware(['auth'])->group(function () {
         // ---------------------------------CATEGORIAS------------------------------------
         Route::get('/categorias', [AdminController::class, "categorias"]);
         Route::post('/categorias', [AdminController::class, "agregarCategoria"]);
-        Route::get('/categoria/editar/{id}', [AdminController::class, "vistaEditarCategoria"]);
-        Route::post('/categoria/editar/{id}', [AdminController::class, "editarCategoria"]);
-        Route::get('/categoria/eliminar/{id}', [AdminController::class, "eliminarCategoria"]);
+        Route::get('/categoria/editar/{categoria}', [AdminController::class, "vistaEditarCategoria"]);
+        Route::post('/categoria/editar/{categoria}', [AdminController::class, "editarCategoria"]);
+        Route::get('/categoria/eliminar/{categoria}', [AdminController::class, "eliminarCategoria"]);
         // ---------------------------------EQUIPOS------------------------------------
-        Route::get('/equipos', [AdminController::class, "equipos"]);
-        Route::post('/equipos', [AdminController::class, "agregarEquipo"]);
-        Route::get('/equipo/{id}', [AdminController::class, "verEquipo"]);
+        Route::get('/equipos', [EquipoController::class, "index"]);
+        Route::post('/equipos', [EquipoController::class, "store"]);
+        Route::get('/equipos/{equipo}', [EquipoController::class, "show"]);
         Route::get('/equipo/editar/{id}', [AdminController::class, "vistaEditarEquipo"]);
         Route::post('/equipo/editar/{id}', [AdminController::class, "editarEquipo"]);
         Route::get('/equipo/eliminar/{id}', [AdminController::class, "eliminarEquipo"]);
@@ -55,21 +62,24 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/jugador/editar/{id}', [AdminController::class, "editarJugador"]);
         Route::get('/jugador/eliminar/{id}', [AdminController::class, "eliminarJugador"]);
         // ---------------------------------PARTIDOS------------------------------------
-        Route::get('/partidos', [AdminController::class, "partidos"]);
-        Route::post('/partidos', [AdminController::class, "agregarPartido"]);
-        Route::get('/partido/editar/{id}', [AdminController::class, "vistaEditarPartido"]);
-        Route::post('/partido/editar/{id}', [AdminController::class, "editarPartido"]);
-        Route::post('/partido/{id}/agregar/gol', [AdminController::class, "agregarGol"]);
+        Route::get('/partidos', [PartidoController::class, "index"]);
+        Route::post('/partidos', [PartidoController::class, "store"]);
+        Route::get('/partido/editar/{id}', [PartidoController::class, "edit"]);
+        Route::post('/partido/editar/{id}', [PartidoController::class, "update"]);
+        Route::post('/partido/{id}/agregar/gol', [PartidoController::class, "agregarGol"]);
+        Route::post('/gol/eliminar/{gol}', [PartidoController::class, "eliminarGol"]);
+        Route::get('/partido/{partido}/terminado', [PartidoController::class, 'terminado']);
         // ---------------------------------FECHAS------------------------------------
         Route::get('/fechas/torneo/{torneo}', [AdminController::class, "fechas"]);
         Route::post('/fechas/torneo/{torneo}', [AdminController::class, "agregarFecha"]);
         Route::get('/fecha/editar/{fecha}', [AdminController::class, "vistaEditarFecha"]);
         Route::post('/fecha/editar/{fecha}', [AdminController::class, "editarFecha"]);
         // ---------------------------------NOTICIAS------------------------------------
-        Route::get('/noticias', [AdminController::class, "noticias"]);
-        Route::post('/noticia/agregar', [AdminController::class, "agregarNoticia"]);
-        Route::get('/noticia/editar/{id}', [AdminController::class, "vistaEditarNoticia"]);
-        Route::post('/noticia/editar/{id}', [AdminController::class, "editarNoticia"]);
+        Route::get('/noticias', [NoticiaController::class, "index"]);
+        Route::post('/noticia/agregar', [NoticiaController::class, "store"]);
+        Route::get('/noticia/editar/{noticia}', [NoticiaController::class, "edit"]);
+        Route::post('/noticia/editar/{noticia}', [NoticiaController::class, "update"]);
+        Route::post('/noticia/eliminar/{noticia}', [NoticiaController::class, "destroy"]);
         // ---------------------------------ESTADO------------------------------------
         Route::get('/editar/estado', [AdminController::class, "vistaEditarEstado"]);
         Route::post('/cambiar/estado', [AdminController::class, 'cambiarEstado']);

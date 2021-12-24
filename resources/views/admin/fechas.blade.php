@@ -65,6 +65,7 @@
               </div>
               <div class="col-12">
                   <h2>Fechas programadas:</h2>
+                  <p>Para que se refleje el partido en la tabla el mismo tiene que estar en estado: <b>Terminado</b></p>
                   @forelse ($torneo->fechas as $fecha)
                   <div class="card card-outline card-primary collapsed-card">
                     <div class="card-header">
@@ -107,7 +108,7 @@
                                   Categoría
                                 </th>
                                 <th>
-                                  Torneo
+                                  Estado
                                 </th>
                                 <th>
                                   Acciones
@@ -119,7 +120,7 @@
                           $i = 1;
                           @endphp
                           <tbody id="bodyTable">
-                              @forelse ($fecha->matches as $partido)
+                              @forelse ($fecha->matches->sortBy('horario') as $partido)
                               <tr>
                                 <td>
                                     # {{$i}}
@@ -145,8 +146,8 @@
                                 <td>
                                   {{$partido->category->name}}
                                 </td>
-                                <td>
-                                  {{$partido->tournament->name}}
+                                <td class="{{$partido->finished ? 'font-weight-bold' : ''}}">
+                                  {{$partido->finished ? "Terminado" : "Sin terminar"}}
                                 </td>
     
                                 <td class="project-actions">
@@ -157,6 +158,15 @@
                                     <a class="btn btn-danger btn-sm" href="/admin/partido/eliminar/{{$partido->id}}" onclick="confimacion()">
                                         <i class="fas fa-trash">
                                         </i>
+                                    </a>
+                                    <a class="btn {{$partido->finished ? 'btn-warning' : 'btn-primary' }} btn-sm" href="/admin/partido/{{$partido->id}}/terminado" data-toggle="tooltip" data-placement="top" title="{{$partido->finished ? 'Activar partido' : 'Terminar Partido'}}">
+                                      @if ($partido->finished)
+                                        <i class="fas fa-times">
+                                        </i>
+                                      @else
+                                        <i class="fas fa-check">
+                                        </i>
+                                      @endif
                                     </a>
                                 </td>
                             </tr>
@@ -185,7 +195,8 @@
     $(document).ready(function() {
         $('.selectWithoutSearch').select2({
           minimumResultsForSearch: Infinity
-        });    
+        });
+        $('[data-toggle="tooltip"]').tooltip()    
     });
     function confirmacion(){
       var respuesta = confirm('¿Esta seguro de eliminar el usuario? No podrá recuperarlo');

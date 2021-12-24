@@ -1,7 +1,7 @@
 @extends('torneo.base')
 
 @section('title')
-    <title>FECNBA - Home</title>
+    <title>FECNBA - {{$noticia->titulo}}</title>
 @endsection
 
 @section('main')

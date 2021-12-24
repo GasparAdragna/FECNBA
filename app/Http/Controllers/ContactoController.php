@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 Use App\Models\Category;
 Use App\Models\State;
 Use App\Models\Fecha;
+Use App\Models\Contact;
+use Mail;
 use Illuminate\Http\Request;
 
 class ContactoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only('show', 'destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,13 +52,52 @@ class ContactoController extends Controller
         $request->validate([
             'first_name' => 'string|required',
             'last_name' => 'string|required',
-            'email' => 'email|required',
-            'message' => 'text|required'
+            'email' => 'email|required', 
+            'message' => 'string|required',
+            'g-recaptcha-response' => 'required'
         ]);
 
-        Contact::create($request->all());
+        if(env('APP_ENV') == "local"){
+            Contact::create($request->all());
+            $data = array('consulta'=>$request);
+            Mail::send('consulta', $data, function($message){
+            $message->to('gaspar.jac@hotmail.com', 'FECNBA')->subject
+                ('¡Nueva consulta en el sitio!');
+            $message->from('noreply@fecnba.com.ar','FECNBA');
+            });
 
-        return redirect()->back()->with('status', 'Su consulta fue enviado satisfactoreamente');
+            return redirect()->back()->with('status', 'Se envió correctamente la consulta');
+
+        }
+        $recaptcha = $request->input('g-recaptcha-response');
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array(
+          'secret' => env('GOOGLE_CAPTCHA'),
+          'response' => $recaptcha
+        );
+        $options = array(
+          'http' => array (
+            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'method' => 'POST',
+            'content' => http_build_query($data)
+          )
+        );
+        $context  = stream_context_create($options);
+        $verify = file_get_contents($url, false, $context);
+        $captcha_success = json_decode($verify);
+        if ($captcha_success->success) {
+            Contact::create($request->all());
+            $data = array('consulta'=>$request);
+            Mail::send('consulta', $data, function($message){
+            $message->to('gaspar.jac@hotmail.com', 'FECNBA')->subject
+                ('¡Nueva consulta en el sitio!');
+            $message->from('noreply@fecnba.com.ar','FECNBA');
+            });
+
+            return redirect()->back()->with('status', 'Se envió correctamente la consulta');
+        } else {
+          return redirect()->back()->with('error', 'No se pudo enviar su consulta. Intente nuevamente');
+        }
     }
 
     /**
@@ -63,30 +108,8 @@ class ContactoController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $contact = Contact::find($id);
+        return view('admin.contact.show', compact('contact'));
     }
 
     /**
