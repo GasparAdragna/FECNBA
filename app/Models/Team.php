@@ -23,9 +23,14 @@ class Team extends Model
     }
     public function category()
     {
-        $tournament = Tournament::active();
+        if(isset($_COOKIE['tournament'])) {
+            $tournament =  Tournament::find($_COOKIE['tournament']);
+        } else {
+            $tournament = Tournament::active();
+        }
+        
         return $this->belongsToMany('App\Models\Category', 'teams_categories', 'team_id', 'category_id')
-                    ->withPivot('tournament_id')
+                    ->withPivot('tournament_id', 'zone')
                     ->wherePivot('tournament_id', $tournament->id)
                     ->first();
     }

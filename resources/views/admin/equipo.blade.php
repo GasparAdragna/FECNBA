@@ -102,11 +102,11 @@
                                 {{$player->year}}
                               </td>
                               <td class="project-actions">
-                                  <a class="btn btn-info btn-sm" href="/admin/jugador/editar/{{$player->id}}">
+                                  <a class="btn btn-info btn-sm" href="/admin/jugadores/editar/{{$player->id}}">
                                       <i class="fas fa-pencil-alt">
                                       </i>
                                   </a>
-                                  <a class="btn btn-danger btn-sm" href="/admin/jugador/eliminar/{{$player->id}}" onclick="confimacion()">
+                                  <a class="btn btn-danger btn-sm" href="/admin/jugadores/eliminar/{{$player->id}}" onclick="confimacion()">
                                       <i class="fas fa-trash">
                                       </i>
                                   </a>

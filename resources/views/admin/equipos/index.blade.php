@@ -10,18 +10,17 @@
                     @foreach ($torneos as $tournament)
                         <option value="{{$tournament->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$tournament->name}}</option>
                     @endforeach
-                    <option value="20">Test</option>
                 </select>
             </form>
         </div>
     </div>
-<br>
-<div class="row">
-    <div class="col-12">
-            <h1>Equipos</h1>
-            <p>Acá podes agregar o modificar los equipos existentes</p>
+    <br>
+    <div class="row">
+        <div class="col-12">
+                <h1>Equipos</h1>
+                <p>Acá podes agregar o modificar los equipos existentes</p>
+        </div>
     </div>
-</div>
 @stop
 
 @section('content')
@@ -71,28 +70,28 @@
                       <table class="table table-striped projects">
                           <thead>
                               <tr>
-                                  <th>
-                                      #
+                                	<th>
+                                     #
                                   </th>
                                   <th>
-                                      Nombre
+                                    Nombre
                                   </th>
                                   <th>
-                                    Categoría
+                                  	Categoría
+                                  </th>
+																	<th>	
+                                  	Zona
                                   </th>
                                   <th>
-                                      Acciones
+                                    Acciones
                                   </th>
                               </tr>
                           </thead>
-                          @php
-                          $i = 1;
-                          @endphp
                           <tbody id="bodyTable">
-                              @forelse ($equipos as $equipo)
+                              @forelse (App\Models\Tournament::active()->equiposActivos() as $index => $equipo)
                               <tr>
                                 <td>
-                                    # {{$i}}
+                                    # {{$index + 1}}
                                 </td>
                                 <td class="className">
                                     <b>{{$equipo->name}}</b> 
@@ -100,12 +99,15 @@
                                 <td>
                                     {{$equipo->category()->name}}
                                 </td>
+                                <td>
+                                    {{$equipo->category()->pivot->zone}}
+                                </td>
                                 <td class="project-actions">
-                                    <a class="btn btn-primary btn-sm" href="equipo/{{$equipo->id}}">
+                                    <a class="btn btn-primary btn-sm" href="equipos/{{$equipo->id}}">
                                         <i class="fas fa-eye">
                                         </i>
                                     </a>
-                                    <a class="btn btn-info btn-sm" href="equipo/editar/{{$equipo->id}}">
+                                    <a class="btn btn-info btn-sm" href="equipos/editar/{{$equipo->id}}">
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                     </a>
@@ -115,27 +117,57 @@
                                     </a>
                                 </td>
                             </tr>
-                            @php
-                            $i++;
-                            @endphp
                               @empty
-                                  <h2 class="text-center">No hay equipos creados por el momento</h2>
+                                  <h2 class="text-center">No hay equipos en el torneo seleccionado por el momento</h2>
                               @endforelse
 
                           </tbody>
                       </table>
                     </div>
-                    <!-- /.card-body -->
                   </div>
             </div>
             <div class="col-md-6">
-                <!-- general form elements -->
-                <div class="card card-primary">
+                <div class="card card-orange">
                   <div class="card-header">
-                    <h3 class="card-title">Agregar Equipo</h3>
+                    <h3 class="card-title">Agregar Equipo al torneo</h3>
                   </div>
-                  <!-- /.card-header -->
-                  <!-- form start -->
+                  <form method="POST" action="/admin/equipos/agregar/torneo">
+                      @csrf
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="team_id">Equipo</label>
+                        <select name="team_id" id="team_id" class="form-control">
+                            @foreach ($equipos as $equipo)
+                                <option value="{{$equipo->id}}">{{$equipo->name}}</option>
+                            @endforeach
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Categoría</label>
+                        <select class="form-control select2" style="width: 100%;" name="category_id">
+                            @foreach ($categorias as $categoria)
+                                <option value="{{$categoria->id}}">{{$categoria->name}}</option>
+                            @endforeach
+                        </select>
+                      </div>
+                    <div class="form-group">
+                        <label>Torneo</label>
+                        <select class="form-control select2" style="width: 100%;" name="tournament_id">
+                            @foreach ($torneos as $torneo)
+                                <option value="{{$torneo->id}}">{{$torneo->name}}</option>
+                            @endforeach
+                        </select>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
+                  </form>
+                </div>
+                                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Crear Equipo</h3>
+                  </div>
                   <form method="POST">
                       @csrf
                     <div class="card-body">
@@ -165,7 +197,7 @@
                     </div>
                   </form>
                 </div>
-              </div>
+            </div>
         </div>
     </div>
 @stop

@@ -53,13 +53,12 @@ class PartidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Match $partido)
     {
         $torneos = Tournament::all();
-        $partido = Match::find($id);
         $categorias = Category::all();
         $fechas = Fecha::all();
-        $equipos = Team::where('category_id', $partido->category->id)->get();
+        $equipos = $partido->category->equipos()->wherePivot('tournament_id', $partido->tournament_id)->get();
         return view('admin.editarPartido', ['partido' => $partido, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas, 'equipos' => $equipos]);
     }
 
@@ -95,7 +94,7 @@ class PartidoController extends Controller
         //
     }
 
-    public function agregarGol($id, Request $request)
+    public function agregarGol(Match $partido, Request $request)
     {
         $validate = $request->validate([
             'team_id' => 'required|numeric',
@@ -104,14 +103,12 @@ class PartidoController extends Controller
 
         Goal::create($request->all());
 
-        $match = Match::find($id);
-
-        if ($match->team_id_1 == $request->team_id) {
-            $match->team_1_goals = $match->team_1_goals + 1;
+        if ($partido->team_id_1 == $request->team_id) {
+            $partido->team_1_goals = $partido->team_1_goals + 1;
         } else {
-            $match->team_2_goals = $match->team_2_goals + 1;
+            $partido->team_2_goals = $partido->team_2_goals + 1;
         }
-        $match->save();
+        $partido->save();
 
         return redirect()->back()->with('status', 'Se agregó correctamente el gol al partido');
     }
@@ -134,9 +131,18 @@ class PartidoController extends Controller
     public function terminado(Match $partido)
     {
         $partido->finished = !$partido->finished;
+
+        if ($partido->team_1_goals > $partido->team_2_goals){
+            $partido->team_id_winner = $partido->team_id_1;
+        }
+
+        if ($partido->team_2_goals > $partido->team_1_goals){
+            $partido->team_id_winner = $partido->team_id_2;
+        }
+
         $partido->save();
 
-        return redirect()->back()->with('status', 'Se actualizó correctamente el partido');
+        return redirect('/admin/partidos')->with('status', 'Se actualizó correctamente el partido');
 
     }
 }

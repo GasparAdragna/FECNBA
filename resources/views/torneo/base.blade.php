@@ -25,19 +25,25 @@
                 <div class="row">
                     <div class="col-12">
                         <hr>
-                        @forelse ($fecha->matches as $partido)
-                        <div class="text-center">
-                            <h4>{{$partido->local->name}} vs {{$partido->visita->name}}</h4>
+                        @if ($fecha)
+                          @forelse ($fecha->matches as $partido)
                             <div class="text-center">
-                                <p class="text-muted">{{$partido->fecha->name}} - {{$partido->horario}} - Cancha {{$partido->cancha}}</p>
+                                <h4>{{$partido->local->name}} vs {{$partido->visita->name}}</h4>
+                                <div class="text-center">
+                                    <p class="text-muted">{{$partido->fecha->name}} - {{$partido->horario}} - Cancha {{$partido->cancha}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        @empty
-                        <div class="text-center">
-                            <h4>No hay partidos programados</h4>
-                        </div>
-                        @endforelse
+                          <hr>
+                          @empty
+                            <div class="text-center">
+                                <h4>No hay partidos programados</h4>
+                            </div>
+                          @endforelse
+                        @else
+                            <div class="text-center">
+                                <h4>No hay partidos programados</h4>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

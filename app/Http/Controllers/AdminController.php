@@ -44,6 +44,7 @@ class AdminController extends Controller
 
         $torneo = new Tournament;
         $torneo->name = $request->name;
+        $torneo->active = false;
         $torneo->save();
         return redirect()->back()->with('status', 'Se agregó correctamente el torneo');
 
@@ -87,106 +88,12 @@ class AdminController extends Controller
         $categoria->delete();
         return redirect('/admin/categorias')->with('status', 'Se eliminó correctamente la categoría');
     }
-    // -------------------------EQUIPOS------------------
-    public function vistaEditarEquipo($id)
-    {
-        $equipo = Team::find($id);
-        $categorias = Category::all();
-        return view('/admin/editarEquipo', ['equipo' => $equipo, 'categorias' => $categorias]);
-    }
-    public function editarEquipo(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|unique:teams|max:255',
-        ]);
-
-        $equipo = Team::find($request->id);
-        $equipo->name = $request->name;
-        $equipo->save();
-        return redirect('/admin/equipos')->with('status', 'Se editó correctamente el equipo');
-    }
-    public function editarCategoriaEquipo(Request $request)
-    {
-        $validated = $request->validate([
-            'category_id' => 'required|numeric',
-            'id' => 'required|numeric',
-        ]);
-        $equipo = Team::find($request->id);
-        $equipo->category_id = $request->category_id;
-        $equipo->save();
-        return redirect()->back()->with('status', 'Se editó correctamente el equipo');
-    }
-    public function eliminarEquipo($id)
-    {
-        $team = Team::find($id);
-        foreach ($team->players as $player) {
-            $player->delete();
-        }
-        foreach ($team->matches as $match) {
-            foreach ($match->goles as $goal) {
-                $goal->delete();
-            }
-            $match->delete();
-        }
-        $team->delete();
-        return redirect()->back()->with('status', 'Se eliminó correctamente el equipo');
-    }
-    // -------------------------JUGADORES------------------
-    public function jugadores()
-    {
-        $jugadores = Player::all();
-        $equipos = Team::all();
-        return view('admin/jugadores', ['jugadores' => $jugadores, 'equipos' => $equipos]);
-    }
-    public function agregarJugador(Request $request)
-    {
-        $validated = $request->validate([
-            'first_name' => 'required|max:255|string',
-            'last_name' => 'required|max:255|string',
-            'dni' => 'numeric|unique:players|required',
-            'os' => 'nullable|string',
-            'birthday' => 'nullable|date',
-            'year' => 'numeric|nullable',
-            'email' => 'string|nullable',
-            'team_id' => 'numeric|required',
-        ]);
-        Player::create($request->all());
-        return redirect()->back()->with('status', 'Se agregó correctamente el jugador');
-    }
-    public function vistaEditarJugador($id)
-    {
-        $jugador = Player::find($id);
-        $equipos = Team::all();
-        return view('admin/editarJugador', ['jugador' => $jugador, 'equipos' => $equipos]);
-    }
-    public function editarJugador(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'first_name' => 'required|max:255|string',
-            'last_name' => 'required|max:255|string',
-            'dni' => 'numeric|required',
-            'os' => 'nullable|string',
-            'birthday' => 'nullable|date',
-            'year' => 'numeric|nullable',
-            'email' => 'string|nullable',
-            'team_id' => 'numeric|required',
-        ]);
-        $player = Player::find($id);
-        $player->update($request->all());
-        return redirect()->back()->with('status', 'Se editó correctamente el jugador');
-    }
-    public function eliminarJugador($id)
-    {
-        $player = Player::find($id);
-        $player->delete();
-        return redirect()->back()->with('status', 'Se eliminó correctamente el jugador');
-    }
 
     // -------------------------FECHAS------------------
     public function fechas(Tournament $torneo)
     {
         $torneos = Tournament::all();
-        return view('admin.fechas', ['fechas' => $torneo->fechas, 'torneos' => $torneos, 'torneo' => $torneo]);
+        return view('admin.fechas', ['torneos' => $torneos, 'torneo' => $torneo]);
     }
     public function agregarFecha(Request $request)
     {

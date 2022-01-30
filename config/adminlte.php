@@ -244,6 +244,7 @@ return [
         [
             'text' => 'Jugadores',
             'url'  => 'admin/jugadores',
+            'active' => ['admin/jugadores*'],
             'icon' => 'fas fa-fw fa-user',
         ],
         [

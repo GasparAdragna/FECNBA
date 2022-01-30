@@ -11,7 +11,7 @@ class Tournament extends Model
 
     public function fechas()
     {
-        return $this->hasMany('App\Models\Fecha', 'tournament_id');
+        return $this->hasMany('App\Models\Fecha', 'tournament_id', 'id');
     }
     public static function active()
     {
@@ -20,5 +20,10 @@ class Tournament extends Model
         }
 
         return Tournament::where('active', true)->first();
+    }
+    public function equiposActivos()
+    {
+       return  $this->belongsToMany('App\Models\Team', 'teams_categories', 'tournament_id', 'team_id')
+                    ->withPivot('tournament_id', 'zone')->orderBy('name', 'asc')->get();
     }
 }

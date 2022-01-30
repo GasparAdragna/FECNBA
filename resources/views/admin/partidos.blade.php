@@ -240,8 +240,8 @@
                   </table>
                   {{$partidos->links()}}
                 </div>
-              </div>
-        </div>
+            </div>
+          </div>
         </div>
     </div>
 @stop
@@ -259,7 +259,9 @@
       var sub = document.getElementById('team_1');
       removeOptions(sub);
       var categoria = document.getElementById('category');
-      var elegido = categoria.options[categoria.selectedIndex].value;
+      var torneo = document.getElementById('tournament');
+      torneo = torneo.options[torneo.selectedIndex].value;
+      categoria = categoria.options[categoria.selectedIndex].value;
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function(){
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -281,7 +283,7 @@
           //refrescar();
         };
       };
-     xmlhttp.open("GET", '/api/equipos/categoria/'+ elegido, true);
+     xmlhttp.open("GET", '/api/equipos/torneo/'+ torneo + '/categoria/'+ categoria, true);
      xmlhttp.setRequestHeader("content-type", "application/json");
      xmlhttp.send();
     }

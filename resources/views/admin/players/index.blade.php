@@ -5,6 +5,18 @@
 @section('title', 'Jugadores - FECNBA')
 
 @section('content_header')
+  <div class="row">
+    <div class="col-2">
+        <form action="">
+            <select class="form-control" id="torneo" onchange="setCookie('tournament', this.value, 365); location.reload()" >
+                @foreach ($torneos as $tournament)
+                    <option value="{{$tournament->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$tournament->name}}</option>
+                @endforeach
+            </select>
+        </form>
+    </div>
+  </div>
+  <br>
     <h1>Jugadores:</h1>
     <p>Acá podes ver todos los jugadores y agregarlos fácilmente</p>
 @stop
@@ -171,7 +183,7 @@
                                     {{$player->first_name}} {{$player->last_name}}
                             </td>
                             <td>
-                              {{$player->team->name}}
+                              {{$player->team()->name}}
                             </td>
                             <td>
                               {{$player->birthday}}
@@ -186,11 +198,11 @@
                               {{$player->year}}
                             </td>
                             <td class="project-actions">
-                                <a class="btn btn-info btn-sm" href="/admin/jugador/editar/{{$player->id}}">
+                                <a class="btn btn-info btn-sm" href="/admin/jugadores/editar/{{$player->id}}">
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                 </a>
-                                <a class="btn btn-danger btn-sm" href="/admin/jugador/eliminar/{{$player->id}}" onclick="confirmacion()">
+                                <a class="btn btn-danger btn-sm" href="/admin/jugadores/eliminar/{{$player->id}}" onclick="confirmacion()">
                                     <i class="fas fa-trash">
                                     </i>
                                 </a>

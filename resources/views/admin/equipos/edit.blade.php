@@ -3,6 +3,18 @@
 @section('title', 'Editar Equipo - FECNBA')
 
 @section('content_header')
+    <div class="row">
+      <div class="col-2">
+          <form action="">
+              <select class="form-control" id="torneo" onchange="setCookie('tournament', this.value, 365); location.reload()" >
+                  @foreach ($torneos as $tournament)
+                      <option value="{{$tournament->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$tournament->name}}</option>
+                  @endforeach
+              </select>
+          </form>
+      </div>
+    </div>
+    <br>
     <h1>Equipo: {{$equipo->name}}</h1>
     <p>Acá podes editar el equipo seleccionado</p>
 @stop
@@ -97,7 +109,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="/admin/equipo/editar/{{$equipo->id}}">
+              <form method="POST" action="/admin/equipos/editar/{{$equipo->id}}">
                   @csrf
                 <div class="card-body">
                   <div class="form-group mb-0">
@@ -114,17 +126,21 @@
               <div class="card-header">
                 <h3 class="card-title">Editar Categoría</h3>
               </div>
-              <form action="/admin/equipo/categoria/editar" method="POST">
+              <form action="/admin/equipos/categoria/editar/{{$equipo->id}}" method="POST">
                   @csrf
                 <div class="card-body">
-                  <div class="form-group mb-0">
+                  <div class="form-group">
                     <label for="nombreCategoria">Seleccionar Categoría</label>
                     <select name="category_id" id="nombreCategoria" class="form-control select2" style="width: 100%;">
                       @foreach ($categorias as $categoria)
-                        <option value="{{$categoria->id}}" {{($equipo->category->id == $categoria->id) ? "selected" : ""}}>{{$categoria->name}}</option>
+                        <option value="{{$categoria->id}}" {{($equipo->category()->id == $categoria->id) ? "selected" : ""}}>{{$categoria->name}}</option>
                       @endforeach
                     </select>
-                    <input type="hidden" name="id" value="{{$equipo->id}}">
+                    <input type="hidden" name="id" value="{{$equipo->category()->id}}">
+                  </div>
+                  <div class="form-group mb-0">
+                    <label for="zona">Zona</label>
+                    <input type="number" class="form-control" id="zona" name="zone" placeholder="Dejar vacío si no hay zonas" value="{{$equipo->category()->pivot->zone}}">
                   </div>
                 </div>
                 <div class="card-footer">
@@ -184,17 +200,14 @@
                               </th>
                           </tr>
                       </thead>
-                      @php
-                      $i = 1;
-                      @endphp
                       <tbody id="bodyTable">
-                          @forelse ($equipo->players as $player)
+                          @forelse ($equipo->players as $index => $player)
                           <tr>
                             <td>
-                                # {{$i}}
+                                # {{$index + 1}}
                             </td>
                             <td class="className">
-                                    {{$player->first_name}} {{$player->last_name}}
+                                {{$player->first_name}} {{$player->last_name}}
                             </td>
                             <td>
                               {{$player->birthday}}
@@ -219,9 +232,6 @@
                                 </a>
                             </td>
                         </tr>
-                        @php
-                        $i++;
-                        @endphp
                           @empty
                               <h2 class="text-center">No hay jugadores en este equipo por el momento</h2>
                           @endforelse
@@ -229,7 +239,6 @@
                       </tbody>
                   </table>
                 </div>
-                <!-- /.card-body -->
               </div>
         </div>
         </div>
@@ -259,6 +268,17 @@
                 tr[i].style.display = "none";
                 }
             }
+        }
+
+        function setCookie(cookieName, cookieValue, nDays) {
+            var today = new Date();
+            var expire = new Date();
+
+            if (!nDays) 
+                nDays=1;
+
+            expire.setTime(today.getTime() + 3600000*24*nDays);
+            document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString();
         }
     </script>
 @stop

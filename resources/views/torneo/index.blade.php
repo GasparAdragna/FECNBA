@@ -67,7 +67,8 @@
             {{ $noticias->links() }}
             </div>
     </div>
-    <h3 class="bg-light-blue p-2 w-100">Próxima Fecha - {{$fecha->name}} - {{isset($fecha->dia) ? date('d/m', strtotime($fecha->dia)) : 'Día sin definir'}}</h3>
+    @if ($fecha)
+        <h3 class="bg-light-blue p-2 w-100">Próxima Fecha - {{$fecha->name}} - {{isset($fecha->dia) ? date('d/m', strtotime($fecha->dia)) : 'Día sin definir'}}</h3>
     <div class="row">
         <div class="col-12">
             @isset($fecha)
@@ -131,4 +132,5 @@
             @endisset
         </div>
     </div>
+    @endif
 @endsection

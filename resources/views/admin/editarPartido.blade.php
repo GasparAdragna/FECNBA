@@ -7,6 +7,17 @@
 @section('content_header')
     <h1>{{$partido->local->name}} {{$partido->goles->where('team_id', $partido->local->id)->count()}} - {{$partido->goles->where('team_id', $partido->visita->id)->count()}} {{$partido->visita->name}}</h1>
     <p>Acá podes editar el partido seleccionado, cambiar la fecha, agregar goles y demás</p>
+    <a class="btn {{$partido->finished ? 'btn-warning' : 'btn-primary' }} btn-sm" href="/admin/partido/{{$partido->id}}/terminado" data-toggle="tooltip" data-placement="top" title="{{$partido->finished ? 'Activar partido' : 'Terminar Partido'}}">
+        @if ($partido->finished)
+            Activar Partido
+            <i class="fas fa-times">
+            </i>
+        @else
+            Terminar Partido
+            <i class="fas fa-check">
+            </i>
+        @endif
+    </a>
 @stop
 
 @section('content')

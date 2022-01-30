@@ -31,11 +31,11 @@
           <div class="col-12 col-lg-6">
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Editar Jugador - {{$jugador->team->name}}</h3>
+                <h3 class="card-title">Editar Jugador</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="/admin/jugador/editar/{{$jugador->id}}">
+              <form method="POST" action="/admin/jugadores/editar/{{$jugador->id}}">
                   @csrf
                 <div class="card-body">
                   <div class="row">
@@ -81,23 +81,102 @@
                         <input type="email" id="mail" name="email" class="form-control" value="{{ $jugador->email }}" placeholder="Ej: carlostevez@gmail.com">
                       </div>
                     </div>
-                    <div class="col-12">
-                        <div class="form-group mb-0">
-                          <label for="team">Equipo</label>
-                          <select name="team_id" id="team" class="form-control select2" style="width: 100%;">
-                            @foreach ($equipos as $equipo)
-                              <option value="{{$equipo->id}}" {{($jugador->team_id == $equipo->id) ? "selected" : ""}}>{{$equipo->name}}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                      </div>
                   </div>
                 </div>
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Agregar</button>
+                  <button type="submit" class="btn btn-primary">Editar</button>
                 </div>
               </form>
             </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Editar Equipo</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="POST" action="/admin/jugadores/editar/equipo/{{$jugador->id}}">
+                  @csrf
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group mb-0">
+                        <label for="team">Torneo</label>
+                        <select name="tournament_id" id="tournament" class="form-control select2" style="width: 100%;">
+                          @foreach ($tournaments as $tournament)
+                            <option value="{{$tournament->id}}">{{$tournament->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="team">Equipo</label>
+                        <select name="team_id" id="team" class="form-control select2" style="width: 100%;">
+                          @foreach ($equipos as $equipo)
+                            <option value="{{$equipo->id}}">{{$equipo->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Editar</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Equipos registrados:</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th>
+                              #
+                            </th>
+                            <th>
+                              Torneo
+                            </th>
+                            <th>
+                              Equipo
+                            </th>
+                            <th>
+                              Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyTable">
+                      @forelse ($jugador->teams as $index => $team)
+                          <tr>
+                            <td>{{$index+1}}</td>
+                            <td>{{$team->pivot->tournament->name}}</td>
+                            <td>{{$team->name}}</td>
+                            <td>
+                                <a class="btn btn-danger btn-sm" href="/admin/jugadores/equipo/eliminar/{{$team->pivot->id}}" onclick="confirmacion()">
+                                  <i class="fas fa-trash">
+                                  </i>
+                                </a>
+                            </td>
+                          </tr>
+                      @empty
+                          <p>No se encontraron equipos para este jugador</p>
+                      @endforelse
+                    </tbody>
+                </table>
+              </div>
+          </div>
           </div>
         </div>
     </div>
