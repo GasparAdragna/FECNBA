@@ -66,8 +66,8 @@
                         </button>
                       </div>
                     </div>
-                    <div class="card-body p-0">
-                      <table class="table table-striped projects">
+                    <div class="card-body">
+                      <table class="table table-striped table-hover projects" id="equipos">
                           <thead>
                               <tr>
                                 	<th>
@@ -237,6 +237,16 @@
             expire.setTime(today.getTime() + 3600000*24*nDays);
             document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString();
         }
+
+        $('#equipos').DataTable({
+          "paging": false,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": false,
+          "autoWidth": false,
+          "responsive": true,
+        });
     </script>
 @stop
 

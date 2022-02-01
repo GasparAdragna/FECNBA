@@ -17,7 +17,7 @@
                     @else
                         <td></td>
                     @endif
-                    
+
                     @if (isset($equipos[$i+1]))
                         <td><b>{{$equipos[$i+1]->name}}</b></td>
                     @else
@@ -158,7 +158,7 @@
                                     </td>
                                 </tr>
                                 @empty
-                                    <h2 class="text-center">No hay partidos creados por el momento</h2>
+                                    <h3 class="text-center mt-4">No hay partidos creados por el momento</h3>
                                 @endforelse
                             </tbody>
                         </table>

@@ -121,7 +121,7 @@
                                 </td>
                             </tr>
                             @empty
-                                <h2 class="text-center">No hay partidos creados por el momento</h2>
+                                <h3 class="text-center mt-4">No hay partidos creados por el momento</h3>
                             @endforelse
                         </tbody>
                     </table>
