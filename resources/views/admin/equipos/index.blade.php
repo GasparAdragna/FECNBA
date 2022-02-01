@@ -67,7 +67,7 @@
                       </div>
                     </div>
                     <div class="card-body">
-                      <table class="table table-striped table-hover projects" id="equipos">
+                      <table class="table table-striped projects" id="equipos">
                           <thead>
                               <tr>
                                 	<th>
@@ -88,7 +88,10 @@
                               </tr>
                           </thead>
                           <tbody id="bodyTable">
-                              @forelse (App\Models\Tournament::active()->equiposActivos() as $index => $equipo)
+                            @php
+                                $torneo = App\Models\Tournament::active();
+                            @endphp
+                              @forelse ($torneo->equiposActivos() as $index => $equipo)
                               <tr>
                                 <td>
                                     # {{$index + 1}}
@@ -111,7 +114,7 @@
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                     </a>
-                                    <a class="btn btn-danger btn-sm" href="equipo/eliminar/{{$equipo->id}}" onclick="confirmacion()">
+                                    <a class="btn btn-danger btn-sm" href="equipo/eliminar/{{$equipo->id}}/torneo/{{$torneo->id}}" onclick="confirmacion()">
                                         <i class="fas fa-trash">
                                         </i>
                                     </a>
@@ -205,7 +208,7 @@
 @section('js')
     <script type="text/javascript">
         function confirmacion(){
-            var respuesta = confirm('¿Esta seguro de eliminar el equipo? Se eliminarán todos los jugadores, partidos jugados y jugadores. No podrá recuperarlos');
+            var respuesta = confirm('¿Esta seguro de eliminar el equipo de este torneo?');
             if (!respuesta) {
                 window.event.preventDefault();
             }

@@ -141,4 +141,13 @@ class EquipoController extends Controller
         return redirect()->back()->withErrors(['msg' => 'El equipo ya está en el torneo']);
 
     }
+    public function eliminarEquipoDeTorneo(Team $equipo, Tournament $torneo)
+    {
+        DB::table('teams_categories')
+            ->where('tournament_id', $torneo->id)
+            ->where('team_id', $equipo->id)
+            ->delete();
+
+        return redirect()->back()->with('status', 'Se eliminó correctamente el equipo del torneo');
+    }
 }

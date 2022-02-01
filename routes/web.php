@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/equipos/{equipo}', [EquipoController::class, "show"]);
         Route::get('/equipos/editar/{equipo}', [EquipoController::class, "edit"]);
         Route::post('/equipos/editar/{equipo}', [EquipoController::class, "update"]);
-        Route::get('/equipo/eliminar/{equipo}', [AdminController::class, "eliminarEquipo"]);
+        Route::get('/equipo/eliminar/{equipo}/torneo/{torneo}', [EquipoController::class, "eliminarEquipoDeTorneo"]);
         Route::post('/equipos/categoria/editar/{equipo}', [EquipoController::class, "editarCategoriaEquipo"]);
         Route::post('/equipos/agregar/torneo', [EquipoController::class, "agregarEquipoATorneo"]);
         // ---------------------------------JUGADOR------------------------------------
