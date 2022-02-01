@@ -57,7 +57,8 @@ class HomeController extends Controller
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::latest('dia')->first();
-        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament'));
+        $equipos = $tournament->equipos($categoria->id);
+        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos'));
     }
 
     public function programacion()

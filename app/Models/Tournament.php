@@ -26,4 +26,9 @@ class Tournament extends Model
        return  $this->belongsToMany('App\Models\Team', 'teams_categories', 'tournament_id', 'team_id')
                     ->withPivot('tournament_id', 'zone')->orderBy('name', 'asc')->get();
     }
+    public function equipos($id)
+    {
+        return  $this->belongsToMany('App\Models\Team', 'teams_categories', 'tournament_id', 'team_id')
+                    ->wherePivot('category_id', $id)->orderBy('name', 'asc')->get();
+    }
 }

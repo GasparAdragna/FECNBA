@@ -7,6 +7,33 @@
 @section('main')
     <h1>{{$categoria->name}}</h1>
     <br>
+    <h3 class="bg-light-blue p-2 w-100">Equipos</h3>
+    <table class="table table-bordered">
+        <tbody>
+            @for ($i = 0; $i < count($equipos); $i = $i + 3)
+                <tr>
+                    @if (isset($equipos[$i]))
+                        <td><b>{{$equipos[$i]->name}}</b></td>
+                    @else
+                        <td></td>
+                    @endif
+                    
+                    @if (isset($equipos[$i+1]))
+                        <td><b>{{$equipos[$i+1]->name}}</b></td>
+                    @else
+                        <td></td>
+                    @endif
+
+                    @if (isset($equipos[$i+2]))
+                        <td><b>{{$equipos[$i+2]->name}}</b></td>
+                    @else
+                        <td></td>
+                    @endif
+                </tr>
+            @endfor
+        </tbody>
+    </table>
+    <br>
     <h3 class="bg-light-blue p-2 w-100">Tabla de posiciones</h3>
     <br>
     @if (count($table) > 1)
@@ -35,13 +62,46 @@
                             <td>{{$equipo->E}}</td>
                             <td>{{$equipo->P}}</td>
                             <td>{{$equipo->DIF}}</td>
-                            <td>{{$equipo->PTS}}</td>
+                            <td><b>{{$equipo->PTS}}</b></td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
             <br>
         @endforeach
+    @else
+    @php
+        $zona = $table[0];
+    @endphp
+        <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Pos</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">PJ</th>
+                        <th scope="col">G</th>
+                        <th scope="col">E</th>
+                        <th scope="col">P</th>
+                        <th scope="col">DG</th>
+                        <th scope="col">PTS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($zona as $index => $equipo)
+                        <tr>
+                            <th scope="row">{{$index +1}}</th>
+                            <td>{{$equipo->name}}</td>
+                            <td>{{$equipo->PJ}}</td>
+                            <td>{{$equipo->G}}</td>
+                            <td>{{$equipo->E}}</td>
+                            <td>{{$equipo->P}}</td>
+                            <td>{{$equipo->DIF}}</td>
+                            <td><b>{{$equipo->PTS}}</b></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <br>
     @endif
       <h3 class="bg-light-blue p-2 w-100">Fixture</h3>
       <div class="col-12">
