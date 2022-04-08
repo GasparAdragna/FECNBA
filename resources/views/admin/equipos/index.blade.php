@@ -157,7 +157,7 @@
                         <label>Torneo</label>
                         <select class="form-control select2" style="width: 100%;" name="tournament_id">
                             @foreach ($torneos as $torneo)
-                                <option value="{{$torneo->id}}">{{$torneo->name}}</option>
+                                <option value="{{$torneo->id}}" {{$torneo->active ? 'selected' : ''}}>{{$torneo->name}}</option>
                             @endforeach
                         </select>
                       </div>
