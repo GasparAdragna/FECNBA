@@ -2,6 +2,8 @@
 
 @section('title', 'Dashboard')
 
+@section('plugins.Select2', true)
+
 @section('content_header')
     <div class="row">
         <div class="col-2">
@@ -139,7 +141,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="team_id">Equipo</label>
-                        <select name="team_id" id="team_id" class="form-control">
+                        <select name="team_id" id="team_id" class="select2 form-control team-selector">
                             @foreach ($equipos as $equipo)
                                 <option value="{{$equipo->id}}">{{$equipo->name}}</option>
                             @endforeach
@@ -249,6 +251,10 @@
           "info": false,
           "autoWidth": false,
           "responsive": true,
+        });
+
+        $(document).ready(function() {
+            $('.team-selector').select2();
         });
     </script>
 @stop
