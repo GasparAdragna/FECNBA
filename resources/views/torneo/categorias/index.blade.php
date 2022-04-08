@@ -70,9 +70,13 @@
             <br>
         @endforeach
     @else
-    @php
-        $zona = $table[0];
-    @endphp
+        @php
+        if (isset($table[0])) {
+            $zona = $table[0];
+        } else {
+            $zona = [];
+        }
+        @endphp
         <table class="table table-responsive table-striped">
                 <thead>
                     <tr>
