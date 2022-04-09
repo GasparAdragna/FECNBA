@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/partidos', [MatchController::class, "index"]);
         Route::post('/partidos', [MatchController::class, "store"]);
         Route::get('/partido/editar/{partido}', [MatchController::class, "edit"]);
-        Route::post('/partido/editar/{id}', [MatchController::class, "update"]);
+        Route::post('/partido/editar/{partido}', [MatchController::class, "update"]);
         Route::post('/partido/{partido}/agregar/gol', [MatchController::class, "agregarGol"]);
         Route::post('/gol/eliminar/{gol}', [MatchController::class, "eliminarGol"]);
         Route::get('/partido/{partido}/terminado', [MatchController::class, 'terminado']);
