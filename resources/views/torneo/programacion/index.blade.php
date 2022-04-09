@@ -5,6 +5,9 @@
 @endsection
 
 @section('main')
+    @php
+        $colores = ["table-danger", "table-secondary", "table-success", "table-primary", "table-warning", "table-info", "table-light", "table-dark", "table-dark"];
+    @endphp
     <h1>Programación: {{$tournament->name}}</h1>
     <br>
     <h3 class="bg-light-blue p-2 w-100">Fixture</h3>
@@ -22,7 +25,7 @@
                 <br>
                 <h3>Fecha programada para el día: {{isset($fecha->dia) ? date('d/m', strtotime($fecha->dia)) : 'Día sin definir'}}</h3>  
                 <div class="table-responsive">
-                      <table class="table table-striped table-hover table-bordered text-center" id="matches{{$index}}">
+                      <table class="table table-hover table-bordered text-center" id="matches{{$index}}">
                           @if ($journey->matches->count())
                           <thead class="bg-dark-blue text-white">
                               <tr>
@@ -49,7 +52,7 @@
                           @endif
                           <tbody id="bodyTable">
                               @forelse ($journey->matches->sortBy('horario') as $partido)
-                              <tr>
+                              <tr class="{{$colores[$partido->category_id -1]}}">
                                   <td class="className">
                                       <b>{{$partido->local->name}}</b>
                                   </td>

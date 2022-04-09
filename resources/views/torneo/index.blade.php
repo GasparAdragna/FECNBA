@@ -6,7 +6,7 @@
 
 @section('main')
 @php
-    $colores = ["table-danger", "table-secondary", "table-success", "table-primary", "table-warning", "table-info", "table-light", "table-dark", "table-dark"]
+    $colores = ["table-danger", "table-secondary", "table-success", "table-primary", "table-warning", "table-info", "table-light", "table-dark", "table-dark"];
 @endphp
     <h3 class="bg-light-blue p-2 w-100">Noticias</h3>
     <div class="row">
