@@ -11,7 +11,7 @@
             <div class="col-lg-9 order-2 order-lg-1">
               @yield('main')
             </div>
-            <div class="col-lg-3 order-1 order-lg-2">
+            <div class="col-lg-3 order-1 order-lg-2 overflow-auto">
                 <h3 class="bg-light-blue p-2">Actividad del campo:</h3>
                 <div class="{{$estado->color}} info-box text-center">
                     <span class="info-box-icon"><i class="{{$estado->icon}}"></i></span>
@@ -26,7 +26,7 @@
                     <div class="col-12">
                         <hr>
                         @if ($fecha)
-                          @forelse ($fecha->matchesForDashboard() as $partido)
+                          @forelse ($fecha->matches as $partido)
                             <div class="text-center">
                                 <h4>{{$partido->local->name}} vs {{$partido->visita->name}}</h4>
                                 <div class="text-center">
