@@ -71,11 +71,11 @@
                                     </a>
                                 </td>
                                 <td class="project-actions">
-                                    <a class="btn btn-info btn-sm" href="/admin/categoria/editar/{{$categoria->id}}">
+                                    <a class="btn btn-info btn-sm" href="/admin/categorias/editar/{{$categoria->id}}">
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                     </a>
-                                    <a class="btn btn-danger btn-sm" href="/admin/categoria/eliminar/{{$categoria->id}}" onclick="confirmacion()">
+                                    <a class="btn btn-danger btn-sm" href="/admin/categorias/eliminar/{{$categoria->id}}" onclick="confirmacion()">
                                         <i class="fas fa-trash">
                                         </i>
                                     </a>

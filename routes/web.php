@@ -48,9 +48,9 @@ Route::middleware(['auth'])->group(function () {
         // ---------------------------------CATEGORIAS------------------------------------
         Route::get('/categorias', [AdminController::class, "categorias"]);
         Route::post('/categorias', [AdminController::class, "agregarCategoria"]);
-        Route::get('/categoria/editar/{categoria}', [AdminController::class, "vistaEditarCategoria"]);
-        Route::post('/categoria/editar/{categoria}', [AdminController::class, "editarCategoria"]);
-        Route::get('/categoria/eliminar/{categoria}', [AdminController::class, "eliminarCategoria"]);
+        Route::get('/categorias/editar/{categoria}', [AdminController::class, "vistaEditarCategoria"]);
+        Route::post('/categorias/editar/{categoria}', [AdminController::class, "editarCategoria"]);
+        Route::get('/categorias/eliminar/{categoria}', [AdminController::class, "eliminarCategoria"]);
         // ---------------------------------EQUIPOS------------------------------------
         Route::get('/equipos', [TeamController::class, "index"]);
         Route::post('/equipos', [TeamController::class, "store"]);
