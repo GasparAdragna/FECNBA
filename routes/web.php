@@ -10,6 +10,7 @@ use App\Http\Controllers\MatchController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\FechaController;
+use App\Http\Controllers\CategoryController;
 
 
 /*
@@ -46,11 +47,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/torneos/editar/{tournament}', [TournamentController::class, "edit"]);
         Route::post('/torneos/editar/{tournament}', [TournamentController::class, "update"]);
         // ---------------------------------CATEGORIAS------------------------------------
-        Route::get('/categorias', [AdminController::class, "categorias"]);
-        Route::post('/categorias', [AdminController::class, "agregarCategoria"]);
-        Route::get('/categorias/editar/{categoria}', [AdminController::class, "vistaEditarCategoria"]);
-        Route::post('/categorias/editar/{categoria}', [AdminController::class, "editarCategoria"]);
-        Route::get('/categorias/eliminar/{categoria}', [AdminController::class, "eliminarCategoria"]);
+        Route::get('/categorias', [CategoryController::class, "index"]);
+        Route::post('/categorias', [CategoryController::class, "store"]);
+        Route::get('/categorias/editar/{category}', [CategoryController::class, "edit"]);
+        Route::post('/categorias/editar/{category}', [CategoryController::class, "update"]);
+        Route::get('/categorias/eliminar/{category}', [CategoryController::class, "destroy"]);
         // ---------------------------------EQUIPOS------------------------------------
         Route::get('/equipos', [TeamController::class, "index"]);
         Route::post('/equipos', [TeamController::class, "store"]);

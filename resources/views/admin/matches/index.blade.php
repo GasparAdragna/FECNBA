@@ -5,8 +5,24 @@
 @section('title', 'Partidos - FECNBA')
 
 @section('content_header')
-    <h1>Partidos:</h1>
-    <p>Acá podes ver todos los partidos programados y agregarlos fácilmente</p>
+    <div class="row">
+        <div class="col-2">
+            <form action="">
+                <select class="form-control" id="torneo" onchange="setCookie('tournament', this.value, 365); location.reload()" >
+                    @foreach ($torneos as $tournament)
+                        <option value="{{$tournament->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$tournament->name}}</option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12">
+          <h1>Partidos:</h1>
+          <p>Acá podes ver todos los partidos programados y agregarlos fácilmente</p>
+        </div>
+    </div>
 @stop
 
 @section('content')
@@ -45,7 +61,7 @@
                               <select name="tournament_id" id="tournament" class="selectWithoutSearch form-control" style="width: 100%;">
                               <option selected disabled>Elegir Torneo...</option>
                               @foreach ($torneos as $torneo)
-                                  <option value="{{$torneo->id}}">{{$torneo->name}}</option>
+                                  <option value="{{$torneo->id}}" {{App\Models\Tournament::active()->id == $torneo->id ? 'selected' : ''}}>{{$torneo->name}}</option>
                               @endforeach
                               </select>
                           </div>
@@ -319,27 +335,39 @@
         $('[data-toggle="tooltip"]').tooltip()  
         
     });
-        function confirmacion(){
-            var respuesta = confirm('¿Esta seguro de eliminar el equipo? No podrá recuperarlo');
-            if (!respuesta) {
-                window.event.preventDefault();
+
+    function confirmacion(){
+        var respuesta = confirm('¿Esta seguro de eliminar el equipo? No podrá recuperarlo');
+        if (!respuesta) {
+            window.event.preventDefault();
+        }
+    }
+
+    function setCookie(cookieName, cookieValue, nDays) {
+      var today = new Date();
+      var expire = new Date();
+
+      if (!nDays) nDays=1;
+
+      expire.setTime(today.getTime() + 3600000*24*nDays);
+      document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString();
+    }
+
+    function filterTable(){
+        var input, filter, table, tr, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        table = document.getElementById("bodyTable");
+        tr = table.getElementsByTagName('tr');
+        for (i = 0; i < tr.length; i++) {
+            a = tr[i].getElementsByClassName('className')[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+            } else {
+            tr[i].style.display = "none";
             }
         }
-        function filterTable(){
-            var input, filter, table, tr, a, i, txtValue;
-            input = document.getElementById('myInput');
-            filter = input.value.toUpperCase();
-            table = document.getElementById("bodyTable");
-            tr = table.getElementsByTagName('tr');
-            for (i = 0; i < tr.length; i++) {
-                a = tr[i].getElementsByClassName('className')[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-                } else {
-                tr[i].style.display = "none";
-                }
-            }
-        }
+    }
     </script>
 @stop

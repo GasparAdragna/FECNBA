@@ -30,44 +30,6 @@ class AdminController extends Controller
 
         return view('dashboard', ['categorias' => $categorias, 'equipos' => $equipos, 'partidos' => $partidos,'torneos' => $torneos, "fecha" => $fecha, "estado" => $estado]);
     }
-    // -------------------------CATEGORIAS------------------
-    public function categorias()
-    {
-        $categorias = Category::all();
-        return view('/admin/categorias', ['categorias' => $categorias]);
-    }
-    public function agregarCategoria(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|unique:categories|max:255',
-        ]);
-
-        $categoria = new Category;
-        $categoria->name = $request->name;
-        $categoria->save();
-        return redirect()->back()->with('status', 'Se agregó correctamente la categoría');
-
-    }
-    public function vistaEditarCategoria(Category $categoria)
-    {
-        return view('/admin/editarCategoria', ['categoria' => $categoria]);
-    }
-    public function editarCategoria(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|unique:categories|max:255',
-        ]);
-
-        $categoria = Category::find($request->id);
-        $categoria->name = $request->name;
-        $categoria->save();
-        return redirect('/admin/categorias')->with('status', 'Se editó correctamente la categoría');
-    }
-    public function eliminarCategoria(Category $categoria){
-
-        $categoria->delete();
-        return redirect('/admin/categorias')->with('status', 'Se eliminó correctamente la categoría');
-    }
 
     // -------------------------NOTICIAS------------------
     public function agregarNoticia(Request $request)

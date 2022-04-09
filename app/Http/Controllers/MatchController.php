@@ -19,12 +19,12 @@ class MatchController extends Controller
      */
     public function index()
     {
-        $partidos = Match::orderBy('fecha_id', 'desc')->paginate(20);
-        $equipos = Team::all();
+        $tournament = Tournament::active();
+        $partidos = Match::where('tournament_id', $tournament->id)->orderBy('fecha_id', 'desc')->paginate(20);
         $torneos = Tournament::all();
         $categorias = Category::all();
-        $fechas = Fecha::all();
-        return view('admin.matches.index', ['partidos' => $partidos, 'equipos' => $equipos, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas]);
+        $fechas = Fecha::where('tournament_id', $tournament->id)->get();
+        return view('admin.matches.index', compact('partidos', 'torneos', 'categorias', 'fechas'));
     }
 
     /**
@@ -42,6 +42,7 @@ class MatchController extends Controller
             'team_id_2' => 'numeric|required',
             'horario' => 'required',
             'cancha' => 'numeric|required',
+            'tournament_id' => 'numeric|required'
         ]);
         Match::create($request->all());
         return redirect()->back()->with('status', 'Se agregó correctamente el partido');

@@ -41,8 +41,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="nombreCategoria">Nombre de la categoría</label>
-                        <input type="text" class="form-control" id="nombreCategoria" name="name" placeholder="Ej: Menores D" required value="{{$categoria->name}}">
-                        <input type="hidden" value="{{$categoria->id}}">
+                        <input type="text" class="form-control" id="nombreCategoria" value="{{$category->name}}" name="name" placeholder="Ej: Menores D" required>
                       </div>
                     </div>
                     <div class="card-footer">
