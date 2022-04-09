@@ -80,7 +80,7 @@ class MatchController extends Controller
             'horario' => 'required',
             'cancha' => 'numeric|required',
         ]);
-        $partido->update($request);
+        $partido->update($request->all());
         return redirect('/admin/partidos')->with('status', 'Se editó correctamente el partido');
     }
 
