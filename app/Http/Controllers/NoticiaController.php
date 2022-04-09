@@ -8,6 +8,7 @@ use App\Models\State;
 use App\Models\Fecha;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 
 class NoticiaController extends Controller
