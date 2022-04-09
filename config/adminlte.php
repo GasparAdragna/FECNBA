@@ -233,6 +233,7 @@ return [
         [
             'text' => 'Noticias',
             'url'  => 'admin/noticias',
+            'active' => ['admin/noticias*'],
             'icon' => 'fas fa-fw fa-newspaper',
         ],
         [
@@ -250,21 +251,25 @@ return [
         [
             'text' => 'Categorias',
             'url'  => 'admin/categorias',
+            'active' => ['admin/categorias*'],
             'icon' => 'fas fa-fw fa-table',
         ],
         [
             'text' => 'Fechas',
             'url'  => 'admin/fechas',
+            'active' => ['admin/fechas*'],
             'icon' => 'fas fa-fw fa-calendar',
         ],
         [
             'text' => 'Partidos',
             'url'  => 'admin/partidos',
+            'active' => ['admin/partidos*'],
             'icon' => 'fas fa-fw fa-futbol',
         ],
         [
             'text' => 'Torneos',
             'url'  => 'admin/torneos',
+            'active' => ['admin/torneos*'],
             'icon' => 'fas fa-fw fa-trophy',
         ],
         ['header' => 'Links'],

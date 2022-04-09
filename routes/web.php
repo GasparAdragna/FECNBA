@@ -43,8 +43,8 @@ Route::middleware(['auth'])->group(function () {
         // ---------------------------------TORNEOS------------------------------------
         Route::get('/torneos', [TournamentController::class, "index"]);
         Route::post('/torneos', [TournamentController::class, "store"]);
-        Route::get('/torneo/editar/{tournament}', [TournamentController::class, "edit"]);
-        Route::post('/torneo/editar/{tournament}', [TournamentController::class, "update"]);
+        Route::get('/torneos/editar/{tournament}', [TournamentController::class, "edit"]);
+        Route::post('/torneos/editar/{tournament}', [TournamentController::class, "update"]);
         // ---------------------------------CATEGORIAS------------------------------------
         Route::get('/categorias', [AdminController::class, "categorias"]);
         Route::post('/categorias', [AdminController::class, "agregarCategoria"]);
