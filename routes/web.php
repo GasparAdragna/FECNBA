@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\FechaController;
 
 
 /*
@@ -74,10 +75,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/gol/eliminar/{gol}', [PartidoController::class, "eliminarGol"]);
         Route::get('/partido/{partido}/terminado', [PartidoController::class, 'terminado']);
         // ---------------------------------FECHAS------------------------------------
-        Route::get('/fechas/torneo/{torneo}', [AdminController::class, "fechas"]);
-        Route::post('/fechas/torneo/{torneo}', [AdminController::class, "agregarFecha"]);
-        Route::get('/fecha/editar/{fecha}', [AdminController::class, "vistaEditarFecha"]);
-        Route::post('/fecha/editar/{fecha}', [AdminController::class, "editarFecha"]);
+        Route::get('/fechas', [FechaController::class, "index"]);
+        Route::post('/fechas', [FechaController::class, "store"]);
+        Route::get('/fecha/editar/{fecha}', [FechaController::class, "edit"]);
+        Route::post('/fecha/editar/{fecha}', [FechaController::class, "update"]);
         // ---------------------------------NOTICIAS------------------------------------
         Route::get('/noticias', [NoticiaController::class, "index"]);
         Route::post('/noticia/agregar', [NoticiaController::class, "store"]);

@@ -254,7 +254,7 @@ return [
         ],
         [
             'text' => 'Fechas',
-            'url'  => 'admin/fechas/torneo/1',
+            'url'  => 'admin/fechas',
             'icon' => 'fas fa-fw fa-calendar',
         ],
         [

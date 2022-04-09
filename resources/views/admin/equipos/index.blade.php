@@ -159,7 +159,7 @@
                         <label>Torneo</label>
                         <select class="form-control select2" style="width: 100%;" name="tournament_id">
                             @foreach ($torneos as $torneo)
-                                <option value="{{$torneo->id}}" {{$torneo->active ? 'selected' : ''}}>{{$torneo->name}}</option>
+                                <option value="{{$torneo->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$torneo->name}}</option>
                             @endforeach
                         </select>
                       </div>
@@ -192,7 +192,7 @@
                         <label>Torneo</label>
                         <select class="form-control select2" style="width: 100%;" name="tournament_id">
                             @foreach ($torneos as $torneo)
-                            <option value="{{$torneo->id}}" {{$torneo->active ? 'selected' : ''}}>{{$torneo->name}}</option>
+                            <option value="{{$torneo->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$torneo->name}}</option>
                             @endforeach
                         </select>
                       </div>

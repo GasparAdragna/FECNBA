@@ -89,33 +89,6 @@ class AdminController extends Controller
         return redirect('/admin/categorias')->with('status', 'Se eliminó correctamente la categoría');
     }
 
-    // -------------------------FECHAS------------------
-    public function fechas(Tournament $torneo)
-    {
-        $torneos = Tournament::all();
-        return view('admin.fechas', ['torneos' => $torneos, 'torneo' => $torneo]);
-    }
-    public function agregarFecha(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|unique:fechas|max:255',
-            'tournament_id' => 'required',
-        ]);
-        Fecha::create($request->all());
-        return redirect()->back()->with('status', 'Se agregó correctamente la fecha');
-    }
-    public function vistaEditarFecha($id)
-    {
-        $fecha = Fecha::find($id);
-        $torneos = Tournament::all();
-        return view('admin.editarFecha', ['fecha' => $fecha, 'torneos' => $torneos]);
-    }
-    public function editarFecha($id, Request $request)
-    {
-        $fecha = Fecha::find($id);
-        $fecha->update($request->all());
-        return redirect('/admin/fechas/torneo/'.$fecha->tournament_id)->with('status', 'Se editó correctamente la fecha');
-    }
     // -------------------------NOTICIAS------------------
     public function agregarNoticia(Request $request)
     {

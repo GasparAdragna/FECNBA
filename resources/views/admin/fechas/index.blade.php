@@ -1,13 +1,28 @@
 @extends('adminlte::page')
 
-@section('title', 'Fechas')
+@section('title', 'Dashboard')
 
 @section('plugins.Select2', true)
 
-
 @section('content_header')
-    <h1>Fechas - {{$torneo->name}}</h1>
-    <p>Acá podes agregar o modificar las fechas existentes</p>
+    <div class="row">
+        <div class="col-2">
+            <form action="">
+                <select class="form-control" id="torneo" onchange="setCookie('tournament', this.value, 365); location.reload()" >
+                    @foreach ($torneos as $tournament)
+                        <option value="{{$tournament->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$tournament->name}}</option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12">
+          <h1>Fechas - {{App\Models\Tournament::active()->name}}</h1>
+          <p>Acá podes agregar o modificar las fechas existentes</p>
+        </div>
+    </div>
 @stop
 
 @section('content')
@@ -44,7 +59,7 @@
                             <select name="tournament_id" id="tournament" class="selectWithoutSearch form-control" style="width: 100%;">
                                 <option selected disabled>Elegir torneo...</option>
                                 @foreach ($torneos as $torneo2)
-                                    <option value="{{$torneo2->id}}">{{$torneo2->name}}</option>    
+                                    <option value="{{$torneo2->id}}"  {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$torneo2->name}}</option>    
                                 @endforeach
                             </select>
                         </div>
@@ -66,7 +81,7 @@
               <div class="col-12">
                   <h2>Fechas programadas:</h2>
                   <p>Para que se refleje el partido en la tabla el mismo tiene que estar en estado: <b>Terminado</b></p>
-                  @forelse ($torneo->fechas as $fecha)
+                  @forelse (App\Models\Tournament::active()->fechas as $fecha)
                     <div class="card card-outline card-primary collapsed-card">
                       <div class="card-header">
                           <h3 class="card-title"><b>{{$fecha->name}}</b> - <b>{{isset($fecha->dia) ? date('d-m-y', strtotime($fecha->dia)) : '??/??/???'}}</b></h3>
@@ -196,11 +211,23 @@
         });
         $('[data-toggle="tooltip"]').tooltip()    
     });
+
     function confirmacion(){
       var respuesta = confirm('¿Esta seguro de eliminar el usuario? No podrá recuperarlo');
       if (!respuesta) {
           window.event.preventDefault();
       }
+    }
+    
+    function setCookie(cookieName, cookieValue, nDays) {
+        var today = new Date();
+        var expire = new Date();
+
+        if (!nDays) 
+            nDays=1;
+
+        expire.setTime(today.getTime() + 3600000*24*nDays);
+        document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString();
     }
   </script>
 @endsection
