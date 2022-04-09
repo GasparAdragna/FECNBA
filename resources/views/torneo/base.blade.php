@@ -26,7 +26,7 @@
                     <div class="col-12">
                         <hr>
                         @if ($fecha)
-                          @forelse ($fecha->matches as $partido)
+                          @forelse ($fecha->matches->take(20) as $partido)
                             <div class="text-center">
                                 <h4>{{$partido->local->name}} vs {{$partido->visita->name}}</h4>
                                 <div class="text-center">
