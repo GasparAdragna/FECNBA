@@ -21,7 +21,7 @@ class PlayerController extends Controller
         $jugadores = Player::all();
         $equipos = Team::all();
         $torneos = Tournament::all();
-        return view('admin.players.index', compact('jugadores', 'torneos', 'equipos'));
+        return view('admin.player.index', compact('jugadores', 'torneos', 'equipos'));
     }
 
     /**
@@ -77,7 +77,7 @@ class PlayerController extends Controller
     {
         $equipos = Team::all();
         $tournaments = Tournament::all();
-        return view('admin.players.edit', compact('equipos', 'jugador', 'tournaments'));
+        return view('admin.player.edit', compact('equipos', 'jugador', 'tournaments'));
     }
 
     /**

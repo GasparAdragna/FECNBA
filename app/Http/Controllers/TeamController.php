@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class EquipoController extends Controller
+class TeamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class EquipoController extends Controller
         $categorias = Category::all();
         $torneos = Tournament::all();
 
-        return view('admin.equipos.index', compact('equipos', 'categorias', 'torneos'));
+        return view('admin.team.index', compact('equipos', 'categorias', 'torneos'));
     }
 
     /**
@@ -53,7 +53,7 @@ class EquipoController extends Controller
      */
     public function show(Team $equipo)
     {
-        return view('admin.equipos.show', compact('equipo'));
+        return view('admin.team.show', compact('equipo'));
     }
 
     /**
@@ -66,7 +66,7 @@ class EquipoController extends Controller
     {
         $torneos = Tournament::all();
         $categorias = Category::all();
-        return view('admin.equipos.edit', compact('equipo', 'categorias', 'torneos'));
+        return view('admin.team.edit', compact('equipo', 'categorias', 'torneos'));
     }
 
     /**

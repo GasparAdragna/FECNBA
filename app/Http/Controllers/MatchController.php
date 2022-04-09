@@ -10,7 +10,7 @@ use App\Models\Category;
 use App\Models\Fecha;
 use App\Models\Goal;
 
-class PartidoController extends Controller
+class MatchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class PartidoController extends Controller
         $torneos = Tournament::all();
         $categorias = Category::all();
         $fechas = Fecha::all();
-        return view('admin.partidos', ['partidos' => $partidos, 'equipos' => $equipos, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas]);
+        return view('admin.matches.index', ['partidos' => $partidos, 'equipos' => $equipos, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas]);
     }
 
     /**
@@ -59,7 +59,7 @@ class PartidoController extends Controller
         $categorias = Category::all();
         $fechas = Fecha::all();
         $equipos = $partido->category->equipos()->wherePivot('tournament_id', $partido->tournament_id)->get();
-        return view('admin.editarPartido', ['partido' => $partido, 'torneos' => $torneos, 'categorias' => $categorias, 'fechas' => $fechas, 'equipos' => $equipos]);
+        return view('admin.matches.edit', compact('partido', 'torneos', 'categorias', 'fechas', 'equipos'));
     }
 
     /**

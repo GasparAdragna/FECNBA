@@ -30,26 +30,6 @@ class AdminController extends Controller
 
         return view('dashboard', ['categorias' => $categorias, 'equipos' => $equipos, 'partidos' => $partidos,'torneos' => $torneos, "fecha" => $fecha, "estado" => $estado]);
     }
-    //-----------------------TORNEOS-------------------
-    public function torneos()
-    {
-        $torneos = Tournament::all();
-        return view('/admin/torneos', ['torneos' => $torneos]);
-    }
-    public function agregarTorneo(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|unique:tournaments|max:255',
-        ]);
-
-        $torneo = new Tournament;
-        $torneo->name = $request->name;
-        $torneo->active = false;
-        $torneo->save();
-        return redirect()->back()->with('status', 'Se agregó correctamente el torneo');
-
-    }
-
     // -------------------------CATEGORIAS------------------
     public function categorias()
     {

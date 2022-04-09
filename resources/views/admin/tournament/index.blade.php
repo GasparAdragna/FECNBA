@@ -73,7 +73,7 @@
                                     </a>
                                 </td>
                                 <td class="project-actions">
-                                    <a class="btn btn-info btn-sm" href="/torneo/editar/{{$torneo->id}}">
+                                    <a class="btn btn-info btn-sm" href="/admin/torneo/editar/{{$torneo->id}}">
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                     </a>
