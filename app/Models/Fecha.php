@@ -14,6 +14,10 @@ class Fecha extends Model
     {
         return $this->hasMany('App\Models\Match', 'fecha_id', 'id');
     }
+        public function matchesForDashboard()
+    {
+        return $this->hasMany('App\Models\Match', 'fecha_id', 'id')->get()->shuffle()->take(20);
+    }
     public function tournament()
     {
         return $this->belongsTo('App\Models\Tournament', 'tournament_id');
