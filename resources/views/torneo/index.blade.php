@@ -73,7 +73,7 @@
         <div class="col-12">
             @isset($fecha)
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered text-center">
+                    <table class="table table-striped table-hover table-bordered text-center" id="matches">
                         @if ($fecha->matches->count())
                         <thead class="bg-dark-blue text-white">
                             <tr>
@@ -133,4 +133,19 @@
         </div>
     </div>
     @endif
+@endsection
+
+@section('js')
+    <script>
+        $('#matches').DataTable({
+          "paging": false,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "order": [[ 3, "asc" ]],
+          "info": false,
+          "autoWidth": false,
+          "responsive": true,
+        });
+    </script>
 @endsection
