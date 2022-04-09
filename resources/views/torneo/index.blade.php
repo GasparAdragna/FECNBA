@@ -5,6 +5,9 @@
 @endsection
 
 @section('main')
+@php
+    $colores = ["table-danger", "table-secondary", "table-success", "table-primary", "table-warning", "table-info", "table-light", "table-dark", "table-dark"]
+@endphp
     <h3 class="bg-light-blue p-2 w-100">Noticias</h3>
     <div class="row">
         <div class="col-12">
@@ -73,7 +76,7 @@
         <div class="col-12">
             @isset($fecha)
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered text-center" id="matches">
+                    <table class="table table-hover table-bordered text-center" id="matches">
                         @if ($fecha->matches->count())
                         <thead class="bg-dark-blue text-white">
                             <tr>
@@ -100,7 +103,7 @@
                         @endif
                         <tbody id="bodyTable">
                             @forelse ($fecha->matches->sortBy('horario') as $partido)
-                            <tr>
+                            <tr class="{{$colores[$partido->category_id -1]}}">
                                 <td class="className">
                                     <b>{{$partido->local->name}}</b>
                                 </td>
