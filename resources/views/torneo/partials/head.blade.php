@@ -2,6 +2,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="FECNBA">
+    <meta name="language" content="spanish">
+    <meta name="audience" content="all">
+    <meta name="description" content="Fútbol de Exalumnos del Colegio Nacional Buenos Aires">
+    <meta name="keywords" content="FECNBA, Ex Alumnos, Exalumnos, CNBA">
+    <meta name="robots" content="index, all, follow">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="/css/master.css">
     <!-- Bootstrap CSS -->
