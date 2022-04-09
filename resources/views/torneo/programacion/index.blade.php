@@ -22,7 +22,7 @@
                 <br>
                 <h3>Fecha programada para el día: {{isset($fecha->dia) ? date('d/m', strtotime($fecha->dia)) : 'Día sin definir'}}</h3>  
                 <div class="table-responsive">
-                      <table class="table table-striped table-hover table-bordered text-center">
+                      <table class="table table-striped table-hover table-bordered text-center" id="matches{{$index}}">
                           @if ($journey->matches->count())
                           <thead class="bg-dark-blue text-white">
                               <tr>
@@ -79,4 +79,28 @@
             @endforeach
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        <?php
+            foreach($tournament->fechas as $index => $fecha) {
+                if(count($fecha->matches)) {
+                ?>
+                $("#matches{{$index}}").DataTable({
+                    "paging": false,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "order": [[ 3, "asc" ]],
+                    "info": false,
+                    "autoWidth": false,
+                    "responsive": true,
+            });
+                
+        <?php
+                }
+            }
+        ?>
+    </script>
 @endsection
