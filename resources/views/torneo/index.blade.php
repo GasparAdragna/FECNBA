@@ -23,7 +23,7 @@
                                 <h3> <a href="/noticia/{{$noticia->id}}" class="noticia-titulo">{{$noticia->titulo}}</a></h3>
                                 <div class="mb-1 text-muted">{{$noticia->created_at->toFormattedDateString()}}</div>
                                 <div class="card-text mb-auto">
-                                    {!!\Illuminate\Support\Str::limit($noticia->texto, 200, '...')!!}
+                                    {!!\Illuminate\Support\Str::limit($noticia->texto, 400, '...')!!}
                                 </div>
                                 <br>
                                 <a href="/noticia/{{$noticia->id}}" class="btn r-0 btn-dark-blue">Ir a la noticia...</a>
