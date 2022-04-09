@@ -76,7 +76,7 @@
         <div class="col-12">
             @isset($fecha)
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered text-center" id="matches">
+                    <table class="table table-striped table-hover table-bordered text-center" id="matches">
                         @if ($fecha->matches->count())
                         <thead class="bg-dark-blue text-white">
                             <tr>
