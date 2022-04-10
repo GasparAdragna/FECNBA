@@ -137,7 +137,8 @@
     </div>
     @endif
     <h3 class="bg-light-blue p-2 w-100">Goleadores</h3>
-        <table class="table table-hover table-bordered text-center">
+    @if (count($goleadores))
+                <table class="table table-hover table-bordered text-center">
             <thead class="bg-dark-blue text-white">
                 <tr>
                     <th>
@@ -158,7 +159,7 @@
                 </tr>
             </thead>
             <tbody id="bodyTable">
-                @forelse ($goleadores as $goleador)
+                @foreach ($goleadores as $goleador)
                     <tr class="{{$colores[$goleador->category_id -1]}}">
                         <td>
                             {{$goleador->first_name}}
@@ -176,11 +177,12 @@
                             {{$goleador->amount}}
                         </td>
                     </tr>
-                @empty
-                    <h3 class="text-center mt-4">No hay goles registrados al momento</h3>
-                @endforelse
+                @endforeach
             </tbody>
         </table>
+    @else
+        <h3 class="text-center mt-4">No hay goles registrados al momento</h3>
+    @endif
 @endsection
 
 @section('js')
