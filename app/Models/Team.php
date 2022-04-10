@@ -15,7 +15,15 @@ class Team extends Model
 
     public function players()
     {
-        return $this->belongsToMany('App\Models\Player', 'teams_players', 'team_id', 'player_id');
+        if(isset($_COOKIE['tournament'])) {
+            $tournament =  Tournament::find($_COOKIE['tournament']);
+        } else {
+            $tournament = Tournament::active();
+        }
+        
+        return $this->belongsToMany('App\Models\Player', 'teams_players', 'team_id', 'player_id')
+                    ->withPivot('tournament_id')
+                    ->wherePivot('tournament_id', $tournament->id);
     }
     public function categories()
     {

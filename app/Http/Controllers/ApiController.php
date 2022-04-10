@@ -27,7 +27,7 @@ class ApiController extends Controller
     }
     public function jugadoresPorEquipo($id)
     {
-        return Player::where('team_id', $id)->get();
+        return Team::find($id)->players;
     }
     public function estadoPorId($id)
     {

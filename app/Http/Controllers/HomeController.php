@@ -18,7 +18,25 @@ class HomeController extends Controller
         $estado = State::where('active', true)->first();
         $noticias = Noticia::orderBy('created_at', 'desc')->paginate(4);
         $fecha = Fecha::latest('dia')->first();
-        return view('torneo.index', compact('categorias', 'estado', 'noticias', 'fecha'));
+        $tournament = Tournament::where('active', true)->first();
+        $sql = "SELECT 
+                    goals.player_id,
+                    players.first_name,
+                    players.last_name,
+                    teams.name as team_name,
+                    categories.name as category_name,
+                    categories.id as category_id,
+                    count(goals.id) as amount 
+                FROM goals 
+                INNER JOIN matches on goals.match_id = matches.id
+                INNER JOIN players on goals.player_id = players.id
+                INNER JOIN teams on goals.team_id = teams.id
+                INNER JOIN categories on matches.category_id = categories.id
+                WHERE matches.tournament_id = :tournament and goals.player_id IS NOT NULL
+                GROUP BY goals.player_id;";
+
+        $goleadores = DB::select(DB::raw($sql), array('tournament' => $tournament->id));
+        return view('torneo.index', compact('categorias', 'estado', 'noticias', 'fecha', 'goleadores'));
     }
     public function noticias()
     {

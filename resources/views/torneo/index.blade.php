@@ -131,11 +131,56 @@
                     </div>
                     <br><br>
             @else
-                <h2>No hay una fecha programada todavía</h2>  
+                <h2>No hay una fecha programada todavía</h2>
             @endisset
         </div>
     </div>
     @endif
+    <h3 class="bg-light-blue p-2 w-100">Goleadores</h3>
+        <table class="table table-hover table-bordered text-center">
+            <thead class="bg-dark-blue text-white">
+                <tr>
+                    <th>
+                    Nombre
+                    </th>
+                    <th>
+                    Apellido
+                    </th>
+                    <th>
+                    Equipo
+                    </th>
+                    <th>
+                    Categoría
+                    </th>
+                    <th>
+                    Goles
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="bodyTable">
+                @forelse ($goleadores as $goleador)
+                    <tr class="{{$colores[$goleador->category_id -1]}}">
+                        <td>
+                            {{$goleador->first_name}}
+                        </td>
+                        <td>
+                            {{$goleador->last_name}}
+                        </td>
+                        <td>
+                            {{$goleador->team_name}}
+                        </td>
+                        <td>
+                            {{$goleador->category_name}}
+                        </td>
+                        <td>
+                            {{$goleador->amount}}
+                        </td>
+                    </tr>
+                @empty
+                    <h3 class="text-center mt-4">No hay goles registrados al momento</h3>
+                @endforelse
+            </tbody>
+        </table>
 @endsection
 
 @section('js')
