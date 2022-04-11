@@ -263,7 +263,7 @@ return [
         [
             'text' => 'Partidos',
             'url'  => 'admin/partidos',
-            'active' => ['admin/partidos*'],
+            'active' => ['admin/partido*'],
             'icon' => 'fas fa-fw fa-futbol',
         ],
         [
