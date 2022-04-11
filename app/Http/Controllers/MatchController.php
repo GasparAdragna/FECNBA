@@ -99,16 +99,20 @@ class MatchController extends Controller
     {
         $validate = $request->validate([
             'team_id' => 'required|numeric',
-            'match_id' => 'required|numeric'
+            'match_id' => 'required|numeric',
+            'amount' => 'required|numeric',
         ]);
 
-        Goal::create($request->all());
-
-        if ($partido->team_id_1 == $request->team_id) {
-            $partido->team_1_goals = $partido->team_1_goals + 1;
-        } else {
-            $partido->team_2_goals = $partido->team_2_goals + 1;
+        for ($i=0; $i < $request->amount; $i++) { 
+            
+            if ($partido->team_id_1 == $request->team_id) {
+                $partido->team_1_goals = $partido->team_1_goals + 1;
+            } else {
+                $partido->team_2_goals = $partido->team_2_goals + 1;
+            }
+             Goal::create($request->all());
         }
+
         $partido->save();
 
         return redirect()->back()->with('status', 'Se agregó correctamente el gol al partido');

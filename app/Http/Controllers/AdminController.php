@@ -102,5 +102,4 @@ class AdminController extends Controller
         State::create($request->all());
         return redirect()->back()->with('status', 'Se agregó correctamente el estado');
     }
-
 }

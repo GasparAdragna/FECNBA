@@ -142,7 +142,7 @@
                             @csrf
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <div class="form-group">
                                             <label for="tournament">Equipo:*</label>
                                             <select name="team_id" id="tournament_goal" class="selectWithoutSearch form-control" style="width: 100%;" onchange="getPlayers()" required>
@@ -152,11 +152,21 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <div class="form-group">
                                             <label for="jugadores">Jugador:</label>
                                             <select name="player_id" id="jugadores" class="selectWithoutSearch form-control" style="width: 100%;">
                                                 <option selected disabled>Elegir Jugador...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="amount">Cantidad:</label>
+                                            <select name="amount" id="amount" class="form-control" style="width: 100%;">
+                                                @for ($i = 1; $i < 10; $i++)
+                                                    <option value="{{$i}}">{{$i}}</option>
+                                                @endfor
                                             </select>
                                         </div>
                                     </div>
