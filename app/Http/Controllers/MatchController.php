@@ -20,7 +20,7 @@ class MatchController extends Controller
     public function index()
     {
         $tournament = Tournament::active();
-        $partidos = Match::where('tournament_id', $tournament->id)->orderBy('fecha_id', 'desc')->orderBy('horario', 'desc')->paginate(20);
+        $partidos = Match::where('tournament_id', $tournament->id)->orderBy('fecha_id', 'desc')->orderBy('horario', 'asc')->paginate(20);
         $torneos = Tournament::all();
         $categorias = Category::all();
         $fechas = Fecha::where('tournament_id', $tournament->id)->get();
