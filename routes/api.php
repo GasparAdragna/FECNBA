@@ -27,8 +27,11 @@ Route::get('/equipos/torneo/{torneo}/categoria/{categoria}', [ApiController::cla
 
 // ---------------------------------FECHAS------------------------------------
 Route::get('/fechas/torneo/{id}', [ApiController::class, "fechasPorTorneo"]);
-// ---------------------------------FECHAS------------------------------------
+// ---------------------------------ESTADO------------------------------------
 Route::get('/estado/{id}', [ApiController::class, "estadoPorId"]);
+// ---------------------------------NOTICIAS------------------------------------
+Route::get('/noticias', [ApiController::class, "noticias"]);
+
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

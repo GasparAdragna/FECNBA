@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Fecha;
 use App\Models\Player;
 use App\Models\State;
+use App\Models\Noticia;
 
 class ApiController extends Controller
 {
@@ -33,6 +34,11 @@ class ApiController extends Controller
     {
         return State::find($id);
     }
+    public function noticias()
+    {
+        $noticias = Noticia::orderBy('created_at', 'desc')->paginate(4);
+        return $noticias;
 
+    }
 
 }
