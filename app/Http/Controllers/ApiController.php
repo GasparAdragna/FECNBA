@@ -34,11 +34,14 @@ class ApiController extends Controller
     {
         return State::find($id);
     }
+    public function estado()
+    {
+        return State::where('active', true)->get();
+    }
     public function noticias()
     {
         $noticias = Noticia::orderBy('created_at', 'desc')->paginate(4);
         return $noticias;
-
     }
 
 }

@@ -29,6 +29,7 @@ Route::get('/equipos/torneo/{torneo}/categoria/{categoria}', [ApiController::cla
 Route::get('/fechas/torneo/{id}', [ApiController::class, "fechasPorTorneo"]);
 // ---------------------------------ESTADO------------------------------------
 Route::get('/estado/{id}', [ApiController::class, "estadoPorId"]);
+Route::get('/estado', [ApiController::class, "estado"]);
 // ---------------------------------NOTICIAS------------------------------------
 Route::get('/noticias', [ApiController::class, "noticias"]);
 
