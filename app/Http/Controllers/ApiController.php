@@ -49,7 +49,7 @@ class ApiController extends Controller
         $partidos = [];
 
         foreach ($fecha->matches->sortBy('horario') as $index => $partido){
-            $partidos[$index] = [
+            $partidos[] = [
                 'id' => $partido->id,
                 'local' => $partido->local->name,
                 'visitante' => $partido->visita->name,
