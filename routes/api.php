@@ -18,7 +18,8 @@ use App\Http\Controllers\ApiController;
 */
 
 // ---------------------------------JUGADORES------------------------------------
-
+// ---------------------------------CATEGORIA------------------------------------
+Route::get('/tabla/{categoria:slug}', [ApiController::class, "tablaPorCategoria"]);
 
 // ---------------------------------EQUIPOS------------------------------------
 Route::get('/equipo/{id}/jugadores', [ApiController::class, "jugadoresPorEquipo"]);
