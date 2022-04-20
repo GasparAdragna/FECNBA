@@ -18,9 +18,15 @@ class ApiController extends Controller
         return Team::all();
     }
 
-    public function equiposPorCategoria(Tournament $torneo, Category $categoria)
+    public function equiposPorCategoriaPorTorneo(Tournament $torneo, Category $categoria)
     {
         return $categoria->equipos()->wherePivot('tournament_id', $torneo->id)->get();
+    }
+    public function equiposPorCategoria(Category $categoria)
+    {
+        $tournament = Tournament::where('active', true)->first();
+        return $tournament->equipos($categoria->id);
+
     }
     public function fechasPorTorneo($torneo)
     {

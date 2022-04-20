@@ -23,7 +23,8 @@ use App\Http\Controllers\ApiController;
 // ---------------------------------EQUIPOS------------------------------------
 Route::get('/equipo/{id}/jugadores', [ApiController::class, "jugadoresPorEquipo"]);
 Route::get('/equipos', [ApiController::class, "equipos"]);
-Route::get('/equipos/torneo/{torneo}/categoria/{categoria}', [ApiController::class, "equiposPorCategoria"]);
+Route::get('/equipos/torneo/{torneo}/categoria/{categoria}', [ApiController::class, "equiposPorCategoriaPorTorneo"]);
+Route::get('/equipos/{categoria:slug}', [ApiController::class, "equiposPorCategoria"]);
 
 // ---------------------------------FECHAS------------------------------------
 Route::get('/fechas/torneo/{id}', [ApiController::class, "fechasPorTorneo"]);
