@@ -106,4 +106,32 @@ class ApiController extends Controller
         ];
     }
 
+    public function fechasPorCategoria(Category $categoria)
+    {
+        $tournament = Tournament::where('active', true)->first();
+        $partidos = [];
+
+        foreach ($tournament->fechas as $index => $fecha) {
+            foreach ($fecha->matches->where('category_id', $categoria->id)->sortBy('horario') as $partido) {
+                $partidos[$index][] = [
+                    'id' => $partido->id,
+                    'local' => $partido->local->name,
+                    'visitante' => $partido->visita->name,
+                    'horario' => $partido->horario,
+                    'finished' => $partido->finished,
+                    'goles_local' => $partido->goles->where('team_id', $partido->local->id)->count(),
+                    'goles_visita' => $partido->goles->where('team_id', $partido->visita->id)->count(),
+                    'categoria' => $partido->category->name,
+                    'zona' => $partido->zona,
+                    'torneo' => $partido->tournament->name,
+                    'cancha' => $partido->cancha,
+                ];
+            }
+        }
+
+        return [
+            'fechas' => $tournament->fechas,
+            'partidos' => $partidos
+        ];
+    }
 }

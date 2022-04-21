@@ -30,6 +30,7 @@ Route::get('/equipos/{categoria:slug}', [ApiController::class, "equiposPorCatego
 // ---------------------------------FECHAS------------------------------------
 Route::get('/fechas/torneo/{id}', [ApiController::class, "fechasPorTorneo"]);
 Route::get('/fecha', [ApiController::class, "fecha"]);
+Route::get('/fechas/{categoria:slug}', [ApiController::class, "fechasPorCategoria"]);
 // ---------------------------------ESTADO------------------------------------
 Route::get('/estado/{id}', [ApiController::class, "estadoPorId"]);
 Route::get('/estado', [ApiController::class, "estado"]);
