@@ -110,10 +110,11 @@ class ApiController extends Controller
     {
         $tournament = Tournament::where('active', true)->first();
         $partidos = [];
+        $fechas = $tournament->fechas;
 
-        foreach ($tournament->fechas as $index => $fecha) {
+        foreach ($fechas as $index => $fecha) {
             foreach ($fecha->matches->where('category_id', $categoria->id)->sortBy('horario') as $partido) {
-                $partidos[$index][] = [
+                $partidos[] = [
                     'id' => $partido->id,
                     'local' => $partido->local->name,
                     'visitante' => $partido->visita->name,
@@ -127,11 +128,12 @@ class ApiController extends Controller
                     'cancha' => $partido->cancha,
                 ];
             }
+            $fecha->partidos = $partidos;
+            $partidos = [];
         }
 
         return [
             'fechas' => $tournament->fechas,
-            'partidos' => $partidos
         ];
     }
 }
