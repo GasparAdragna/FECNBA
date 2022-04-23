@@ -10,6 +10,7 @@ use App\Models\Fecha;
 use App\Models\Player;
 use App\Models\State;
 use App\Models\Noticia;
+use App\Models\ExpoToken;
 use Illuminate\Support\Facades\DB;
 
 
@@ -135,5 +136,15 @@ class ApiController extends Controller
         return [
             'fechas' => $tournament->fechas,
         ];
+    }
+    public function saveToken(Request $request)
+    {
+        if ($request->api_token != env('API_TOKEN')) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return ExpoToken::create([
+            'token' => $request->token
+        ]);
     }
 }

@@ -36,6 +36,8 @@ Route::get('/estado/{id}', [ApiController::class, "estadoPorId"]);
 Route::get('/estado', [ApiController::class, "estado"]);
 // ---------------------------------NOTICIAS------------------------------------
 Route::get('/noticias', [ApiController::class, "noticias"]);
+// ---------------------------------TOKEN------------------------------------
+Route::post('/token', [ApiController::class, "saveToken"]);
 
 
 
