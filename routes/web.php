@@ -30,6 +30,7 @@ Route::get('/noticia/{noticia}', [NoticiaController::class, "show"]);
 Route::get('/noticias', [HomeController::class, "noticias"]);
 Route::get('/categoria/{categoria:slug}', [HomeController::class, "categoria"]);
 Route::get('/programacion', [HomeController::class, "programacion"]);
+Route::get('/politicas', [HomeController::class, "politicasDePrivacidad"]);
 Route::resource('/contacto', ContactoController::class)->only([
     'create', 'store', 'index'
 ]);

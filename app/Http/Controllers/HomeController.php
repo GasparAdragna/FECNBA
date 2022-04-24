@@ -88,4 +88,12 @@ class HomeController extends Controller
         return view('torneo.programacion.index', compact('categorias', 'estado', 'fecha', 'tournament'));
         
     }
+    public function politicasDePrivacidad()
+    {
+        $categorias = Category::all();
+        $estado = State::where('active', true)->first();
+        $fecha = Fecha::latest('dia')->first();
+        $tournament = Tournament::where('active', true)->first();
+        return view('torneo.politicas', compact('categorias', 'estado', 'fecha', 'tournament'));
+    }
 }
