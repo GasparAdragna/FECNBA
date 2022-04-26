@@ -23,7 +23,7 @@
             @foreach ($tournament->fechas as $index => $journey)
               <div class="{{$index == 0 ? 'tab-pane fade show active' : 'tab-pane fade'}}" id="nav-{{$index}}" role="tabpanel" aria-labelledby="nav-{{$index}}-tab">
                 <br>
-                <h3>Fecha programada para el día: {{isset($fecha->dia) ? date('d/m', strtotime($fecha->dia)) : 'Día sin definir'}}</h3>  
+                <h3>Fecha programada para el día: {{isset($journey->dia) ? date('d/m', strtotime($journey->dia)) : 'Día sin definir'}}</h3>  
                 <div class="table-responsive">
                       <table class="table table-hover table-bordered text-center" id="matches{{$index}}">
                           @if ($journey->matches->count())
