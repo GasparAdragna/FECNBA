@@ -11,7 +11,7 @@ class Tournament extends Model
 
     public function fechas()
     {
-        return $this->hasMany('App\Models\Fecha', 'tournament_id', 'id');
+        return $this->hasMany('App\Models\Fecha', 'tournament_id', 'id')->orderBy('dia', 'desc');
     }
     public static function active()
     {
