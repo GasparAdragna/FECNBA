@@ -143,6 +143,12 @@ class ApiController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $token = ExpoToken::where('token', $request->token)->first();
+
+        if ($token) {
+            return response()->json(['success' => 'Token already exists'], 200);
+        }
+        
         return ExpoToken::create([
             'token' => $request->token
         ]);
