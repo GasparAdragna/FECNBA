@@ -65,11 +65,11 @@
                         </div>
                       <div class="form-group">
                         <label for="nombreFecha">Nombre de la fecha:*</label>
-                        <input type="text" class="form-control" id="nombreFecha" name="name" placeholder="Ej: Fecha 1" required>
+                        <input type="text" class="form-control" id="nombreFecha" name="name" placeholder="Ej: Fecha 1" value="{{old('name')}}" required>
                       </div>
                       <div class="form-group mb-0">
                         <label for="diaFecha">Dia:</label>
-                        <input type="date" class="form-control" id="diaFecha" name="dia">
+                        <input type="date" class="form-control" id="diaFecha" name="dia" value="{{old('dia')}}">
                       </div>
                     </div>
                     <div class="card-footer">
