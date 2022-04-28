@@ -40,7 +40,7 @@ class HomeController extends Controller
     }
     public function noticias()
     {
-        $noticias = Noticia::paginate(10);
+        $noticias = Noticia::orderBy('created_at', 'desc')->paginate(10);
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::latest('dia')->first();
