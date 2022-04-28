@@ -54,7 +54,7 @@ class ContactoController extends Controller
             'last_name' => 'string|required',
             'email' => 'email|required', 
             'message' => 'string|required',
-            'g-recaptcha-response' => 'required'
+            // 'g-recaptcha-response' => 'required'
         ]);
 
         if(env('APP_ENV') == "local"){
@@ -65,9 +65,7 @@ class ContactoController extends Controller
                 ('¡Nueva consulta en el sitio!');
             $message->from('noreply@fecnba.com.ar','FECNBA');
             });
-
             return redirect()->back()->with('status', 'Se envió correctamente la consulta');
-
         }
         $recaptcha = $request->input('g-recaptcha-response');
         $url = 'https://www.google.com/recaptcha/api/siteverify';
@@ -93,7 +91,6 @@ class ContactoController extends Controller
                 ('¡Nueva consulta en el sitio!');
             $message->from('noreply@fecnba.com.ar','FECNBA');
             });
-
             return redirect()->back()->with('status', 'Se envió correctamente la consulta');
         } else {
           return redirect()->back()->with('error', 'No se pudo enviar su consulta. Intente nuevamente');

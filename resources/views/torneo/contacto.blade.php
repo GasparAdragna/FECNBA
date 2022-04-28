@@ -15,7 +15,12 @@
             @if (session('status'))
             <div class="alert alert-success">
                 <h5>{{ session('status') }}</h5>
-              </div>
+            </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    <h5>{{ session('error') }}</h5>
+                </div>
             @endif
             @if ($errors->any())
             <div class="alert alert-danger">
