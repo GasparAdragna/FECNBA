@@ -87,7 +87,7 @@ class ContactoController extends Controller
             Contact::create($request->all());
             $data = array('consulta'=>$request);
             Mail::send('consulta', $data, function($message){
-            $message->to('gaspar.jac@hotmail.com', 'FECNBA')->subject
+            $message->to(['gaspar.jac@hotmail.com', 'pablozechillo@hotmail.com'], 'FECNBA')->subject
                 ('¡Nueva consulta en el sitio!');
             $message->from('noreply@fecnba.com.ar','FECNBA');
             });
