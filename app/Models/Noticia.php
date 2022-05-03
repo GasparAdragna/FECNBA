@@ -9,7 +9,7 @@ class Noticia extends Model
 {
     use HasFactory;
     protected $table = 'noticias';
-    protected $fillable = ['titulo', 'texto','estado', 'user_id'];
+    protected $fillable = ['titulo', 'resumen', 'texto','estado', 'user_id'];
 
     public function user()
     {

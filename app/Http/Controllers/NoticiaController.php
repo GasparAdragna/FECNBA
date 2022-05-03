@@ -38,6 +38,7 @@ class NoticiaController extends Controller
     {
         $validated = $request->validate([
             'titulo' => 'required|unique:noticias|max:255|string',
+            'resumen' => 'required|string',
             'texto' => 'required|string',
             'estado' => 'required|max:255|string',
             'photo' => 'image',
@@ -47,6 +48,7 @@ class NoticiaController extends Controller
         if($request->file('photo')){
             $noticia->photo = $request->file('photo')->store('public/photos');
         }
+        $noticia->resumen = $request->resumen;
         $noticia->titulo = $request->titulo;
         $noticia->texto = $request->texto;
         $noticia->estado = $request->estado;
@@ -95,7 +97,7 @@ class NoticiaController extends Controller
             'estado' => 'required|max:255|string',
             'photo' => 'image',
         ]);
-
+        $noticia->resumen = $request->resumen;
         $noticia->titulo = $request->titulo;
         $noticia->texto = $request->texto;
         $noticia->estado = $request->estado;

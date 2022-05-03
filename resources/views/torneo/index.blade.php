@@ -23,7 +23,11 @@
                                 <h3> <a href="/noticia/{{$noticia->id}}" class="noticia-titulo">{{$noticia->titulo}}</a></h3>
                                 <div class="mb-1 text-muted">{{$noticia->created_at->toFormattedDateString()}}</div>
                                 <div class="card-text mb-auto">
-                                    {!!$noticia->texto!!}
+                                    @if (isset($noticia->resumen))
+                                        {{$noticia->resumen}}
+                                    @else
+                                        {!!$noticia->texto!!}  
+                                    @endif
                                 </div>
                                 <br>
                                 <a href="/noticia/{{$noticia->id}}" class="btn r-0 btn-dark-blue">Ir a la noticia...</a>
@@ -52,7 +56,11 @@
                             <h3> <a href="/noticia/{{$noticia->id}}" class="noticia-titulo">{{$noticia->titulo}}</a></h3>
                             <div class="mb-1 text-muted">{{$noticia->created_at->toFormattedDateString()}}</div>
                             <div class="card-text mb-auto">
-                                {!!$noticia->texto!!}
+                                @if (isset($noticia->resumen))
+                                    {{$noticia->resumen}}
+                                @else
+                                    {!!$noticia->texto!!}  
+                                @endif
                             </div>
                             <br>
                             <a href="/noticia/{{$noticia->id}}" class="btn r-0 btn-dark-blue">Ir a la noticia...</a>

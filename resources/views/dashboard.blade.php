@@ -219,6 +219,13 @@
             </div>
             <div class="col-12">
               <div class="form-group">
+                <label for="resumen">Resumen:</label>
+                <span class="text-muted">(esto es lo que se va a ver antes de entrar a la noticia)</span>
+                <textarea name="resumen" id="resumen" class="form-control" cols="30" rows="4">{{ old('resumen') }}</textarea>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
                 <label for="text">Texto:</label>
                 <textarea name="texto" id="text" class="form-control" cols="30" rows="10">{{ old('texto') }}</textarea>
               </div>
@@ -275,7 +282,7 @@
 
 @section('js')
 <script src="/js/nicEdit.js" type="text/javascript"></script>
-<script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+<script type="text/javascript">bkLib.onDomLoaded(new nicEditor().panelInstance('text'));</script>
 <script>
   document.querySelector('.custom-file-input').addEventListener('change',function(e){
       var fileName = document.getElementById("customFile").files[0].name;
