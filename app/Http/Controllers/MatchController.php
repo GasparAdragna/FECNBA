@@ -128,6 +128,7 @@ class MatchController extends Controller
             $match->team_2_goals = $match->team_2_goals - 1;
         }
 
+        $match->save();
         $gol->delete();
 
         return redirect()->back()->with('status', 'Se eliminó correctamente el gol');
