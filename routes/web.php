@@ -11,6 +11,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\FechaController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SanctionController;
 
 
 /*
@@ -93,6 +94,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/editar/estado', [AdminController::class, "vistaEditarEstado"]);
         Route::post('/cambiar/estado', [AdminController::class, 'cambiarEstado']);
         Route::post('/agregar/estado', [AdminController::class, 'agregarEstado']);
+        // ---------------------------------SANCIONADOS------------------------------------
+        Route::get('/sancionados', [SanctionController::class, "index"]);
+        Route::post('/sancionados', [SanctionController::class, "store"]);
+        Route::get('/sancionados/editar/{sancionado}', [SanctionController::class, "edit"]);
+        Route::post('/sancionados/editar/{sancionado}', [SanctionController::class, "update"]);
+        Route::get('/sancionados/eliminar/{sancionado}', [SanctionController::class, "destroy"]);
+        Route::get('/sancionados/{sancionado}/terminar', [SanctionController::class, "terminar"]);
     });
 });
 

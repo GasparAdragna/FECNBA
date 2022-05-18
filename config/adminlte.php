@@ -267,6 +267,12 @@ return [
             'icon' => 'fas fa-fw fa-futbol',
         ],
         [
+            'text' => 'Sancionados',
+            'url'  => 'admin/sancionados',
+            'active' => ['admin/sancionados*'],
+            'icon' => 'fas fa-fw fa-ban',
+        ],
+        [
             'text' => 'Torneos',
             'url'  => 'admin/torneos',
             'active' => ['admin/torneos*'],

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Torneos - FECNBA')
 
 @section('content_header')
     <h1>Torneos</h1>

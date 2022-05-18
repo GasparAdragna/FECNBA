@@ -171,7 +171,57 @@
               @endforeach
           </div>
       </div>
-
-      {{-- <h3 class="bg-light-blue p-2 w-100">Goleadores</h3> --}}
+      <br>
+      <h3 class="bg-light-blue p-2 w-100">Sancionados</h3>
+      @if (count($sancionados))
+            <div class="col-12">
+                <table class="table table-striped table-hover table-bordered text-center">
+                    <thead class="bg-dark-blue text-white">
+                        <tr>
+                            <th>
+                            Jugador
+                            </th>
+                            <th>
+                            Equipo
+                            </th>
+                            <th>
+                                Sanción
+                            </th>
+                            <th>
+                            Motivo
+                            </th>
+                            <th>
+                            Fecha
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyTable">
+                        @forelse ($sancionados as $sancion)
+                            <tr>
+                                <td>
+                                    {{$sancion->name}}
+                                </td>
+                                <td class="className">
+                                    {{$sancion->team->name}}
+                                </td>
+                                <td>
+                                    {{$sancion->sanction}}
+                                </td>
+                                <td>
+                                    {{$sancion->motive}}
+                                </td>
+                                <td>
+                                    {{$sancion->fecha->name}}
+                                </td>
+                            </tr>
+                        @empty
+                            <h3 class="text-center mt-4">No hay sanciones creadas por el momento</h3>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+      @else
+        <h3 class="text-center mt-4">No hay sancionados para esta categoría</h3>  
+      @endif
       
 @endsection

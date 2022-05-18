@@ -8,6 +8,7 @@ Use App\Models\State;
 Use App\Models\Noticia;
 Use App\Models\Fecha;
 Use App\Models\Tournament;
+Use App\Models\Sanction;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -76,7 +77,8 @@ class HomeController extends Controller
         $estado = State::where('active', true)->first();
         $fecha = Fecha::latest('dia')->first();
         $equipos = $tournament->equipos($categoria->id);
-        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos'));
+        $sancionados = Sanction::where('tournament_id', $tournament->id)->where('category_id', $categoria->id)->where('active', true)->get();
+        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos', 'sancionados'));
     }
 
     public function programacion()
