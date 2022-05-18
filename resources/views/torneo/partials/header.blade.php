@@ -30,6 +30,9 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="/noticias">Noticias</a>
           </li>
+          <li class="nav-item d-flex align-items-center">
+            <a class="nav-link" aria-current="page" href="/cdj"> <img src="{{asset('/storage/photos/cdj.webp')}}" alt="CDJ" class="cdj"> CDJ</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="/contacto">Contacto</a>
           </li>

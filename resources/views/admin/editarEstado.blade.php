@@ -57,7 +57,7 @@
                                 <div class="form-group">
                                   <label for="state">Estado:</label>
                                   <select name="id" id="state" class="select2 form-control" style="width: 100%;" required onchange="obtenerTexto()">
-                                    <option disabled selected>Eliga un estado...</option>  
+                                    <option disabled selected>Elija un estado...</option>  
                                     @foreach ($estados as $estado)
                                         <option value="{{$estado->id}}">{{$estado->state}}</option>
                                     @endforeach

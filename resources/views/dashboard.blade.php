@@ -234,7 +234,7 @@
               <div class="form-group">
                 <label for="state">Estado:</label>
                 <select name="estado" id="state" class="select2 form-control" style="width: 100%;">
-                  <option selected disabled>Eliga un estado...</option>
+                  <option selected disabled>Elija un estado...</option>
                   <option value="Importante">Importante</option>
                   <option value="Información">Información</option>
                   <option value="Programación">Programación</option>

@@ -11,6 +11,8 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\FechaController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CdjController;
+use App\Http\Controllers\ColumnController;
 
 
 /*
@@ -27,7 +29,9 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/home', [HomeController::class, "index"])->name('index');
 Route::get('/noticia/{noticia}', [NoticiaController::class, "show"]);
+Route::get('/columna/{columna}', [ColumnController::class, "show"]);
 Route::get('/noticias', [HomeController::class, "noticias"]);
+Route::get('/cdj', [HomeController::class, "cdj"]);
 Route::get('/categoria/{categoria:slug}', [HomeController::class, "categoria"]);
 Route::get('/programacion', [HomeController::class, "programacion"]);
 Route::get('/politicas', [HomeController::class, "politicasDePrivacidad"]);
@@ -37,12 +41,21 @@ Route::resource('/contacto', ContactoController::class)->only([
 
 
 
+Route::middleware('auth')->group(function () {
+    Route::prefix('cdj')->group(function () {
+        Route::get('/columnas', [CdjController::class, "index"]);
+        Route::post('/columnas', [ColumnController::class, "store"]);
+        Route::get('/columnas/editar/{columna}', [ColumnController::class, "edit"]);
+        Route::post('/columnas/editar/{columna}', [ColumnController::class, "update"]);
+        Route::get('/columnas/eliminar/{columna}', [ColumnController::class, "destroy"]);
+    });
+});
 
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, "dashboard"])->name('dashboard');
         // ---------------------------------TORNEOS------------------------------------
+        Route::get('/torneos', [TournamentController::class, "index"]);
         Route::get('/torneos', [TournamentController::class, "index"]);
         Route::post('/torneos', [TournamentController::class, "store"]);
         Route::get('/torneos/editar/{tournament}', [TournamentController::class, "edit"]);

@@ -2,11 +2,11 @@
 
 @section('plugins.Select2', true)
 
-@section('title', 'Noticias - FECNBA')
+@section('title', 'Columnas - FECNBA')
 
 @section('content_header')
-    <h1>Noticias:</h1>
-    <p>Acá podes agregar o modificar las noticias del home</p>
+    <h1>Columnas:</h1>
+    <p>Acá podes agregar o modificar las columnas de la home</p>
 @stop
 
 @section('content')
@@ -33,9 +33,9 @@
             <div class="col-12">
               <div class="card card-success">
                 <div class="card-header">
-                  <h3 class="card-title">Agregar Noticia:</h3>
+                  <h3 class="card-title">Agregar Columna:</h3>
                 </div>
-                <form method="POST" action="/admin/noticia/agregar" enctype="multipart/form-data">
+                <form method="POST" action="/cdj/columnas" enctype="multipart/form-data">
                     @csrf
                   <div class="card-body">
                     <div class="row">
@@ -60,21 +60,37 @@
                       </div>
                       <div class="col-12">
                         <div class="form-group">
-                          <label for="state">Estado:</label>
-                          <select name="estado" id="state" class="select2 form-control" style="width: 100%;" required>
-                            <option selected disabled>Elija un estado...</option>
-                            <option value="Importante" {{"Importante" == old('estado') ?? 'selected'}}>Importante</option>
-                            <option value="Información" {{"Información" == old('estado') ?? 'selected'}}>Información</option>
-                            <option value="Programación" {{"Programación" == old('estado') ?? 'selected'}}>Programación</option>
-                            <option value="Cancelación" {{"Cancelación" == old('estado') ?? 'selected'}}>Cancelación</option>
+                          <label for="category_id">Categoría:</label>
+                          <select name="category_id" id="category" class="select2 form-control" style="width: 100%;" required>
+                            <option selected disabled>General</option>
+                            @foreach ($categorias as $categoria)
+                              <option value="{{$categoria->id}}" {{$categoria->id == old('categoria') ?? 'selected'}}>{{$categoria->name}}</option>  
+                            @endforeach
                           </select>
                         </div>
                       </div>
                       <div class="col-12">
-                        <div class="form-group mb-0">
+                        <div class="form-group">
+                          <label for="tournament_id">Torneo:</label>
+                          <select name="tournament_id" id="tournament" class="select2 form-control" style="width: 100%;" required>
+                            @foreach ($torneos as $torneo)
+                              <option value="{{$torneo->id}}" {{App\Models\Tournament::active()->id == $torneo->id ? 'selected' : ''}}>{{$torneo->name}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
                           <label for="photo">Foto (opcional):</label>
                           <input type="file" class="form-control-file" name="photo">
+                        </div>
                       </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label for="autor">Autor:</label>
+                            <input type="text" class="form-control" id="autor" name="autor" value="{{ old('autor') }}" required>
+                            <input type="hidden" id="user_id" name="user_id" value="{{ Auth::id() }}" required>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -87,19 +103,19 @@
           </div>
         <div class="row">
           <div class="col-12">
-              <label for="myInput">Buscar Noticia por título:</label>
-            <input
-            type="text"
-            name="searchBar"
-            class="form-control"
-            placeholder="Buscar noticia..."
-            onkeyup="filterTable()"
-            id="myInput"
-            />
+              <label for="myInput">Buscar columna por título:</label>
+              <input
+              type="text"
+              name="searchBar"
+              class="form-control"
+              placeholder="Buscar noticia..."
+              onkeyup="filterTable()"
+              id="myInput"
+              />
             <br>
             <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Noticias:</h3>
+                  <h3 class="card-title">Columnas:</h3>
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                       <i class="fas fa-minus"></i>
@@ -120,7 +136,7 @@
                                 Título
                               </th>
                               <th>
-                                Estado
+                                Categoría
                               </th>
                               <th>
                                 Autor
@@ -134,39 +150,39 @@
                           </tr>
                       </thead>
                       <tbody id="bodyTable">
-                          @forelse ($noticias as $index => $noticia)
+                          @forelse ($columnas as $index => $columna)
                           <tr>
                             <td>
                                 # {{$index +1 }}
                             </td>
                             <td class="className">
-                                {{$noticia->titulo}}
+                                {{$columna->titulo}}
                             <td>
-                                {{$noticia->estado}}
+                                {{$columna->categoria->name}}
                             </td>
                             <td>
-                                {{$noticia->user->name}}
+                                {{$columna->autor}}
                             </td>
                             <td>
-                                {{date('d-m-y', strtotime($noticia->updated_at))}}
+                                {{date('d-m-y', strtotime($columna->updated_at))}}
                             </td>
                             <td class="project-actions">
-                                <a class="btn btn-primary btn-sm" href="/noticia/{{$noticia->id}}">
+                                <a class="btn btn-primary btn-sm" href="/columnas/{{$columna->id}}">
                                   <i class="fas fa-eye">
                                   </i>
                                 </a>
-                                <a class="btn btn-info btn-sm" href="/admin/noticia/editar/{{$noticia->id}}">
+                                <a class="btn btn-info btn-sm" href="/cdj/columnas/editar/{{$columna->id}}">
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                 </a>
-                                <button class="btn btn-danger btn-sm" onclick="confirmacion({{$noticia->id}})">
+                                <button class="btn btn-danger btn-sm" onclick="confirmacion({{$columna->id}})">
                                   <i class="fas fa-trash">
                                   </i>
                                 </button>
                             </td>
                         </tr>
                           @empty
-                              <h2 class="text-center">No hay noticias creadas por el momento</h2>
+                              <h2 class="text-center">No hay columnas creadas por el momento</h2>
                           @endforelse
                       </tbody>
                   </table>
@@ -186,12 +202,12 @@
           $('.select2').select2();
       });
         function confirmacion(id){
-            var respuesta = confirm('¿Esta seguro de eliminar la noticia? No podrá recuperarla');
+            var respuesta = confirm('¿Esta seguro de eliminar la columna? No podrá recuperarla');
             if (!respuesta) {
                 window.event.preventDefault();
             } else {
               let form = document.getElementById('deleteForm');
-              form.action = `/admin/noticia/eliminar/${id}`; 
+              form.action = `/cdj/columnas/eliminar/${id}`; 
               form.submit();
             }
         }

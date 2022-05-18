@@ -10,6 +10,7 @@ use App\Models\Fecha;
 use App\Models\Player;
 use App\Models\State;
 use App\Models\Noticia;
+use App\Models\Column;
 use App\Models\ExpoToken;
 use Illuminate\Support\Facades\DB;
 
@@ -79,6 +80,11 @@ class ApiController extends Controller
     {
         $noticias = Noticia::orderBy('created_at', 'desc')->paginate(4);
         return $noticias;
+    }
+    public function columnas()
+    {
+        $columnas = Column::orderBy('created_at', 'desc')->paginate(4);
+        return $columnas;
     }
     public function fecha()
     {

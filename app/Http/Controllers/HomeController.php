@@ -8,6 +8,7 @@ Use App\Models\State;
 Use App\Models\Noticia;
 Use App\Models\Fecha;
 Use App\Models\Tournament;
+Use App\Models\Column;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -36,7 +37,8 @@ class HomeController extends Controller
                 GROUP BY goals.player_id;";
 
         $goleadores = DB::select(DB::raw($sql), array('tournament' => $tournament->id));
-        return view('torneo.index', compact('categorias', 'estado', 'noticias', 'fecha', 'goleadores'));
+        $columnas = Column::where('tournament_id', $tournament->id)->paginate(10);
+        return view('torneo.index', compact('categorias', 'estado', 'noticias', 'fecha', 'goleadores', 'columnas'));
     }
     public function noticias()
     {
@@ -76,7 +78,8 @@ class HomeController extends Controller
         $estado = State::where('active', true)->first();
         $fecha = Fecha::latest('dia')->first();
         $equipos = $tournament->equipos($categoria->id);
-        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos'));
+        $columnas = Column::where('category_id', $categoria->id)->where('tournament_id', $tournament->id)->paginate(3);
+        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos', 'columnas'));
     }
 
     public function programacion()
@@ -95,5 +98,14 @@ class HomeController extends Controller
         $fecha = Fecha::latest('dia')->first();
         $tournament = Tournament::where('active', true)->first();
         return view('torneo.politicas', compact('categorias', 'estado', 'fecha', 'tournament'));
+    }
+    public function cdj()
+    {
+        $columnas = Column::orderBy('created_at', 'desc')->paginate(10);
+        $categorias = Category::all();
+        $estado = State::where('active', true)->first();
+        $fecha = Fecha::latest('dia')->first();
+        $tournament = Tournament::where('active', true)->first();
+        return view('torneo.cdj', compact('categorias', 'estado', 'fecha', 'tournament', 'columnas'));
     }
 }

@@ -106,5 +106,5 @@
     }
     </script>
     <script src="/js/nicEdit.js" type="text/javascript"></script>
-    <script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+    <script type="text/javascript">bkLib.onDomLoaded(new nicEditor().panelInstance('text'));</script>
 @stop
