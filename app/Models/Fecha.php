@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Fecha extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'tournament_id', 'dia'];
+    protected $fillable = ['name', 'tournament_id', 'dia', 'active'];
+    protected $casts = [
+        'active' => 'boolean',
+    ];
 
     public function matches()
     {

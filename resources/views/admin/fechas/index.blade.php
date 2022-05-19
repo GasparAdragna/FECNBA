@@ -68,10 +68,20 @@
                         <label for="nombreFecha">Nombre de la fecha:*</label>
                         <input type="text" class="form-control" id="nombreFecha" name="name" placeholder="Ej: Fecha 1" value="{{old('name')}}" required>
                       </div>
-                      <div class="form-group mb-0">
+                      <div class="form-group">
                         <label for="diaFecha">Dia:</label>
                         <input type="date" class="form-control" id="diaFecha" name="dia" value="{{old('dia')}}">
                       </div>
+                      <div class="form-check">
+                        <input type="hidden" name="active" value="0"/>
+                        <input class="form-check-input" type="checkbox" name="active" id="active" value="1" checked>
+                        <label class="form-check-label" for="active">
+                          Activa
+                        </label>
+                      </div>
+                      <br>
+                      <p class="mb-0">Si marca la fecha como "Activa" esta se mostrará en la página principal y en la sección de "Programación" de la APP</p>
+                      <p>Solo puede haber 1 fecha activa por vez. Si marca esta como activa, se desactivará la que este actualmente</p>
                     </div>
                     <div class="card-footer">
                       <button type="submit" class="btn btn-primary">Agregar</button>

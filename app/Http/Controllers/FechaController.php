@@ -41,7 +41,14 @@ class FechaController extends Controller
         $validated = $request->validate([
             'name' => 'required|unique:fechas|max:255',
             'tournament_id' => 'required',
+            'active' => 'required',
         ]);
+        if ($request->active) {
+            $fechaActiva = Fecha::where('active', true)->first();
+            if (isset($fechaActiva)) {
+                $fechaActiva->update(['active' => false]);
+            }
+        }
         Fecha::create($request->all());
         return redirect()->back()->with('status', 'Se agregó correctamente la fecha');
     }
@@ -78,6 +85,12 @@ class FechaController extends Controller
      */
     public function update(Request $request, Fecha $fecha)
     {
+        if ($request->active) {
+            $fechaActiva = Fecha::where('active', true)->first();
+            if (isset($fechaActiva)) {
+                $fechaActiva->update(['active' => false]);
+            }
+        }
         $fecha->update($request->all());
         return redirect()->back()->with('status', 'Se editó correctamente la fecha');
     }

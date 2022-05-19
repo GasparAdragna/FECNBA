@@ -87,8 +87,8 @@
 @section('js')
     <script>
         <?php
-            foreach($tournament->fechas as $index => $fecha) {
-                if(count($fecha->matches)) {
+            foreach($tournament->fechas as $index => $date) {
+                if(count($date->matches)) {
                 ?>
                 $("#matches{{$index}}").DataTable({
                     "paging": false,

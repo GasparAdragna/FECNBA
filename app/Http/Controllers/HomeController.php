@@ -18,7 +18,7 @@ class HomeController extends Controller
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
         $noticias = Noticia::orderBy('created_at', 'desc')->paginate(4);
-        $fecha = Fecha::latest('dia')->first();
+        $fecha = Fecha::where('active', true)->first();
         $tournament = Tournament::where('active', true)->first();
         $sql = "SELECT 
                     goals.player_id,
@@ -44,7 +44,7 @@ class HomeController extends Controller
         $noticias = Noticia::orderBy('created_at', 'desc')->paginate(10);
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
-        $fecha = Fecha::latest('dia')->first();
+        $fecha = Fecha::where('active', true)->first();
         return view('torneo.noticias.index', compact('noticias', 'categorias', 'estado', 'fecha'));
     }
 
@@ -75,7 +75,7 @@ class HomeController extends Controller
         } 
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
-        $fecha = Fecha::latest('dia')->first();
+        $fecha = Fecha::where('active', true)->first();
         $equipos = $tournament->equipos($categoria->id);
         $sancionados = Sanction::where('tournament_id', $tournament->id)->where('category_id', $categoria->id)->where('active', true)->get();
         return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos', 'sancionados'));
@@ -85,16 +85,16 @@ class HomeController extends Controller
     {
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
-        $fecha = Fecha::latest('dia')->first();
+        $fecha = Fecha::where('active', true)->first();
         $tournament = Tournament::where('active', true)->first();
         return view('torneo.programacion.index', compact('categorias', 'estado', 'fecha', 'tournament'));
-        
     }
+    
     public function politicasDePrivacidad()
     {
         $categorias = Category::all();
         $estado = State::where('active', true)->first();
-        $fecha = Fecha::latest('dia')->first();
+        $fecha = Fecha::where('active', true)->first();
         $tournament = Tournament::where('active', true)->first();
         return view('torneo.politicas', compact('categorias', 'estado', 'fecha', 'tournament'));
     }

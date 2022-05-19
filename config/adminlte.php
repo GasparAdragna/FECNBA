@@ -257,7 +257,7 @@ return [
         [
             'text' => 'Fechas',
             'url'  => 'admin/fechas',
-            'active' => ['admin/fechas*'],
+            'active' => ['admin/fecha*'],
             'icon' => 'fas fa-fw fa-calendar',
         ],
         [

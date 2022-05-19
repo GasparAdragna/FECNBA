@@ -29,7 +29,6 @@ class ApiController extends Controller
     {
         $tournament = Tournament::where('active', true)->first();
         return $tournament->equipos($categoria->id);
-
     }
     public function tablaPorCategoria(Category $categoria)
     {
@@ -82,7 +81,7 @@ class ApiController extends Controller
     }
     public function fecha()
     {
-        $fecha = Fecha::latest('dia')->first();
+        $fecha = Fecha::where('active', true)->first();
         $partidos = [];
 
         foreach ($fecha->matches->sortBy('horario') as $index => $partido){
