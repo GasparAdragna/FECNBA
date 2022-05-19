@@ -90,9 +90,13 @@ class MatchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Match $partido)
     {
-        //
+        foreach ($partido->goles as $goal) {
+            $goal->delete();
+        }
+        $partido->delete();
+        return redirect()->back()->with('status', 'Se eliminó correctamente el partido');
     }
 
     public function agregarGol(Match $partido, Request $request)

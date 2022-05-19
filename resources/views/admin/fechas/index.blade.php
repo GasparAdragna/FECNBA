@@ -3,6 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('plugins.Select2', true)
+@section('plugins.Sweetalert2', true)
 
 @section('content_header')
     <div class="row">
@@ -168,10 +169,10 @@
                                           <i class="fas fa-pencil-alt">
                                           </i>
                                       </a>
-                                      <a class="btn btn-danger btn-sm" href="/admin/partido/eliminar/{{$partido->id}}" onclick="confimacion()">
+                                      <button class="btn btn-danger btn-sm" onclick="confirmacion({{$partido->id}})">
                                           <i class="fas fa-trash">
                                           </i>
-                                      </a>
+                                        </button>
                                       <a class="btn {{$partido->finished ? 'btn-warning' : 'btn-primary' }} btn-sm" href="/admin/partido/{{$partido->id}}/terminado" data-toggle="tooltip" data-placement="top" title="{{$partido->finished ? 'Activar partido' : 'Terminar Partido'}}">
                                         @if ($partido->finished)
                                           <i class="fas fa-times">
@@ -212,11 +213,20 @@
         $('[data-toggle="tooltip"]').tooltip()    
     });
 
-    function confirmacion(){
-      var respuesta = confirm('¿Esta seguro de eliminar el usuario? No podrá recuperarlo');
-      if (!respuesta) {
-          window.event.preventDefault();
-      }
+    function confirmacion(id){
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esta acción",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, borrarlo'
+            }).then((result) => {
+            if (result.value === true) {
+                window.location.href = "/admin/partido/eliminar/"+id;
+            }
+        })
     }
     
     function setCookie(cookieName, cookieValue, nDays) {

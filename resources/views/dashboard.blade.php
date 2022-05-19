@@ -1,5 +1,7 @@
 @extends('adminlte::page')
 
+@section('plugins.Sweetalert2', true)
+
 @section('title', 'Dashboard')
 
 @section('content_header')
@@ -176,10 +178,10 @@
                           <i class="fas fa-pencil-alt">
                           </i>
                       </a>
-                      <a class="btn btn-danger btn-sm" href="/admin/partido/eliminar/{{$partido->id}}" onclick="confimacion()">
+                      <button class="btn btn-danger btn-sm" onclick="confirmacion({{$partido->id}})">
                           <i class="fas fa-trash">
                           </i>
-                      </a>
+                        </button>
                   </td>
               </tr>
               @php
@@ -288,6 +290,22 @@
       var fileName = document.getElementById("customFile").files[0].name;
       var nextSibling = e.target.nextElementSibling
       nextSibling.innerText = fileName
+  });
+
+  function confirmacion(id){
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, borrarlo'
+        }).then((result) => {
+        if (result.value === true) {
+            window.location.href = "/admin/partido/eliminar/"+id;
+        }
     })
+  }
   </script>
 @stop
