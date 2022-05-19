@@ -95,7 +95,7 @@
                   @forelse (App\Models\Tournament::active()->fechas as $fecha)
                     <div class="card card-outline card-primary collapsed-card">
                       <div class="card-header">
-                          <h3 class="card-title"><b>{{$fecha->name}}</b> - <b>{{isset($fecha->dia) ? date('d-m-y', strtotime($fecha->dia)) : '??/??/???'}}</b></h3>
+                          <h3 class="card-title"><b>{{$fecha->name}}</b> - <b>{{isset($fecha->dia) ? date('d-m-y', strtotime($fecha->dia)) : '??/??/???'}} {{$fecha->active ? '- FECHA ACTIVA' : ''}}</b></h3>
                           <div class="card-tools">
                               <a href="/admin/fecha/editar/{{$fecha->id}}" class="btn btn-info"><i class="fas fa-pencil-alt pl-1"></i></a>
                               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
