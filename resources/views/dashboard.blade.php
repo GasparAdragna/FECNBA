@@ -223,13 +223,13 @@
               <div class="form-group">
                 <label for="resumen">Resumen:</label>
                 <span class="text-muted">(esto es lo que se va a ver antes de entrar a la noticia)</span>
-                <textarea name="resumen" id="resumen" class="form-control" cols="30" rows="4">{{ old('resumen') }}</textarea>
+                <textarea name="resumen" id="resumen" class="form-control" cols="30" rows="4" required>{{ old('resumen') }}</textarea>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
                 <label for="text">Texto:</label>
-                <textarea name="texto" id="text" class="form-control" cols="30" rows="10">{{ old('texto') }}</textarea>
+                <textarea name="texto" id="text" class="form-control" cols="30" rows="10" required>{{ old('texto') }}</textarea>
               </div>
             </div>
             <div class="col-12">

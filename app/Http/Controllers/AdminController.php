@@ -37,6 +37,7 @@ class AdminController extends Controller
         $validated = $request->validate([
             'titulo' => 'required|unique:noticias|max:255|string',
             'texto' => 'required|string',
+            'resumen' => 'required|string',
             'estado' => 'required|max:255|string',
             'photo' => 'image',
         ]);
