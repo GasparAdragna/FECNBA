@@ -26,7 +26,7 @@ class AdminController extends Controller
         $partidos = Match::all()->count();
         $torneos = Tournament::all()->count();
         $estado = State::where('active', true)->first();
-        $fecha = Fecha::latest('dia')->first();
+        $fecha = Fecha::where('active', true)->first();
 
         return view('dashboard', ['categorias' => $categorias, 'equipos' => $equipos, 'partidos' => $partidos,'torneos' => $torneos, "fecha" => $fecha, "estado" => $estado]);
     }
