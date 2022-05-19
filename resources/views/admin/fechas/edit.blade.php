@@ -65,7 +65,7 @@
                     </div>
                     <div class="card-footer">
                       <button type="submit" class="btn btn-primary">Editar</button>
-                      <a href="/admin/fechas/torneo/{{$fecha->tournament->id}}" class="btn btn-warning">Volver</a>
+                      <a href="/admin/fechas" class="btn btn-warning">Volver</a>
                     </div>
                   </form>
                 </div>
