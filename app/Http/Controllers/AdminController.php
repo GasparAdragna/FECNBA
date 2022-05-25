@@ -78,7 +78,7 @@ class AdminController extends Controller
     public function vistaEditarEstado()
     {
         $estados = State::all();
-        $estado = State::where('active', true)->get();
+        $estado = State::where('active', true)->first();
         return view('admin.editarEstado', compact('estados', 'estado'));
     }
     public function cambiarEstado(Request $request)

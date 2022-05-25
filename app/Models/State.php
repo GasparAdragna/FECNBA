@@ -10,4 +10,7 @@ class State extends Model
     use HasFactory;
     
     protected $fillable = ['state', 'text', 'color', 'icon'];
+    protected $casts = [
+        'active' => 'boolean',
+    ];
 }

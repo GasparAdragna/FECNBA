@@ -36,12 +36,14 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-12">
-                        <div class="info-box bg-info text-center">
-                            <span class="info-box-icon"><i class="fas fa-sun"></i></span>
-                            <div class="info-box-content pb-0 p-3">
-                              <h3>Actividad normal</h3>
-                              <p>Todas las actividades se desarrollan normalmente</p>
-                            </div>
+                        <h3 class="bg-light-blue p-2">Actividad del campo:</h3>
+                        <div class="{{$estado->color}} info-box text-center">
+                          <span class="info-box-icon"><i class="{{$estado->icon}}"></i></span>
+                          <div class="info-box-content pb-0 p-3">
+                            <h4>{{$estado->state}}</h4>
+                            <p>{{$estado->text}}</p>
+                          </div>
+                          <!-- /.info-box-content -->
                         </div>
                     </div>
                     <div class="col-12">
