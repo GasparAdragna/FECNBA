@@ -101,8 +101,18 @@ class FechaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Fecha $fecha)
     {
-        //
+        if ($fecha->active) {
+            return redirect()->back()->with('error', 'No se puede eliminar la fecha activa');
+        }
+
+        foreach ($fecha->matches as $partido) {
+            foreach ($partido->goles as $gol) {
+                $gol->delete();
+            }
+            $partido->delete();
+        }
+        return redirect()->back()->with('status', 'Se eliminó correctamente la fecha');
     }
 }

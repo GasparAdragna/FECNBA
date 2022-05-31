@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/fechas', [FechaController::class, "store"]);
         Route::get('/fecha/editar/{fecha}', [FechaController::class, "edit"]);
         Route::post('/fecha/editar/{fecha}', [FechaController::class, "update"]);
+        Route::post('/fecha/eliminar/{fecha}', [FechaController::class, "destroy"]);
         // ---------------------------------NOTICIAS------------------------------------
         Route::get('/noticias', [NoticiaController::class, "index"]);
         Route::post('/noticia/agregar', [NoticiaController::class, "store"]);

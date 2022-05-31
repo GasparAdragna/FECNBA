@@ -31,18 +31,23 @@
         <div class="row">
             <div class="col-6">
                 @if (session('status'))
-                <div class="callout callout-success">
+                  <div class="callout callout-success">
                     <h5>{{ session('status') }}</h5>
                   </div>
                 @endif
+                @if (session('error'))
+                  <div class="callout callout-danger">
+                    <h5>{{ session('error') }}</h5>
+                  </div>
+                @endif
                 @if ($errors->any())
-                <div class="callout callout-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                  <div class="callout callout-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
                 @endif
             </div>
         </div>
@@ -97,9 +102,22 @@
                       <div class="card-header">
                           <h3 class="card-title"><b>{{$fecha->name}}</b> - <b>{{isset($fecha->dia) ? date('d-m-y', strtotime($fecha->dia)) : '??/??/???'}} {{$fecha->active ? '- FECHA ACTIVA' : ''}}</b></h3>
                           <div class="card-tools">
-                              <a href="/admin/fecha/editar/{{$fecha->id}}" class="btn btn-info"><i class="fas fa-pencil-alt pl-1"></i></a>
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                              </button>
+                            <div class="row align-items-center">
+                              <div class="col">
+                                <form action="/admin/fecha/eliminar/{{$fecha->id}}" method="POST" id="fecha{{$fecha->id}}">
+                                  @csrf
+                                  <button type="button" class="btn btn-danger" onclick="confirmacion({{$fecha->id}})"><i class="fa fa-trash"></i></button>
+                                </form>
+                              </div>
+                              <div class="col">
+                                <a href="/admin/fecha/editar/{{$fecha->id}}" class="btn btn-info"><i class="fas fa-pencil-alt pl-1"></i></a>
+                              </div>
+                              <div class="col">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                  <i class="fas fa-plus"></i>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       <div class="card-body table-responsive p-0">
@@ -226,7 +244,7 @@
     function confirmacion(id){
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "No podrás revertir esta acción",
+            text: "Se borrarán TODOS los partidos y los goles. No podrás revertir esta acción",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -234,7 +252,7 @@
             confirmButtonText: 'Si, borrarlo'
             }).then((result) => {
             if (result.value === true) {
-                window.location.href = "/admin/partido/eliminar/"+id;
+              document.getElementById("fecha"+id).submit();
             }
         })
     }
