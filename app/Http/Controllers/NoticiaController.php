@@ -94,6 +94,7 @@ class NoticiaController extends Controller
         $validated = $request->validate([
             'titulo' => 'required|max:255|string',
             'texto' => 'required|string',
+            'resumen' => 'required|string',
             'estado' => 'required|max:255|string',
             'photo' => 'image',
         ]);

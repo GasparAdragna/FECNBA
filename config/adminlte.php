@@ -233,7 +233,7 @@ return [
         [
             'text' => 'Noticias',
             'url'  => 'admin/noticias',
-            'active' => ['admin/noticias*'],
+            'active' => ['admin/noticia*'],
             'icon' => 'fas fa-fw fa-newspaper',
         ],
         [
