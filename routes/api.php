@@ -38,6 +38,8 @@ Route::get('/estado', [ApiController::class, "estado"]);
 Route::get('/noticias', [ApiController::class, "noticias"]);
 // ---------------------------------TOKEN------------------------------------
 Route::post('/token', [ApiController::class, "saveToken"]);
+// ---------------------------------APP------------------------------------
+Route::get('/app', [ApiController::class, "app"]);
 
 
 

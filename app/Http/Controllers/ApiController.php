@@ -152,4 +152,8 @@ class ApiController extends Controller
             'token' => $request->token
         ]);
     }
+    public function app()
+    {
+        return response()->json(['version' => '1.0.7'], 200);
+    }
 }
