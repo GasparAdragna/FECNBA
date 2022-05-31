@@ -113,6 +113,7 @@ class FechaController extends Controller
             }
             $partido->delete();
         }
+        $fecha->delete();
         return redirect()->back()->with('status', 'Se eliminó correctamente la fecha');
     }
 }
