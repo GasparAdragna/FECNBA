@@ -9,7 +9,7 @@
         <h1>FECNBA</h1>
         <img src="{{asset('/storage/photos/escudo sin fondo.png')}}" class="img-fluid">
         <br>
-        <a href="https://apps.apple.com/ar/app/fecnba/id1620974260" target="_blank">
+        <a href="https://apps.apple.com/ar/app/fecnba/id1620974260">
           <img src="{{asset('/storage/photos/apple-en.png')}}" class="img-fluid mt-3">
         </a>
         <br>
