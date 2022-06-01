@@ -106,7 +106,7 @@
                               <div class="col">
                                 <form action="/admin/fecha/eliminar/{{$fecha->id}}" method="POST" id="fecha{{$fecha->id}}">
                                   @csrf
-                                  <button type="button" class="btn btn-danger" onclick="confirmacion({{$fecha->id}})"><i class="fa fa-trash"></i></button>
+                                  <button type="button" class="btn btn-danger" onclick="confirmacionFecha({{$fecha->id}})"><i class="fa fa-trash"></i></button>
                                 </form>
                               </div>
                               <div class="col">
@@ -241,7 +241,7 @@
         $('[data-toggle="tooltip"]').tooltip()    
     });
 
-    function confirmacion(id){
+    function confirmacionFecha(id){
         Swal.fire({
             title: '¿Estás seguro?',
             text: "Se borrarán TODOS los partidos y los goles. No podrás revertir esta acción",
