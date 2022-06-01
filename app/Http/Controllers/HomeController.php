@@ -98,4 +98,8 @@ class HomeController extends Controller
         $tournament = Tournament::where('active', true)->first();
         return view('torneo.politicas', compact('categorias', 'estado', 'fecha', 'tournament'));
     }
+    public function app()
+    {
+        return view('torneo.app');
+    }
 }

@@ -30,7 +30,6 @@ body {
     background-color: white;
 }
 
-
 .noticia-titulo {
     text-decoration: none;
 }
@@ -58,7 +57,7 @@ a.active {
     display: flex;
     margin-bottom: 1rem;
     min-height: 80px;
-    padding: .5rem;
+    padding: 0.5rem;
     position: relative;
     width: 100%;
 }
@@ -100,8 +99,12 @@ a.active {
     padding-left: 2em;
 }
 
-.fw-bold{
+.fw-bold {
     font-weight: bold;
+}
+
+.bg-app {
+    background-color: #1e94fa;
 }
 
 @media (max-width: 650px) {
