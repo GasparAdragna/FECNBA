@@ -197,7 +197,7 @@
                                           <i class="fas fa-pencil-alt">
                                           </i>
                                       </a>
-                                      <button class="btn btn-danger btn-sm" onclick="confirmacion({{$partido->id}})">
+                                      <button class="btn btn-danger btn-sm" onclick="confirmacionPartido({{$partido->id}})">
                                           <i class="fas fa-trash">
                                           </i>
                                         </button>
@@ -253,6 +253,22 @@
             }).then((result) => {
             if (result.value === true) {
               document.getElementById("fecha"+id).submit();
+            }
+        })
+    }
+
+    function confirmacionPartido(id){
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esta acción",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, borrarlo'
+            }).then((result) => {
+            if (result.value === true) {
+              window.location.href = "/admin/partido/eliminar/"+id;
             }
         })
     }
