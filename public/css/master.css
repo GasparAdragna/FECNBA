@@ -107,6 +107,10 @@ a.active {
     background-color: #1e94fa;
 }
 
+.column-app {
+    height: 100% !important;
+}
+
 @media (max-width: 650px) {
     .card-img-overlay {
         top: 0;
