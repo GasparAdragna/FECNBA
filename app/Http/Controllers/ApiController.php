@@ -154,6 +154,6 @@ class ApiController extends Controller
     }
     public function app()
     {
-        return response()->json(['version' => '1.0.7'], 200);
+        return response()->json(['version' => '1.0.9'], 200);
     }
 }
