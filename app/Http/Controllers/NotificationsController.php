@@ -80,17 +80,21 @@ class NotificationsController extends Controller
             return redirect()->back()->with('error', 'Hubo un error al enviar la notificación, pruebe mas tarde');
         }
 
-        $data = $success->data;
-        foreach ($data as $response) {
-            if ($response->status == "ok") continue;
-            if ($response->details->error == "DeviceNotRegistered") {
-                ExpoToken::where('token', $response->details->expoPushToken)->delete();
+        try {
+            $data = $success->data;
+            foreach ($data as $response) {
+                if ($response->status == "ok") continue;
+                if ($response->details->error == "DeviceNotRegistered") {
+                    ExpoToken::where('token', $response->details->expoPushToken)->delete();
+                }
             }
+
+            $notification = Notification::create($request->all());
+
+            return redirect()->back()->with('status', 'Se envió correctamente la notificación');
+        } catch (\Throwable $th) {
+            dd($success);
         }
-
-        $notification = Notification::create($request->all());
-
-        return redirect()->back()->with('status', 'Se envió correctamente la notificación');
     }
 
     /**
