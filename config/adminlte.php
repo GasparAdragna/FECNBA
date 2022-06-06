@@ -278,6 +278,12 @@ return [
             'active' => ['admin/torneos*'],
             'icon' => 'fas fa-fw fa-trophy',
         ],
+        [
+            'text' => 'Notificaciones',
+            'url'  => 'admin/notificaciones',
+            'active' => ['admin/notificacion*'],
+            'icon' => 'fas fa-fw fa-bell',
+        ],
         ['header' => 'Links'],
         [
             'text'       => 'Home',

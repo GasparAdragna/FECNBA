@@ -12,6 +12,7 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\FechaController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SanctionController;
+use App\Http\Controllers\NotificationsController;
 
 
 /*
@@ -104,6 +105,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/sancionados/editar/{sancionado}', [SanctionController::class, "update"]);
         Route::get('/sancionados/eliminar/{sancionado}', [SanctionController::class, "destroy"]);
         Route::get('/sancionados/{sancionado}/terminar', [SanctionController::class, "terminar"]);
+        // ---------------------------------NOTIFICACIONES------------------------------------
+        Route::get('/notificaciones', [NotificationsController::class, "index"]);
+        Route::post('/notificaciones', [NotificationsController::class, "store"]);
+
     });
 });
 
