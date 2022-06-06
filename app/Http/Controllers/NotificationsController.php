@@ -62,9 +62,9 @@ class NotificationsController extends Controller
                                 "Host: exp.host\r\n".
                                 "Accept: application/json\r\n".
                                 "Accept-Encoding: gzip, deflate\r\n".
-                                "Content-Type: application/x-www-form-urlencoded\r\n",
+                                "Content-Type:  application/json\r\n",
                 'method'  => 'POST',
-                'content' => http_build_query($data)
+                'content' => json_encode($data)
             )
         );
         $context  = stream_context_create($options);
