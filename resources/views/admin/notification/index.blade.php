@@ -96,7 +96,7 @@
                               @forelse ($notifications as $notificacion)
                               <tr>
                                 <td>
-                                    {{$notificacion->title}}
+                                  <b>{{$notificacion->title}}</b>
                                 </td>
                                 <td>
                                     {{$notificacion->body}}
