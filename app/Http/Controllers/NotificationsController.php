@@ -51,7 +51,7 @@ class NotificationsController extends Controller
         }
 
         $data = array(
-            'to' => $arrayTokens,
+            'to' => array_slice($arrayTokens, 0, 100),
             'title' => $request->title,
             'body' => $request->body,
         );	
