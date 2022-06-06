@@ -16,6 +16,11 @@
                     <h5>{{ session('status') }}</h5>
                   </div>
                 @endif
+                @if (session('error'))
+                  <div class="callout callout-danger">
+                    <h5>{{ session('error') }}</h5>
+                  </div>
+                @endif
                 @if ($errors->any())
                 <div class="callout callout-danger">
                     <ul>
@@ -83,7 +88,7 @@
                                       Mensaje
                                   </th>
                                   <th>
-                                      Acciones
+                                      Enviado
                                   </th>
                               </tr>
                           </thead>
@@ -96,15 +101,8 @@
                                 <td>
                                     {{$notificacion->body}}
                                 </td>
-                                <td class="project-actions">
-                                    <a class="btn btn-info btn-sm" href="/admin/torneos/editar/{{$notificacion->id}}">
-                                        <i class="fas fa-pencil-alt">
-                                        </i>
-                                    </a>
-                                    <a class="btn btn-danger btn-sm" href="/torneos/eliminar/{{$notificacion->id}}">
-                                        <i class="fas fa-trash">
-                                        </i>
-                                    </a>
+                                <td>
+                                  {{$notificacion->created_at}}
                                 </td>
                             </tr>
                               @empty
