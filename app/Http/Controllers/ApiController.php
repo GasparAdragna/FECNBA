@@ -48,12 +48,12 @@ class ApiController extends Controller
                 COALESCE((SUM(CASE WHEN (m.team_id_1 = t.id and m.finished) THEN m.team_1_goals WHEN (m.team_id_2 = t.id) THEN m.team_2_goals END) - SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_2_goals WHEN (m.team_id_2 = t.id) THEN m.team_1_goals END)),0) AS DIF,
                 (SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND m.team_id_winner = t.id and m.finished = 1 THEN 3 ELSE 0 END) + SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND (m.team_id_winner = 0) and m.finished = 1 THEN 1 ELSE 0 END)) AS PTS
             FROM teams t
-                INNER JOIN teams_categories as tc on t.id = tc.team_id  
+                INNER JOIN teams_categories as tc on t.id = tc.team_id and tc.tournament_id = :tournament2 
                 LEFT OUTER JOIN matches m on t.id in (m.team_id_1, m.team_id_2)
             WHERE m.tournament_id = :tournament AND m.category_id = :category and tc.zone = :zone
             GROUP BY t.id, t.name
             ORDER BY PTS DESC, DIF DESC, G DESC, GF DESC, PJ DESC, t.name ASC;";
-            $table[] = DB::select(DB::raw($sql), array('tournament' => $tournament->id, 'category' => $categoria->id, 'zone' => $zona->zone));     
+            $table[] = DB::select(DB::raw($sql), array('tournament' => $tournament->id, 'category' => $categoria->id, 'zone' => $zona->zone, 'tournament2' => $tournament->id));     
         } 
         return $table;
 
