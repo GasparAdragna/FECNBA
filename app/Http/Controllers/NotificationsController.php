@@ -51,7 +51,7 @@ class NotificationsController extends Controller
         }
 
         $data = array(
-            'to' => $arrayTokens,
+            'to' => ["ExponentPushToken[FosbZ2PlPwYIauj92Pj7TT]"],
             'title' => $request->title,
             'body' => $request->body,
         );
