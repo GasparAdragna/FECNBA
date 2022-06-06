@@ -54,7 +54,7 @@ class ContactoController extends Controller
             'last_name' => 'string|required',
             'email' => 'email|required', 
             'message' => 'string|required',
-            // 'g-recaptcha-response' => 'required'
+            'g-recaptcha-response' => 'required'
         ]);
 
         if(env('APP_ENV') == "local"){
