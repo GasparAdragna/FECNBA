@@ -51,10 +51,12 @@ class NotificationsController extends Controller
         }
 
         $data = array(
-            'to' => array_slice($arrayTokens, 0, 100),
+            'to' => $arrayTokens,
             'title' => $request->title,
             'body' => $request->body,
-        );	
+        );
+
+        dd($data);
         $options = array(
             'http' => array(
                 'header'  => 
