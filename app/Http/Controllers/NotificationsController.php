@@ -56,7 +56,6 @@ class NotificationsController extends Controller
             'body' => $request->body,
         );
 
-        dd($data);
         $options = array(
             'http' => array(
                 'header'  => 
