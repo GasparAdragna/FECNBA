@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\ExpoToken;
 use Illuminate\Http\Request;
+use ExpoSDK\Expo;
+use ExpoSDK\ExpoMessage;
 
 class NotificationsController extends Controller
 {
@@ -41,60 +43,29 @@ class NotificationsController extends Controller
             'title' => 'string|required',
             'body' => 'string|required',
         ]);
-
-        $url = "https://exp.host/--/api/v2/push/send";
         $tokens = ExpoToken::all();
         $arrayTokens = [];
 
         foreach ($tokens as $token) {
             array_push($arrayTokens, $token->token);
         }
+        $message = new ExpoMessage([
+                'title' => $request->title,
+                'body' => $request->body,
+        ]);
 
-        $data = array(
-            'to' => ["ExponentPushToken[FosbZ2PlPwYIauj92Pj7TT]"],
-            'title' => $request->title,
-            'body' => $request->body,
-        );
-
-        $options = array(
-            'http' => array(
-                'header'  => 
-                                "Host: exp.host\r\n".
-                                "Accept: application/json\r\n".
-                                "Accept-Encoding: gzip, deflate\r\n".
-                                "Content-Type:  application/json\r\n",
-                'method'  => 'POST',
-                'content' => json_encode($data)
-            )
-        );
-        $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        $success = json_decode($result);
-        $status_line = $http_response_header[0];
-
-        preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
-
-        $status = $match[1];
-
-        if ($status !== "200") {
-            return redirect()->back()->with('error', 'Hubo un error al enviar la notificación, pruebe mas tarde');
-        }
-
-        try {
-            $data = $success->data;
-            foreach ($data as $response) {
-                if ($response->status == "ok") continue;
-                if ($response->details->error == "DeviceNotRegistered") {
-                    ExpoToken::where('token', $response->details->expoPushToken)->delete();
-                }
+        Expo::addDevicesNotRegisteredHandler(function ($tokens) {
+            foreach ($tokens as $token) {
+                print("Token $token is not registered\n");
+                ExpoToken::where('token', $token)->delete();
             }
+        });
 
-            $notification = Notification::create($request->all());
+        $response = (new Expo)->send($message)->to($arrayTokens)->push();
+        $data = $response->getData();
+        $notification = Notification::create($request->all());
 
-            return redirect()->back()->with('status', 'Se envió correctamente la notificación');
-        } catch (\Throwable $th) {
-            dd($success);
-        }
+        return redirect()->back()->with('status', 'Se envió correctamente la notificación');
     }
 
     /**
