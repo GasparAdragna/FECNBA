@@ -49,6 +49,7 @@ class NotificationsController extends Controller
         foreach ($tokens as $token) {
             array_push($arrayTokens, $token->token);
         }
+
         $message = new ExpoMessage([
                 'title' => $request->title,
                 'body' => $request->body,
@@ -56,13 +57,16 @@ class NotificationsController extends Controller
 
         Expo::addDevicesNotRegisteredHandler(function ($tokens) {
             foreach ($tokens as $token) {
-                print("Token $token is not registered\n");
                 ExpoToken::where('token', $token)->delete();
             }
         });
 
-        $response = (new Expo)->send($message)->to($arrayTokens)->push();
-        $data = $response->getData();
+        $chunks = array_chunk($arrayTokens, 100);
+
+        foreach ($chunks as $chunk) {
+            (new Expo)->send($message)->to($chunk)->push();  
+        }
+
         $notification = Notification::create($request->all());
 
         return redirect()->back()->with('status', 'Se envió correctamente la notificación');
