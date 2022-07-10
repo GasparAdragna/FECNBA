@@ -7,9 +7,15 @@ use App\Models\ExpoToken;
 use Illuminate\Http\Request;
 use ExpoSDK\Expo;
 use ExpoSDK\ExpoMessage;
+use App\Services\NotificationService;
 
 class NotificationsController extends Controller
 {
+    private $notificationService;
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,31 +49,10 @@ class NotificationsController extends Controller
             'title' => 'string|required',
             'body' => 'string|required',
         ]);
-        $tokens = ExpoToken::all();
-        $arrayTokens = [];
 
-        foreach ($tokens as $token) {
-            array_push($arrayTokens, $token->token);
-        }
+        $response = $this->notificationService->send($request->title, $request->body);
 
-        $message = new ExpoMessage([
-                'title' => $request->title,
-                'body' => $request->body,
-        ]);
-
-        Expo::addDevicesNotRegisteredHandler(function ($tokens) {
-            foreach ($tokens as $token) {
-                ExpoToken::where('token', $token)->delete();
-            }
-        });
-
-        $chunks = array_chunk($arrayTokens, 100);
-
-        foreach ($chunks as $chunk) {
-            (new Expo)->send($message)->to($chunk)->push();  
-        }
-
-        $notification = Notification::create($request->all());
+        if (count($response["errors"])) return redirect()->back()->with('warning', 'No se pudo enviar correctamente la notificación a todos los usuarios');
 
         return redirect()->back()->with('status', 'Se envió correctamente la notificación');
     }

@@ -15,10 +15,16 @@ Use App\Models\Noticia;
 Use App\Models\State;
 
 use Auth;
+use App\Services\NotificationService;
 
 
 class AdminController extends Controller
 {
+    private $notificationService;
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
     public function dashboard()
     {
         $categorias = Category::all()->count();
@@ -90,7 +96,14 @@ class AdminController extends Controller
         $estado = State::find($request->id);
         $estado->active = true;
         $estado->save();
-        return redirect()->back()->with('status', 'Se cambió correctamente el estado');
+
+        if($request->notification) {
+            $response = $this->notificationService->send($estado->state, $estado->text);
+        }
+
+        if (count($response["errors"])) return redirect()->back()->with('warning', 'Se cambió el estado pero no se pudo notificar a todos los usuarios');
+
+        return redirect()->back()->with('status', 'Se cambió correctamente el estado y se notificó a todos los usuarios');
     }
     public function agregarEstado(Request $request)
     {

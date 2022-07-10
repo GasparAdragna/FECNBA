@@ -41,7 +41,7 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="form-group">
-                          <label for="titulo">Titulo:</label>
+                          <label for="titulo">Título:</label>
                           <input type="text" class="form-control" id="titulo" name="titulo" value="{{ old('titulo') }}" required>
                         </div>
                       </div>
@@ -71,10 +71,25 @@
                         </div>
                       </div>
                       <div class="col-12">
-                        <div class="form-group mb-0">
+                        <div class="form-group">
                           <label for="photo">Foto (opcional):</label>
                           <input type="file" class="form-control-file" name="photo">
+                        </div>
                       </div>
+                      <div class="col-12">
+                        <div class="form-group mb-0">
+                          <label for="notification">Notificar usuarios:</label>
+                          <br>
+                          <div class="form-check">
+                            <input type="hidden" name="notification" value="0"/>
+                            <input class="form-check-input" type="checkbox" name="notification" id="notification" value="1" checked>
+                            <label class="form-check-label" for="notification">
+                              Notificar
+                            </label>
+                            <br>
+                            <small>Si esta opción está tildada, todos los usuarios de la app recibirán una notificación en su celular.</small>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

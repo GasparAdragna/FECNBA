@@ -9,7 +9,7 @@
 
 @section('content')
 <style>
-    .form-check{
+    .form-check-inline{
         font-size: 3em!important;
     }
 </style>
@@ -17,8 +17,13 @@
         <div class="row">
             <div class="col-6">
                 @if (session('status'))
-                <div class="callout callout-success">
+                  <div class="callout callout-success">
                     <h5>{{ session('status') }}</h5>
+                  </div>
+                @endif
+                @if (session('warning'))
+                  <div class="callout callout-warning">
+                    <h5>{{ session('warning') }}</h5>
                   </div>
                 @endif
                 @if ($errors->any())
@@ -66,15 +71,30 @@
                                   </select>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-none" id="state_card">
-                                            <span class="info-box-icon"><i class="" id="icon"></i></span>
-                                            <div class="info-box-content pb-0 p-3">
-                                              <h3 id="title">Actividad normal</h3>
-                                              <p id="texto">Todas las actividades se desarrollan normalmente</p>
-                                            </div>
-                                        </div>
+                                  <div class="col-12">
+                                      <div class="d-none" id="state_card">
+                                          <span class="info-box-icon"><i class="" id="icon"></i></span>
+                                          <div class="info-box-content pb-0 p-3">
+                                            <h3 id="title">Actividad normal</h3>
+                                            <p id="texto">Todas las actividades se desarrollan normalmente</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-12">
+                                    <div class="form-group mb-0">
+                                      <label for="notification">Notificar usuarios:</label>
+                                      <br>
+                                      <div class="form-check">
+                                        <input type="hidden" name="notification" value="0"/>
+                                        <input class="form-check-input" type="checkbox" name="notification" id="notification" value="1" checked>
+                                        <label class="form-check-label" for="notification">
+                                          Notificar
+                                        </label>
+                                        <br>
+                                        <small>Si esta opción está tildada, todos los usuarios de la app recibirán una notificación en su celular.</small>
+                                      </div>
                                     </div>
+                                </div>
                                 </div>
                               </div>
                               <div class="card-footer">

@@ -9,12 +9,15 @@ use App\Models\Fecha;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Services\NotificationService;
 use Auth;
 
 class NoticiaController extends Controller
 {
-    public function __construct()
+    private $notificationService;
+    public function __construct(NotificationService $notificationService)
     {
+        $this->notificationService = $notificationService;
         $this->middleware('auth')->only('index', 'destroy');
     }
     /**
@@ -54,7 +57,14 @@ class NoticiaController extends Controller
         $noticia->estado = $request->estado;
         $noticia->user_id = Auth::id();
         $noticia->save();
-        return redirect()->back()->with('status', 'Se agregó correctamente la noticia');
+
+        if ($request->notification) {
+            $response = $this->notificationService->send($noticia->titulo, $noticia->texto);
+            if (count($response["errors"])){
+                return redirect()->back()->with('status', 'Se agregó correctamente la noticia, pero no se pudo notificar a todos los usuarios');
+            }
+        }
+        return redirect()->back()->with('status', 'Se agregó correctamente la noticia y se notificó a todos los usuarios');
     }
 
     /**
