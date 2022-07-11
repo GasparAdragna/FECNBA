@@ -59,7 +59,7 @@ class NoticiaController extends Controller
         $noticia->save();
 
         if ($request->notification) {
-            $response = $this->notificationService->send($noticia->titulo, $noticia->texto);
+            $response = $this->notificationService->send($noticia->titulo, $noticia->resumen);
             if (count($response["errors"])){
                 return redirect()->back()->with('status', 'Se agregó correctamente la noticia, pero no se pudo notificar a todos los usuarios');
             }
