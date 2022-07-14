@@ -54,13 +54,17 @@
                               @forelse ($journey->matches->sortBy('horario') as $partido)
                               <tr class="{{$colores[$partido->category_id -1]}}">
                                   <td class="className">
-                                      <b>{{$partido->local->name}}</b>
+                                        <a class="teamAnchor" href="/equipo/{{$partido->local->id}}">{{$partido->local->name}}</a>
                                   </td>
                                   <td>
-                                      {{$partido->goles->where('team_id', $partido->local->id)->count()}} - {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
+                                    @if ($partido->finished)
+                                        {{$partido->goles->where('team_id', $partido->local->id)->count()}} - {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
+                                    @else
+                                        -
+                                    @endif
                                   </td>
                                   <td class="className">
-                                      <b>{{$partido->visita->name}}</b>
+                                        <a class="teamAnchor" href="/equipo/{{$partido->visita->id}}">{{$partido->visita->name}}</a>
                                   </td>
                                   <td>
                                       {{$partido->horario}}
