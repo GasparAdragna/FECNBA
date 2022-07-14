@@ -23,9 +23,13 @@
                           </p>
                         </div>
                         <div>
-                          <p>
-                            <strong>{{$partido->goles->where('team_id', $partido->local->id)->count()}}</strong>
-                          </p>
+                          @if ($partido->finished)
+                            <p>
+                              <strong>{{$partido->goles->where('team_id', $partido->local->id)->count()}}</strong>
+                            </p>
+                          @else
+                            -
+                          @endif
                         </div>
                       @else
                         <div>
@@ -35,7 +39,11 @@
                         </div>
                         <div>
                           <p>
-                            {{$partido->goles->where('team_id', $partido->local->id)->count()}}
+                            @if ($partido->finished)
+                              {{$partido->goles->where('team_id', $partido->local->id)->count()}}
+                            @else
+                              -
+                            @endif
                           </p>
                         </div>
                       @endif
