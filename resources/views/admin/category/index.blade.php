@@ -17,13 +17,13 @@
                   </div>
                 @endif
                 @if ($errors->any())
-                <div class="callout callout-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                  <div class="callout callout-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
                 @endif
             </div>
         </div>

@@ -7,6 +7,8 @@ Use App\Models\Category;
 Use App\Models\State;
 Use App\Models\Noticia;
 Use App\Models\Fecha;
+Use App\Models\Team;
+Use App\Models\Match;
 Use App\Models\Tournament;
 Use App\Models\Sanction;
 use Illuminate\Support\Facades\DB;
@@ -101,5 +103,15 @@ class HomeController extends Controller
     public function app()
     {
         return view('torneo.app');
+    }
+    public function equipo(Team $equipo)
+    {
+        $categorias = Category::all();
+        $estado = State::where('active', true)->first();
+        $fecha = Fecha::where('active', true)->first();
+        $tournament = Tournament::where('active', true)->first();
+        $sancionados = Sanction::where('tournament_id', $tournament->id)->where('active', true)->where('team_id', $equipo->id)->get();
+        $matches = Match::where('tournament_id', $tournament->id)->where('team_id_1', $equipo->id)->orWhere('team_id_2', $equipo->id)->orderBy('id', 'desc')->get();
+        return view('torneo.equipos.index', compact('equipo', 'categorias', 'estado', 'fecha', 'tournament', 'sancionados', 'matches'));
     }
 }

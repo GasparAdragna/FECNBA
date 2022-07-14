@@ -31,6 +31,7 @@ Route::get('/home', [HomeController::class, "index"])->name('index');
 Route::get('/noticia/{noticia}', [NoticiaController::class, "show"]);
 Route::get('/noticias', [HomeController::class, "noticias"]);
 Route::get('/categoria/{categoria:slug}', [HomeController::class, "categoria"]);
+Route::get('/equipo/{equipo}', [HomeController::class, "equipo"]);
 Route::get('/programacion', [HomeController::class, "programacion"]);
 Route::get('/politicas', [HomeController::class, "politicasDePrivacidad"]);
 Route::get('/app', [HomeController::class, "app"]);

@@ -13,19 +13,19 @@
             @for ($i = 0; $i < count($equipos); $i = $i + 3)
                 <tr>
                     @if (isset($equipos[$i]))
-                        <td><b>{{$equipos[$i]->name}}</b></td>
+                        <td><a class="teamAnchor" href="/equipo/{{$equipos[$i]->id}}"><b>{{$equipos[$i]->name}}</b></a></td>
                     @else
                         <td></td>
                     @endif
 
                     @if (isset($equipos[$i+1]))
-                        <td><b>{{$equipos[$i+1]->name}}</b></td>
+                        <td><a class="teamAnchor" href="/equipo/{{$equipos[$i+1]->id}}"><b>{{$equipos[$i+1]->name}}</b></a></td>
                     @else
                         <td></td>
                     @endif
 
                     @if (isset($equipos[$i+2]))
-                        <td><b>{{$equipos[$i+2]->name}}</b></td>
+                        <td><a class="teamAnchor" href="/equipo/{{$equipos[$i+2]->id}}"><b>{{$equipos[$i+2]->name}}</b></a></td>
                     @else
                         <td></td>
                     @endif
@@ -56,7 +56,7 @@
                     @foreach ($zona as $index => $equipo)
                         <tr>
                             <th scope="row">{{$index +1}}</th>
-                            <td>{{$equipo->name}}</td>
+                            <td><a class="teamAnchor" href="/equipo/{{$equipo->id}}">{{$equipo->name}}</a></td>
                             <td>{{$equipo->PJ}}</td>
                             <td>{{$equipo->G}}</td>
                             <td>{{$equipo->E}}</td>
@@ -94,7 +94,7 @@
                     @foreach ($zona as $index => $equipo)
                         <tr>
                             <th scope="row">{{$index +1}}</th>
-                            <td>{{$equipo->name}}</td>
+                            <td><a class="teamAnchor" href="/equipo/{{$equipo->id}}">{{$equipo->name}}</a></td>
                             <td>{{$equipo->PJ}}</td>
                             <td>{{$equipo->G}}</td>
                             <td>{{$equipo->E}}</td>
@@ -179,19 +179,19 @@
                     <thead class="bg-dark-blue text-white">
                         <tr>
                             <th>
-                            Jugador
+                                Jugador
                             </th>
                             <th>
-                            Equipo
+                                Equipo
                             </th>
                             <th>
                                 Sanción
                             </th>
                             <th>
-                            Motivo
+                                Motivo
                             </th>
                             <th>
-                            Fecha
+                                Fecha
                             </th>
                         </tr>
                     </thead>
@@ -202,7 +202,7 @@
                                     {{$sancion->name}}
                                 </td>
                                 <td class="className">
-                                    {{$sancion->team->name}}
+                                    <a class="teamAnchor" href="/equipo/{{$equipo->id}}">{{$sancion->team->name}}</a>
                                 </td>
                                 <td>
                                     {{$sancion->sanction}}

@@ -8,6 +8,8 @@ use App\Models\Tournament;
 use App\Models\Category;
 use App\Models\Fecha;
 use App\Models\Player;
+use App\Models\Match;
+use App\Models\Sanction;
 use App\Models\State;
 use App\Models\Noticia;
 use App\Models\ExpoToken;
@@ -56,7 +58,6 @@ class ApiController extends Controller
             $table[] = DB::select(DB::raw($sql), array('tournament' => $tournament->id, 'category' => $categoria->id, 'zone' => $zona->zone, 'tournament2' => $tournament->id));     
         } 
         return $table;
-
     }
     public function fechasPorTorneo($torneo)
     {
@@ -155,5 +156,17 @@ class ApiController extends Controller
     public function app()
     {
         return response()->json(['version' => '1.0.14'], 200);
+    }
+    public function equipo(Team $equipo)
+    {
+        $tournament = Tournament::where('active', true)->first();
+        $matches = Match::where('tournament_id', $tournament->id)->where('team_id_1', $equipo->id)->orWhere('team_id_2', $equipo->id)->orderBy('id', 'desc')->get();
+        $sancionados = Sanction::where('tournament_id', $tournament->id)->where('active', true)->where('team_id', $equipo->id)->get();
+        
+        return [
+            'equipo' => $equipo,
+            'matches' => $matches,
+            'sancionados' => $sancionados,
+        ];
     }
 }

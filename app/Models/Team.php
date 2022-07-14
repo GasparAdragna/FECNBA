@@ -12,7 +12,7 @@ class Team extends Model
     use HasFactory;
     protected $table = 'teams';
     protected $fillable = ['name'];
-
+    
     public function players()
     {
         if(isset($_COOKIE['tournament'])) {

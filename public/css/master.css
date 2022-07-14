@@ -111,6 +111,27 @@ a.active {
     height: 100% !important;
 }
 
+.teamAnchor {
+    font-weight: 500;
+    display: block;
+    width: 100% !important;
+    color: #000;
+    text-decoration: none;
+}
+
+.teamAnchor:hover {
+    color: #fff;
+    background-color: #00274e;
+}
+
+.fechaTitle {
+    color: #70757a;
+}
+
+.fw-normal {
+    font-weight: normal !important;
+}
+
 @media (max-width: 650px) {
     .card-img-overlay {
         top: 0;
