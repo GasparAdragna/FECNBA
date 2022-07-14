@@ -164,7 +164,7 @@ class ApiController extends Controller
         $sancionados = Sanction::where('tournament_id', $tournament->id)->where('active', true)->where('team_id', $equipo->id)->get();
 
         
-        foreach ($matches->sortBy('horario') as $index => $partido){
+        foreach ($matches as $index => $partido){
             $partidos[] = [
                 'id' => $partido->id,
                 'local' => $partido->local->name,
