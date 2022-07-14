@@ -162,10 +162,29 @@ class ApiController extends Controller
         $tournament = Tournament::where('active', true)->first();
         $matches = Match::where('tournament_id', $tournament->id)->where('team_id_1', $equipo->id)->orWhere('team_id_2', $equipo->id)->orderBy('id', 'desc')->get();
         $sancionados = Sanction::where('tournament_id', $tournament->id)->where('active', true)->where('team_id', $equipo->id)->get();
+
+        
+        foreach ($matches->sortBy('horario') as $index => $partido){
+            $partidos[] = [
+                'id' => $partido->id,
+                'local' => $partido->local->name,
+                'visitante' => $partido->visita->name,
+                'horario' => $partido->horario,
+                'finished' => $partido->finished,
+                'goles_local' => $partido->goles->where('team_id', $partido->local->id)->count(),
+                'goles_visita' => $partido->goles->where('team_id', $partido->visita->id)->count(),
+                'categoria' => $partido->category->name,
+                'zona' => $partido->zona,
+                'torneo' => $partido->tournament->name,
+                'cancha' => $partido->cancha,
+                'fecha' => $partido->fecha->name,
+                'dia' => isset($partido->fecha->dia) ? date('d/m', strtotime($partido->fecha->dia)) : 'Día sin definir',
+            ];
+        }
         
         return [
             'equipo' => $equipo,
-            'matches' => $matches,
+            'matches' => $partidos,
             'sancionados' => $sancionados,
         ];
     }
