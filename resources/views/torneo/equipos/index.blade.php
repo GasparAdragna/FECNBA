@@ -23,13 +23,13 @@
                           </p>
                         </div>
                         <div>
-                          @if ($partido->finished)
-                            <p>
-                              <strong>{{$partido->goles->where('team_id', $partido->local->id)->count()}}</strong>
-                            </p>
-                          @else
-                            -
-                          @endif
+                          <p>
+                            @if ($partido->finished)
+                                <strong>{{$partido->goles->where('team_id', $partido->local->id)->count()}}</strong>
+                            @else
+                                -
+                            @endif
+                          </p>
                         </div>
                       @else
                         <div>
@@ -57,7 +57,11 @@
                         </div>
                         <div>
                           <p class="mb-0">
-                            <strong>{{$partido->goles->where('team_id', $partido->visita->id)->count()}}</strong>
+                            @if ($partido->finished)
+                              <strong>{{$partido->goles->where('team_id', $partido->visita->id)->count()}}</strong>
+                            @else
+                                -
+                            @endif
                           </p>
                         </div>
                       @else
@@ -68,7 +72,11 @@
                         </div>
                         <div>
                           <p class="mb-0">
-                            {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
+                            @if ($partido->finished)
+                              {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
+                            @else
+                                -
+                            @endif
                           </p>
                         </div>
                       @endif
