@@ -11,7 +11,7 @@
       <div class="col-12 p-2">
         <div class="row border-top border-start">
           @foreach ($matches as $partido)
-              <div class="col-6 p-3 border-bottom border-end">
+              <div class="col-md-6 p-3 border-bottom border-end">
                 <div class="row">
                   <p class="mb-2 fechaTitle">{{$partido->category->name}} - {{$partido->fecha->name}} - {{isset($partido->fecha->dia) ? date('d/m', strtotime($partido->fecha->dia)) : 'Día sin definir'}}</p>
                   <div class="col-9 border-end mt-2 mb-2">
