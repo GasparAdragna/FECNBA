@@ -284,6 +284,12 @@ return [
             'active' => ['admin/notificacion*'],
             'icon' => 'fas fa-fw fa-bell',
         ],
+        [
+            'text' => 'Zonas',
+            'url'  => 'admin/zonas',
+            'active' => ['admin/zona*'],
+            'icon' => 'fas fa-fw fa-th',
+        ],
         ['header' => 'Links'],
         [
             'text'       => 'Home',

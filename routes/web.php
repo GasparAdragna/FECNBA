@@ -13,6 +13,7 @@ use App\Http\Controllers\FechaController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SanctionController;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\ZoneController;
 
 
 /*
@@ -109,7 +110,12 @@ Route::middleware(['auth'])->group(function () {
         // ---------------------------------NOTIFICACIONES------------------------------------
         Route::get('/notificaciones', [NotificationsController::class, "index"]);
         Route::post('/notificaciones', [NotificationsController::class, "store"]);
-
+        // ---------------------------------ZONAS------------------------------------
+        Route::get('/zonas', [ZoneController::class, "index"]);
+        Route::post('/zonas', [ZoneController::class, "store"]);
+        Route::get('/zonas/editar/{zona}', [ZoneController::class, "edit"]);
+        Route::post('/zonas/editar/{zona}', [ZoneController::class, "update"]);
+        Route::get('/zonas/eliminar/{zona}', [ZoneController::class, "destroy"]);
     });
 });
 

@@ -202,7 +202,7 @@
                                     {{$sancion->name}}
                                 </td>
                                 <td class="className">
-                                    <a class="teamAnchor" href="/equipo/{{$equipo->id}}">{{$sancion->team->name}}</a>
+                                    <a class="teamAnchor" href="/equipo/{{$sancion->team->id}}">{{$sancion->team->name}}</a>
                                 </td>
                                 <td>
                                     {{$sancion->sanction}}

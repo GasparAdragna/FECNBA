@@ -13,6 +13,7 @@ use App\Models\Sanction;
 use App\Models\State;
 use App\Models\Noticia;
 use App\Models\ExpoToken;
+use App\Models\Zone;
 use Illuminate\Support\Facades\DB;
 
 
@@ -35,27 +36,26 @@ class ApiController extends Controller
     public function tablaPorCategoria(Category $categoria)
     {
         $tournament = Tournament::where('active', true)->first();
-        $zonas = DB::table('teams_categories')->select('zone')->where('category_id', $categoria->id)->where('tournament_id', $tournament->id)->groupBy('zone')->get();
+        $zonas = Zone::where('tournament_id', $tournament->id)->where('category_id', $categoria->id)->get();
         $table = [];
         foreach ($zonas as $zona) {
             $sql = "SELECT
-                t.id, 
-                t.name as name,
-                SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.finished = 1 THEN 1 ELSE 0 END) AS PJ,
-                SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner = t.id and m.finished = 1 THEN 1 ELSE 0 END) AS G,
-                SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner = 0 and m.finished = 1 THEN 1 ELSE 0 END) AS E,
-                SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner != t.id and m.team_id_winner != 0 and m.finished = 1 THEN 1 ELSE 0 END) AS P,
-                COALESCE(SUM(CASE WHEN (m.team_id_1 = t.id and m.finished) THEN m.team_1_goals WHEN (m.team_id_2 = t.id) THEN m.team_2_goals END),0) AS GF, 
-                COALESCE(SUM(CASE WHEN (m.team_id_1 = t.id and m.finished) THEN m.team_2_goals WHEN (m.team_id_2 = t.id) THEN m.team_1_goals END),0) AS GC,
-                COALESCE((SUM(CASE WHEN (m.team_id_1 = t.id and m.finished) THEN m.team_1_goals WHEN (m.team_id_2 = t.id) THEN m.team_2_goals END) - SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_2_goals WHEN (m.team_id_2 = t.id) THEN m.team_1_goals END)),0) AS DIF,
-                (SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND m.team_id_winner = t.id and m.finished = 1 THEN 3 ELSE 0 END) + SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND (m.team_id_winner = 0) and m.finished = 1 THEN 1 ELSE 0 END)) AS PTS
-            FROM teams t
-                INNER JOIN teams_categories as tc on t.id = tc.team_id and tc.tournament_id = :tournament2 
-                LEFT OUTER JOIN matches m on t.id in (m.team_id_1, m.team_id_2)
-            WHERE m.tournament_id = :tournament AND m.category_id = :category and tc.zone = :zone
-            GROUP BY t.id, t.name
-            ORDER BY PTS DESC, DIF DESC, G DESC, GF DESC, PJ DESC, t.name ASC;";
-            $table[] = DB::select(DB::raw($sql), array('tournament' => $tournament->id, 'category' => $categoria->id, 'zone' => $zona->zone, 'tournament2' => $tournament->id));     
+                    t.id, 
+                    t.name as name,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) THEN 1 ELSE 0 END) AS PJ,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner = t.id THEN 1 ELSE 0 END) AS G,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner = 0 THEN 1 ELSE 0 END) AS E,
+                    SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) and m.team_id_winner != t.id and m.team_id_winner != 0 THEN 1 ELSE 0 END) AS P,
+                    COALESCE(SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_1_goals WHEN (m.team_id_2 = t.id) THEN m.team_2_goals END),0) AS GF, 
+                    COALESCE(SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_2_goals WHEN (m.team_id_2 = t.id) THEN m.team_1_goals END),0) AS GC,
+                    COALESCE((SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_1_goals WHEN (m.team_id_2 = t.id) THEN m.team_2_goals END) - SUM(CASE WHEN (m.team_id_1 = t.id) THEN m.team_2_goals WHEN (m.team_id_2 = t.id) THEN m.team_1_goals END)),0) AS DIF,
+                    (SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND m.team_id_winner = t.id THEN 3 ELSE 0 END) + SUM(CASE WHEN ( m.team_id_1 = t.id OR m.team_id_2= t.id ) AND (m.team_id_winner = 0) THEN 1 ELSE 0 END)) AS PTS
+                FROM teams t
+                    LEFT OUTER JOIN matches m on t.id in (m.team_id_1, m.team_id_2) and m.finished = 1
+                WHERE m.tournament_id = :tournament AND m.category_id = :category and m.zone_id = :zone
+                GROUP BY t.id, t.name
+                ORDER BY PTS DESC, DIF DESC, G DESC, GF DESC, PJ DESC, t.name ASC;";
+            $table[] = DB::select(DB::raw($sql), array('tournament' => $tournament->id, 'category' => $categoria->id, 'zone' => $zona->id));     
         } 
         return $table;
     }

@@ -1,0 +1,157 @@
+@extends('adminlte::page')
+
+@section('plugins.Select2', true)
+@section('plugins.Sweetalert2', true)
+
+@section('title', 'Zonas - FECNBA')
+
+@section('content_header')
+    <div class="row">
+        <div class="col-2">
+            <form action="">
+                <select class="form-control" id="torneo" onchange="setCookie('tournament', this.value, 365); location.reload()" >
+                    @foreach ($torneos as $tournament)
+                        <option value="{{$tournament->id}}" {{App\Models\Tournament::active()->id == $tournament->id ? 'selected' : ''}}>{{$tournament->name}}</option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12">
+            <h1>Editar Zona</h1>
+            <p>Acá podes editar la zona</p>
+        </div>
+    </div>
+@stop
+
+@section('content')
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-6">
+              @if (session('status'))
+              <div class="callout callout-success">
+                  <h5>{{ session('status') }}</h5>
+                </div>
+              @endif
+              @if ($errors->any())
+              <div class="callout callout-danger">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+              @endif
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <!-- general form elements -->
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">Editar Zona</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form method="POST">
+                @csrf
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="name" value="{{$zona->name}}" required>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="tournament">Torneo</label>
+                            <select name="tournament_id" id="tournament" class="selectWithoutSearch form-control" style="width: 100%;">
+                                <option selected disabled>Elegir Torneo...</option>
+                                @foreach ($torneos as $torneo)
+                                    <option value="{{$torneo->id}}" {{$zona->tournament_id === $torneo->id ? 'selected'  : ''}}>{{$torneo->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="form-group">
+                          <label for="category">Categoría</label>
+                          <select name="category_id" id="category" class="selectWithoutSearch form-control" style="width: 100%;" onchange="obtenerEquipos()">
+                                <option selected disabled>Elegir categoría...</option>
+                                @foreach ($categorias as $categoria)
+                                    <option value="{{$categoria->id}}" {{$zona->category_id == $categoria->id ? 'selected'  : ''}}>{{$categoria->name}}</option>
+                                @endforeach
+                          </select>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Editar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+@stop
+
+@section('js')
+    <script type="text/javascript">
+
+        function removeOptions(selectbox){
+            var i;
+            for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+            {
+                selectbox.remove(i);
+            }
+        }
+
+        $(document).ready(function() {
+            $('.select2').select2();
+            $('.selectWithoutSearch').select2({
+            minimumResultsForSearch: Infinity
+            });
+            $('[data-toggle="tooltip"]').tooltip()  
+            
+        });
+
+        function obtenerEquipos() {
+            var sub = document.getElementById('team');
+            removeOptions(sub);
+            var categoria = document.getElementById('category');
+            var torneo = document.getElementById('tournament');
+            torneo = torneo.options[torneo.selectedIndex].value;
+            categoria = categoria.options[categoria.selectedIndex].value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function(){
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var subs = JSON.parse(xmlhttp.responseText);
+                    subs.forEach(function(element){
+                        var option = document.createElement('option');
+                        option.value = element.id;
+                        var textnode = document.createTextNode(element.name);
+                        option.appendChild(textnode);
+                        document.getElementById('team').appendChild(option);
+                    });
+                };
+            };
+            xmlhttp.open("GET", '/api/equipos/torneo/'+ torneo + '/categoria/'+ categoria, true);
+            xmlhttp.setRequestHeader("content-type", "application/json");
+            xmlhttp.send();
+        }
+
+        function setCookie(cookieName, cookieValue, nDays) {
+            var today = new Date();
+            var expire = new Date();
+
+            if (!nDays) nDays=1;
+
+            expire.setTime(today.getTime() + 3600000*24*nDays);
+            document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString();
+        }
+    </script>
+@stop
