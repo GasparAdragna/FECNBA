@@ -149,7 +149,11 @@
                                         <b>{{$partido->local->name}}</b>
                                     </td>
                                     <td>
-                                        {{$partido->goles->where('team_id', $partido->local->id)->count()}} - {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
+                                        @if ($partido->finished)
+                                            {{$partido->goles->where('team_id', $partido->local->id)->count()}} - {{$partido->goles->where('team_id', $partido->visita->id)->count()}}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="className">
                                         <b>{{$partido->visita->name}}</b>
