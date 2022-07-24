@@ -138,10 +138,6 @@
                     </select>
                     <input type="hidden" name="id" value="{{$equipo->category()->id}}">
                   </div>
-                  <div class="form-group mb-0">
-                    <label for="zona">Zona</label>
-                    <input type="number" class="form-control" id="zona" name="zone" placeholder="Dejar vacío si no hay zonas" value="{{$equipo->category()->pivot->zone}}">
-                  </div>
                 </div>
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Editar</button>

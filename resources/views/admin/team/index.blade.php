@@ -81,9 +81,6 @@
                                   <th>
                                   	Categoría
                                   </th>
-																	<th>	
-                                  	Zona
-                                  </th>
                                   <th>
                                     Acciones
                                   </th>
@@ -103,9 +100,6 @@
                                 </td>
                                 <td>
                                     {{$equipo->category()->name}}
-                                </td>
-                                <td>
-                                    {{$equipo->category()->pivot->zone}}
                                 </td>
                                 <td class="project-actions">
                                     <a class="btn btn-primary btn-sm" href="equipos/{{$equipo->id}}">

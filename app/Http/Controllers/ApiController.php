@@ -97,7 +97,7 @@ class ApiController extends Controller
                 'goles_local' => $partido->goles->where('team_id', $partido->local->id)->count(),
                 'goles_visita' => $partido->goles->where('team_id', $partido->visita->id)->count(),
                 'categoria' => $partido->category->name,
-                'zona' => $partido->zona,
+                'zona' => $partido->zone->name,
                 'torneo' => $partido->tournament->name,
                 'cancha' => $partido->cancha,
             ];
@@ -128,7 +128,7 @@ class ApiController extends Controller
                     'goles_local' => $partido->goles->where('team_id', $partido->local->id)->count(),
                     'goles_visita' => $partido->goles->where('team_id', $partido->visita->id)->count(),
                     'categoria' => $partido->category->name,
-                    'zona' => $partido->zona,
+                    'zona' => $partido->zone->name,
                     'torneo' => $partido->tournament->name,
                     'cancha' => $partido->cancha,
                 ];
@@ -180,7 +180,7 @@ class ApiController extends Controller
                 'goles_local' => $partido->goles->where('team_id', $partido->local->id)->count(),
                 'goles_visita' => $partido->goles->where('team_id', $partido->visita->id)->count(),
                 'categoria' => $partido->category->name,
-                'zona' => $partido->zona,
+                'zona' => $partido->zone->name,
                 'torneo' => $partido->tournament->name,
                 'cancha' => $partido->cancha,
                 'fecha' => $partido->fecha->name,

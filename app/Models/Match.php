@@ -9,7 +9,7 @@ class Match extends Model
 {
     use HasFactory;
     protected $table = 'matches';
-    protected $fillable = ['tournament_id', 'category_id','fecha_id', 'team_id_1', 'team_id_2', 'cancha', 'horario'];
+    protected $fillable = ['tournament_id', 'category_id','fecha_id', 'team_id_1', 'team_id_2', 'cancha', 'horario', 'zone_id', 'finished'];
     protected $casts = [
         'finished' => 'boolean',
     ];
@@ -37,5 +37,9 @@ class Match extends Model
     public function goles()
     {
         return $this->hasMany('App\Models\Goal');
+    }
+    public function zone()
+    {
+        return $this->belongsTo('App\Models\Zone', 'zone_id');
     }
 }

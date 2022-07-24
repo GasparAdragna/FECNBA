@@ -110,20 +110,15 @@ class TeamController extends Controller
         $validated = $request->validate([
             'category_id' => 'required|numeric',
             'id' => 'required|numeric',
-            'zone' => 'numeric|nullable'
         ]);
 
-        if(isset($_COOKIE['tournament'])) {
-            $tournament = Tournament::find($_COOKIE['tournament']);
-        } else {
-            $tournament = Tournament::active();
-        }
+        $tournament = Tournament::active();
 
         $query = DB::table('teams_categories')
                     ->where('team_id', $equipo->id)
                     ->where('category_id', $request->id)
                     ->where('tournament_id', $tournament->id)
-                    ->update(['category_id' => $request->category_id, 'zone' => $request->zone, 'updated_at' => DB::raw('NOW()')]);
+                    ->update(['category_id' => $request->category_id, 'updated_at' => DB::raw('NOW()')]);
 
         return redirect()->back()->with('status', 'Se editó correctamente el equipo');
     }
