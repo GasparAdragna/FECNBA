@@ -28,6 +28,9 @@ Route::get('/equipos', [ApiController::class, "equipos"]);
 Route::get('/equipos/torneo/{torneo}/categoria/{categoria}', [ApiController::class, "equiposPorCategoriaPorTorneo"]);
 Route::get('/equipos/{categoria:slug}', [ApiController::class, "equiposPorCategoria"]);
 
+// ---------------------------------ZONAS------------------------------------
+Route::get('/zonas/categoria/{id}', [ApiController::class, "zonasPorCategoria"]);
+
 // ---------------------------------FECHAS------------------------------------
 Route::get('/fechas/torneo/{id}', [ApiController::class, "fechasPorTorneo"]);
 Route::get('/fecha', [ApiController::class, "fecha"]);

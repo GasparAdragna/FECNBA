@@ -40,6 +40,7 @@ class MatchController extends Controller
             'category_id' => 'required|numeric',
             'team_id_1' => 'numeric|required',
             'team_id_2' => 'numeric|required',
+            'zone_id' => 'numeric|required',
             'horario' => 'required',
             'cancha' => 'numeric|required',
             'tournament_id' => 'numeric|required'

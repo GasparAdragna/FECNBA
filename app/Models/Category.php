@@ -15,5 +15,15 @@ class Category extends Model
     {
         return $this->belongsToMany(Team::class, 'teams_categories', 'category_id', 'team_id');
     }
+    public function zonas()
+    {
+        if(isset($_COOKIE['tournament'])) {
+            $tournament =  Tournament::find($_COOKIE['tournament']);
+        } else {
+            $tournament = Tournament::active();
+        }
+        
+        return $this->hasMany(Zone::class, 'category_id')->where('tournament_id', $tournament->id);
+    }
     
 }

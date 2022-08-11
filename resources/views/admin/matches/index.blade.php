@@ -80,6 +80,14 @@
                       </div>
                       <div class="col-6">
                           <div class="form-group">
+                              <label for="zone">Zona</label>
+                              <select name="zone_id" id="zone" class="select2 form-control" style="width: 100%;">
+                                  <option selected disabled>Elegir zona...</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <div class="form-group">
                               <label for="team_1">Local</label>
                               <select name="team_id_1" id="team_1" class="select2 form-control" style="width: 100%;">
                                   <option selected disabled>Elegir local...</option>
@@ -273,6 +281,7 @@
          }
      }
     function obtenerEquipos() {
+      obtenerZonas();
       var sub = document.getElementById('team_1');
       removeOptions(sub);
       var categoria = document.getElementById('category');
@@ -301,6 +310,32 @@
         };
       };
      xmlhttp.open("GET", '/api/equipos/torneo/'+ torneo + '/categoria/'+ categoria, true);
+     xmlhttp.setRequestHeader("content-type", "application/json");
+     xmlhttp.send();
+    }
+
+    function obtenerZonas() {
+      var sub = document.getElementById('zone');
+      removeOptions(sub);
+      var categoria = document.getElementById('category');
+      var torneo = document.getElementById('tournament');
+      torneo = torneo.options[torneo.selectedIndex].value;
+      categoria = categoria.options[categoria.selectedIndex].value;
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          var subs = JSON.parse(xmlhttp.responseText);
+          subs.forEach(function(element){
+            var option = document.createElement('option');
+            option.value = element.id;
+            var textnode = document.createTextNode(element.name);
+            option.appendChild(textnode);
+            document.getElementById('zone').appendChild(option);
+          });
+          //refrescar();
+        };
+      };
+     xmlhttp.open("GET", '/api/zonas/categoria/'+ categoria, true);
      xmlhttp.setRequestHeader("content-type", "application/json");
      xmlhttp.send();
     }

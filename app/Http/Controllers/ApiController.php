@@ -33,6 +33,11 @@ class ApiController extends Controller
         $tournament = Tournament::where('active', true)->first();
         return $tournament->equipos($categoria->id);
     }
+    public function zonasPorCategoria(Category $id)
+    {
+        $zones = $id->zonas()->get();
+        return $zones;
+    }
     public function tablaPorCategoria(Category $categoria)
     {
         $tournament = Tournament::where('active', true)->first();
