@@ -56,7 +56,7 @@
                     @csrf
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col-4">
                           <div class="form-group">
                               <label for="tournament">Torneo</label>
                               <select name="tournament_id" id="tournament" class="selectWithoutSearch form-control" style="width: 100%;">
@@ -67,7 +67,7 @@
                               </select>
                           </div>
                       </div>
-                      <div class="col-6">
+                      <div class="col-4">
                           <div class="form-group">
                               <label for="category">Categoría</label>
                               <select name="category_id" id="category" class="selectWithoutSearch form-control" style="width: 100%;" onchange="obtenerEquipos()">
@@ -78,7 +78,7 @@
                               </select>
                           </div>
                       </div>
-                      <div class="col-6">
+                      <div class="col-4">
                           <div class="form-group">
                               <label for="zone">Zona</label>
                               <select name="zone_id" id="zone" class="select2 form-control" style="width: 100%;">

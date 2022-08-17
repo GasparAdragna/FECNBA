@@ -52,7 +52,7 @@
                     @csrf
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col-4">
                           <div class="form-group">
                               <label for="tournament">Torneo</label>
                               <select name="tournament_id" id="tournament" class="selectWithoutSearch form-control" style="width: 100%;">
@@ -63,14 +63,25 @@
                               </select>
                           </div>
                       </div>
-                      <div class="col-6">
+                      <div class="col-4">
                           <div class="form-group">
                               <label for="category">Categoría</label>
                               <select name="category_id" id="category" class="selectWithoutSearch form-control" style="width: 100%;" onchange="obtenerEquipos()">
-                              <option selected disabled>Elegir categoría...</option>
-                              @foreach ($categorias as $categoria)
-                                  <option value="{{$categoria->id}}" {{$partido->category->id == $categoria->id ? 'selected'  : ''}}>{{$categoria->name}}</option>
-                              @endforeach
+                                <option selected disabled>Elegir categoría...</option>
+                                @foreach ($categorias as $categoria)
+                                    <option value="{{$categoria->id}}" {{$partido->category->id == $categoria->id ? 'selected'  : ''}}>{{$categoria->name}}</option>
+                                @endforeach
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-4">
+                          <div class="form-group">
+                              <label for="zone">Zona</label>
+                              <select name="zone_id" id="zone" class="select2 form-control" style="width: 100%;">
+                                  <option selected disabled>Elegir zona...</option>
+                                @foreach ($zonas as $zona)
+                                  <option value="{{$zona->id}}" {{$partido->zone->id == $zona->id ? 'selected'  : ''}}>{{$zona->name}}</option>
+                                @endforeach
                               </select>
                           </div>
                       </div>
@@ -251,6 +262,67 @@
              selectbox.remove(i);
          }
      }
+
+    function obtenerZonas() {
+      var sub = document.getElementById('zone');
+      removeOptions(sub);
+      var categoria = document.getElementById('category');
+      var torneo = document.getElementById('tournament');
+      torneo = torneo.options[torneo.selectedIndex].value;
+      categoria = categoria.options[categoria.selectedIndex].value;
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          var subs = JSON.parse(xmlhttp.responseText);
+          subs.forEach(function(element){
+            var option = document.createElement('option');
+            option.value = element.id;
+            var textnode = document.createTextNode(element.name);
+            option.appendChild(textnode);
+            document.getElementById('zone').appendChild(option);
+          });
+          //refrescar();
+        };
+      };
+     xmlhttp.open("GET", '/api/zonas/categoria/'+ categoria, true);
+     xmlhttp.setRequestHeader("content-type", "application/json");
+     xmlhttp.send();
+    }
+
+    function obtenerEquipos() {
+      obtenerZonas();
+      var sub = document.getElementById('team_1');
+      removeOptions(sub);
+      var categoria = document.getElementById('category');
+      var torneo = document.getElementById('tournament');
+      torneo = torneo.options[torneo.selectedIndex].value;
+      categoria = categoria.options[categoria.selectedIndex].value;
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          var subs = JSON.parse(xmlhttp.responseText);
+          subs.forEach(function(element){
+            var option = document.createElement('option');
+            option.value = element.id;
+            var textnode = document.createTextNode(element.name);
+            option.appendChild(textnode);
+            document.getElementById('team_1').appendChild(option);
+          });
+          subs.forEach(function(element){
+            var option = document.createElement('option');
+            option.value = element.id;
+            var textnode = document.createTextNode(element.name);
+            option.appendChild(textnode);
+            document.getElementById('team_2').appendChild(option);
+          });
+          //refrescar();
+        };
+      };
+     xmlhttp.open("GET", '/api/equipos/torneo/'+ torneo + '/categoria/'+ categoria, true);
+     xmlhttp.setRequestHeader("content-type", "application/json");
+     xmlhttp.send();
+    }
+
     function getPlayers() {
       var sub = document.getElementById('jugadores');
       removeOptions(sub);

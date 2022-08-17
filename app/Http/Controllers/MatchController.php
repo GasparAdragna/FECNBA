@@ -9,6 +9,7 @@ use App\Models\Tournament;
 use App\Models\Category;
 use App\Models\Fecha;
 use App\Models\Goal;
+use App\Models\Zone;
 
 class MatchController extends Controller
 {
@@ -61,7 +62,8 @@ class MatchController extends Controller
         $categorias = Category::all();
         $fechas = Fecha::all();
         $equipos = $partido->category->equipos()->wherePivot('tournament_id', $partido->tournament_id)->get();
-        return view('admin.matches.edit', compact('partido', 'torneos', 'categorias', 'fechas', 'equipos'));
+        $zonas = Zone::where('category_id', $partido->category_id)->where('tournament_id', $partido->tournament_id)->get();
+        return view('admin.matches.edit', compact('partido', 'torneos', 'categorias', 'fechas', 'equipos', 'zonas'));
     }
 
     /**
@@ -80,6 +82,7 @@ class MatchController extends Controller
             'team_id_2' => 'numeric|required',
             'horario' => 'required',
             'cancha' => 'numeric|required',
+            'zone_id' => 'numeric|required',
         ]);
         $partido->update($request->all());
         return redirect('/admin/partidos')->with('status', 'Se editó correctamente el partido');
