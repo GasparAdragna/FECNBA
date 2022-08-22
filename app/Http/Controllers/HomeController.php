@@ -80,7 +80,7 @@ class HomeController extends Controller
         $fecha = Fecha::where('active', true)->first();
         $equipos = $tournament->equipos($categoria->id);
         $sancionados = Sanction::where('tournament_id', $tournament->id)->where('category_id', $categoria->id)->where('active', true)->get();
-        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos', 'sancionados'));
+        return view('torneo.categorias.index', compact('categoria', 'categorias', 'estado', 'fecha', 'table', 'tournament', 'equipos', 'sancionados', 'zonas'));
     }
 
     public function programacion()
