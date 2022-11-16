@@ -26,6 +26,15 @@ class ApiController extends Controller
 
     public function equiposPorCategoriaPorTorneo(Tournament $torneo, Category $categoria)
     {
+        if ($categoria->name == 'Promoción') {
+            $sql = "SELECT *
+                    FROM teams
+                    INNER JOIN teams_categories on teams.id = teams_categories.team_id
+                    WHERE teams_categories.tournament_id = :tournament
+                    ORDER BY teams.name ASC";
+            $table = DB::select(DB::raw($sql), array('tournament' => $torneo->id));     
+            return $table;
+        }
         return $categoria->equipos()->wherePivot('tournament_id', $torneo->id)->get();
     }
     public function equiposPorCategoria(Category $categoria)

@@ -18,7 +18,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categorias = Category::all();
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
         $estado = State::where('active', true)->first();
         $noticias = Noticia::orderBy('created_at', 'desc')->paginate(4);
         $fecha = Fecha::where('active', true)->first();
@@ -45,7 +45,7 @@ class HomeController extends Controller
     public function noticias()
     {
         $noticias = Noticia::orderBy('created_at', 'desc')->paginate(10);
-        $categorias = Category::all();
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::where('active', true)->first();
         return view('torneo.noticias.index', compact('noticias', 'categorias', 'estado', 'fecha'));
@@ -75,7 +75,7 @@ class HomeController extends Controller
                 ORDER BY PTS DESC, DIF DESC, G DESC, GF DESC, PJ DESC, t.name ASC;";
                 $table[] = DB::select(DB::raw($sql), array('tournament' => $tournament->id, 'category' => $categoria->id, 'zone' => $zona->id));     
         } 
-        $categorias = Category::all();
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::where('active', true)->first();
         $equipos = $tournament->equipos($categoria->id);
@@ -85,7 +85,7 @@ class HomeController extends Controller
 
     public function programacion()
     {
-        $categorias = Category::all();
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::where('active', true)->first();
         $tournament = Tournament::where('active', true)->first();
@@ -94,7 +94,7 @@ class HomeController extends Controller
     
     public function politicasDePrivacidad()
     {
-        $categorias = Category::all();
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::where('active', true)->first();
         $tournament = Tournament::where('active', true)->first();
@@ -106,7 +106,7 @@ class HomeController extends Controller
     }
     public function equipo(Team $equipo)
     {
-        $categorias = Category::all();
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::where('active', true)->first();
         $tournament = Tournament::where('active', true)->first();

@@ -22,7 +22,7 @@ class ContactoController extends Controller
      */
     public function index()
     {
-        $categorias = Category::all();
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
         $estado = State::where('active', true)->first();
         $fecha = Fecha::latest('dia')->first();
         return view('torneo.contacto', compact('estado', 'categorias', 'fecha'));
