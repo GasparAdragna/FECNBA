@@ -38,7 +38,7 @@
     <br>
     @if (count($table) > 1)
         @foreach ($table as $numero => $zona)
-            <h5 class="bg-dark-blue text-white p-2 w-100">Zona {{$numero + 1}}</h5>
+            <h5 class="bg-dark-blue text-white p-2 w-100">{{$zonas[$numero]->name}}</h5>
             <table class="table table-responsive table-striped">
                 <thead>
                     <tr>
