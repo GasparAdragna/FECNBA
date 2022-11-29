@@ -113,7 +113,7 @@
                             @forelse ($fecha->matches->sortBy('horario') as $partido)
                             <tr class="{{$colores[$partido->category_id -1]}}">
                                 <td class="className">
-                                    <a class="teamAnchor" href="/equipo/{{$partido->local->id}}">{{$partido->local->name}}</a>
+                                    <a class="{{$partido->category_id == 9 ? 'txt-white' : ''}} teamAnchor" href="/equipo/{{$partido->local->id}}">{{$partido->local->name}}</a>
                                 </td>
                                 <td>
                                     @if ($partido->finished)
@@ -123,7 +123,7 @@
                                     @endif
                                 </td>
                                 <td class="className">
-                                    <a class="teamAnchor" href="/equipo/{{$partido->visita->id}}">{{$partido->visita->name}}</a>
+                                    <a class="{{$partido->category_id == 9 ? 'txt-white' : ''}} teamAnchor" href="/equipo/{{$partido->visita->id}}">{{$partido->visita->name}}</a>
                                 </td>
                                 <td>
                                     {{$partido->horario}}

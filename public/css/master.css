@@ -2,6 +2,10 @@
     text-align: right;
 }
 
+.txt-white {
+    color: #fff !important;
+}
+
 .bg-light-blue {
     background-color: rgb(200, 231, 245);
     box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
