@@ -21,8 +21,8 @@
                     </div>
                     <!-- /.info-box-content -->
                   </div>
-                <h3 class="bg-light-blue p-2">Próximos partidos:</h3>
-                <div class="row">
+                <h3 class="bg-light-blue p-2 d-none d-lg-block">Próximos partidos:</h3>
+                <div class="row d-none d-lg-block">
                     <div class="col-12">
                         <hr>
                         @if ($fecha)

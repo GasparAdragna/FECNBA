@@ -35,12 +35,13 @@ Route::get('/categoria/{categoria:slug}', [HomeController::class, "categoria"]);
 Route::get('/equipo/{equipo}', [HomeController::class, "equipo"]);
 Route::get('/programacion', [HomeController::class, "programacion"]);
 Route::get('/politicas', [HomeController::class, "politicasDePrivacidad"]);
+Route::get('/inscripciones', [HomeController::class, "inscripciones"]);
+Route::post('/inscripciones', [HomeController::class, "inscribirEquipo"]);
+Route::get('/inscripciones/planilla', [HomeController::class, "planilla"]);
 Route::get('/app', [HomeController::class, "app"]);
 Route::resource('/contacto', ContactoController::class)->only([
     'create', 'store', 'index'
 ]);
-
-
 
 
 

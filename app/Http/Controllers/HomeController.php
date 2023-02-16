@@ -12,7 +12,10 @@ Use App\Models\Match;
 Use App\Models\Tournament;
 Use App\Models\Sanction;
 Use App\Models\Zone;
+Use App\Models\Inscription;
 use Illuminate\Support\Facades\DB;
+
+use Mail;
 
 class HomeController extends Controller
 {
@@ -113,5 +116,121 @@ class HomeController extends Controller
         $sancionados = Sanction::where('tournament_id', $tournament->id)->where('active', true)->where('team_id', $equipo->id)->get();
         $matches = Match::where('tournament_id', $tournament->id)->where('team_id_1', $equipo->id)->orWhere('team_id_2', $equipo->id)->orderBy('id', 'desc')->get();
         return view('torneo.equipos.index', compact('equipo', 'categorias', 'estado', 'fecha', 'tournament', 'sancionados', 'matches'));
+    }
+    public function inscripciones(){
+        $categorias = Category::where('name', '!=', 'Promoción')->get();
+        $estado = State::where('active', true)->first();
+        $fecha = Fecha::where('active', true)->first();
+        $equipos = Team::all()->sortBy('name');
+        return view('torneo.inscripciones', compact('categorias', 'estado', 'fecha', 'equipos'));
+    }
+    public function planilla()
+    {
+        return response()->download(public_path('files/PLANILLA DE INSCRIPCION - TORNEO - 2023.xlsx'));
+    }
+    public function inscribirEquipo(Request $request)
+    {
+        $request->validate([
+            'team_id' => 'string|nullable',
+            'name' => 'string|nullable',
+            'planilla' => 'file|required|mimes:csv,xls,xlsx', 
+            'g-recaptcha-response' => 'required'
+        ]);
+
+        $tournament = Tournament::where('active', true)->first();
+
+        if (!$request->team_id && !$request->name) {
+            return redirect()->back()->with('error', 'Debe seleccionar un equipo o ingresar un nombre');
+        }
+
+        if ($request->team_id && $request->name) {
+            return redirect()->back()->with('error', 'Debe seleccionar un equipo o ingresar un nombre, no ambos');
+        }
+
+        if ($request->team_id) {
+            $team = Team::find($request->team_id);
+            if (!$team) {
+                return redirect()->back()->with('error', 'El equipo seleccionado no existe');
+            }
+
+            $inscription = Inscription::where('team_id', $request->team_id)->where('tournament_id', $tournament->id)->first();
+            if($inscription){
+                return redirect()->back()->with('error', 'El equipo ya se encuentra inscripto');
+            }
+        }
+
+        if ($request->name) {
+            $team = Team::where('name', $request->name)->first();
+            if ($team) {
+                return redirect()->back()->with('error', 'El nombre del equipo ya está tomado');
+            }
+            $inscription = Inscription::where('name', $request->name)->where('tournament_id', $tournament->id)->first();
+            if($inscription){
+                return redirect()->back()->with('error', 'El equipo ya se encuentra inscripto');
+            }
+        }
+
+        if(env('APP_ENV') == "local"){
+            $inscription = new Inscription;
+            $inscription->team_id = $request->team_id;
+            $inscription->name = $request->name;
+            $inscription->tournament_id = $tournament->id;
+            if($request->file('planilla')){
+                $inscription->planilla = $request->file('planilla')->store('public/files');
+            }
+            $inscription->save();
+            $data = array(
+                'tournament_name' => $tournament->name,
+                'team_name' => isset($request->team_id) ? Team::find($request->team_id)->name : $request->name,
+            );
+            Mail::send('inscripcion', $data, function($message)use($inscription){
+            $message->to(['gaspar.jac@hotmail.com', 'gasparadragna@gmail.com'], 'FECNBA')->subject
+                ('¡Nueva inscripción para el torneo!');
+            $message->from('noreply@fecnba.com.ar','FECNBA');
+            $message->attach(storage_path('app/'.$inscription->planilla));
+            });
+
+            return redirect()->back()->with('status', 'La inscripción se realizó correctamente');
+        }
+
+        $recaptcha = $request->input('g-recaptcha-response');
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array(
+          'secret' => env('GOOGLE_CAPTCHA'),
+          'response' => $recaptcha
+        );
+        $options = array(
+          'http' => array (
+            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'method' => 'POST',
+            'content' => http_build_query($data)
+          )
+        );
+        $context  = stream_context_create($options);
+        $verify = file_get_contents($url, false, $context);
+        $captcha_success = json_decode($verify);
+        if ($captcha_success->success) {
+            $inscription = new Inscription;
+            $inscription->team_id = $request->team_id;
+            $inscription->name = $request->name;
+            $inscription->tournament_id = $tournament->id;
+            if($request->file('planilla')){
+                $inscription->planilla = $request->file('planilla')->store('public/files');
+            }
+            $inscription->save();
+            $data = array(
+                'tournament_name' => $tournament->name,
+                'team_name' => isset($request->team_id) ? Team::find($request->team_id)->name : $request->name,
+            );
+            Mail::send('inscripcion', $data, function($message)use($inscription){
+            $message->to(['gaspar.jac@hotmail.com', 'pablozechillo@hotmail.com'], 'FECNBA')->subject
+                ('¡Nueva inscripción para el torneo!');
+            $message->from('noreply@fecnba.com.ar','FECNBA');
+            $message->attach(storage_path('app/'.$inscription->planilla));
+            });
+            return redirect()->back()->with('status', 'La inscripción se realizó correctamente');
+        } else {
+          return redirect()->back()->with('error', 'No se pudo enviar la inscripción. Por favor, intente nuevamente');
+        }
     }
 }
